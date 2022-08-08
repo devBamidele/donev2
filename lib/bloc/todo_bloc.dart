@@ -3,7 +3,9 @@ import 'package:donev2/dao/todo_dao.dart';
 
 import 'dart:async';
 
-class TodoBloc {
+import 'package:flutter/material.dart';
+
+class TodoBloc extends ChangeNotifier {
   //Get instance of the Repository
   final _todoDao = TodoDao();
 
@@ -41,7 +43,9 @@ class TodoBloc {
     getTodos();
   }
 
+  @override
   dispose() {
+    super.dispose();
     _todoController.close();
   }
 }

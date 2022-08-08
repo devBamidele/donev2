@@ -1,4 +1,7 @@
+import 'package:donev2/bloc/todo_bloc.dart';
+import 'package:donev2/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 main() {
   runApp(
@@ -11,6 +14,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ChangeNotifierProvider<TodoBloc>(
+      create: (_) => TodoBloc(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: const Color(0xFFD2FDFF),
+        ),
+        //Our only screen/page we have
+        home: const HomeScreen(),
+      ),
+    );
   }
 }
