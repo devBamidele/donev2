@@ -24,21 +24,30 @@ class TaskList extends StatelessWidget {
             } else {
               return snapshot
                       .data!.isNotEmpty // When the snapshots are received
-                  ? ListView.builder(
-                      itemCount: snapshot.data?.length,
-                      itemBuilder: (context, index) {
-                        Todo task = snapshot.data![index];
-                        return TaskTile(
-                          deleteCallback: data.deleteTodoById(task.id!),
-                          task: task.task!,
-                          checkboxCallback: (bool? value) {
-                            task.isDone = !task.isDone;
-                          },
-                          isChecked: task.isDone,
-                        );
-                      },
+                  ? ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(context)
+                          .copyWith(scrollbars: false),
+                      child: ListView.builder(
+                        itemCount: snapshot.data?.length,
+                        itemBuilder: (context, index) {
+                          Todo task = snapshot.data![index];
+                          return TaskTile(
+                            deleteCallback: () {
+                              data.deleteTodoById(task.id!);
+                            },
+                            task: task.task!,
+                            checkboxCallback: (bool? value) {
+                              task.isDone = !task.isDone;
+                              data.updateTodo(task);
+                            },
+                            isChecked: task.isDone,
+                          );
+                        },
+                      ),
                     )
-                  : const NoneAvailable(); // If the snapshots are empty
+                  : const NoneAvailable(
+                      message: 'No current tasks',
+                    ); // If the snapshots are empty
             }
           },
         );

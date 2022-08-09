@@ -14,11 +14,15 @@ class TodoBloc extends ChangeNotifier {
   //new data, change the state of the stream
   //and broadcast it to observers/subscribers
   final _todoController = StreamController<List<Todo>?>.broadcast();
+  final _categoryController =
+      StreamController<List<Map<String, dynamic>>>.broadcast();
 
   get todos => _todoController.stream;
+  get categories => _categoryController.stream;
 
   TodoBloc() {
     getTodos();
+    getCategories();
   }
 
   getTodos({String? query}) async {
@@ -28,24 +32,34 @@ class TodoBloc extends ChangeNotifier {
     );
   }
 
+  getCategories() async {
+    _categoryController.sink.add(
+      await _todoDao.getCategories(),
+    );
+  }
+
   addTodo(Todo todo) async {
     await _todoDao.createTodo(todo);
     getTodos();
+    getCategories();
   }
 
   updateTodo(Todo todo) async {
     await _todoDao.updateTodo(todo);
     getTodos();
+    getCategories();
   }
 
   deleteTodoById(int id) async {
     _todoDao.deleteTodo(id);
     getTodos();
+    getCategories();
   }
 
   @override
   dispose() {
     super.dispose();
     _todoController.close();
+    _categoryController.close();
   }
 }

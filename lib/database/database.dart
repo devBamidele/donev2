@@ -4,7 +4,11 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
+// Define const that will be used throughout the app
 const todoTABLE = 'Todo';
+const columnId = 'id';
+const columnTask = 'task';
+const columnCategory = 'category';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -32,10 +36,10 @@ class DatabaseProvider {
   void initDB(Database database, int version) async {
     await database.execute(
       "CREATE TABLE $todoTABLE ("
-      "id INTEGER PRIMARY KEY, "
-      "description TEXT, "
-      "is_done INTEGER "
-      "category TEXT" // SQLITE doesn't have boolean type
+      "$columnId INTEGER PRIMARY KEY, "
+      "$columnTask TEXT, "
+      "is_done INTEGER, " // SQLITE doesn't have boolean type
+      "$columnCategory TEXT"
       ")",
     );
   }

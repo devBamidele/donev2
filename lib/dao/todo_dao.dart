@@ -37,6 +37,13 @@ class TodoDao {
     return todos;
   }
 
+  Future<List<Map<String, dynamic>>> getCategories() async {
+    final db = await dbProvider.database;
+    return db!.rawQuery(
+      'select $columnCategory, COUNT(*) FROM $todoTABLE GROUP BY $columnCategory ORDER BY COUNT(*) DESC',
+    );
+  }
+
   //Update T0do record
   Future<int?> updateTodo(Todo todo) async {
     final db = await dbProvider.database;
