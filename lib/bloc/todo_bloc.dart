@@ -32,9 +32,9 @@ class TodoBloc extends ChangeNotifier {
     );
   }
 
-  getCategories() async {
+  getCategories({String? query}) async {
     _categoryController.sink.add(
-      await _todoDao.getCategories(),
+      await _todoDao.getCategories(query: query),
     );
   }
 

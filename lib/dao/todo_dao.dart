@@ -37,11 +37,19 @@ class TodoDao {
     return todos;
   }
 
-  Future<List<Map<String, dynamic>>> getCategories() async {
+  Future<List<Map<String, dynamic>>> getCategories({String? query}) async {
     final db = await dbProvider.database;
-    return db!.rawQuery(
-      'select $columnCategory, COUNT(*) FROM $todoTABLE GROUP BY $columnCategory ORDER BY COUNT(*) DESC',
+
+    final text = query != null && query.isNotEmpty
+        ? 'WHERE $columnCategory like \'%$query%\''
+        : '';
+    Future<List<Map<String, dynamic>>> result;
+
+    result = db!.rawQuery(
+      'select $columnCategory, COUNT(*) FROM $todoTABLE $text GROUP BY $columnCategory ORDER BY COUNT(*) DESC',
     );
+
+    return result;
   }
 
   //Update T0do record

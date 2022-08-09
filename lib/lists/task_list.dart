@@ -16,7 +16,10 @@ class TaskList extends StatelessWidget {
       builder: (_, data, Widget? child) {
         return StreamBuilder(
           stream: data.todos,
-          builder: (BuildContext context, AsyncSnapshot<List<Todo>?> snapshot) {
+          builder: (
+            BuildContext context,
+            AsyncSnapshot<List<Todo>?> snapshot,
+          ) {
             if (!snapshot.hasData) {
               // At the initial stage when there is no stream
               data.getTodos();

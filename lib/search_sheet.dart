@@ -68,6 +68,8 @@ class SearchSheet extends StatelessWidget {
                             onPressed: () {
                               /*This will get all todos that contains similar string in the textform */
                               data.getTodos(query: searchController.value.text);
+                              data.getCategories(
+                                  query: searchController.value.text);
                               //dismisses the bottomsheet
                               Navigator.pop(context);
                             },
