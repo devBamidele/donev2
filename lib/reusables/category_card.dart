@@ -42,7 +42,7 @@ class CategoryCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  '$taskNo tasks',
+                  taskNo > 1 ? '$taskNo tasks' : '$taskNo task',
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.black.withOpacity(0.6),

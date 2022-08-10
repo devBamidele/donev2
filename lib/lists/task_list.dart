@@ -44,6 +44,9 @@ class TaskList extends StatelessWidget {
                               data.updateTodo(task);
                             },
                             isChecked: task.isDone,
+                            complete: task.completion != null
+                                ? DateTime.tryParse(task.completion!)
+                                : null, // What if I pass a null value ? 👀
                           );
                         },
                       ),

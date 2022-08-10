@@ -9,6 +9,7 @@ const todoTABLE = 'Todo';
 const columnId = 'id';
 const columnTask = 'task';
 const columnCategory = 'category';
+const columnCompletion = 'completion';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -39,7 +40,8 @@ class DatabaseProvider {
       "$columnId INTEGER PRIMARY KEY, "
       "$columnTask TEXT, "
       "is_done INTEGER, " // SQLITE doesn't have boolean type
-      "$columnCategory TEXT"
+      "$columnCategory TEXT,"
+      "$columnCompletion TEXT"
       ")",
     );
   }

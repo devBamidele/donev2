@@ -46,7 +46,7 @@ class TodoDao {
     Future<List<Map<String, dynamic>>> result;
 
     result = db!.rawQuery(
-      'select $columnCategory, COUNT(*) FROM $todoTABLE $text GROUP BY $columnCategory ORDER BY COUNT(*) DESC',
+      'select $columnCategory, COUNT(*) FROM $todoTABLE WHERE $columnCategory is not null $text GROUP BY $columnCategory ORDER BY COUNT(*) DESC',
     );
 
     return result;

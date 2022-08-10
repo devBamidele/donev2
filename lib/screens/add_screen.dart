@@ -13,6 +13,7 @@ class AddScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final myTaskController = TextEditingController();
     final myCategoryController = TextEditingController();
+    DateTime? newDate;
 
     return Consumer<TodoBloc>(
       builder: (BuildContext context, data, Widget? child) {
@@ -23,7 +24,10 @@ class AddScreen extends StatelessWidget {
               onPressed: () {
                 final newTodo = Todo(
                   task: myTaskController.value.text,
-                  category: myCategoryController.value.text,
+                  category: myCategoryController.value.text.isEmpty
+                      ? null
+                      : myCategoryController.value.text,
+                  completion: newDate?.toString(),
                 );
                 if (newTodo.task!.isNotEmpty) {
                   data.addTodo(newTodo);
@@ -74,15 +78,12 @@ class AddScreen extends StatelessWidget {
                         OutlinedButton.icon(
                           // The completion date widget
                           onPressed: () async {
-                            DateTime? newDate = await showDatePicker(
+                            newDate = await showDatePicker(
                               context: context,
-                              initialDate: data.date,
+                              initialDate: DateTime.now(),
                               firstDate: DateTime(1900),
                               lastDate: DateTime(2100),
                             );
-                            if (newDate != null) {
-                              data.date == newDate;
-                            }
                           },
                           icon: const Icon(
                             Icons.calendar_today_outlined,
