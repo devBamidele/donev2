@@ -43,11 +43,26 @@ class AddScreen extends StatelessWidget {
           ),
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(30),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.cancel_outlined,
+                            color: Colors.black38.withOpacity(0.3),
+                            size: 45,
+                          ),
+                        ),
+                      ],
+                    ),
                     TextFormField(
                       controller: myTaskController,
                       // The validator receives the text that the user has entered.

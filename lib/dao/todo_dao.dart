@@ -41,7 +41,7 @@ class TodoDao {
     final db = await dbProvider.database;
 
     final text = query != null && query.isNotEmpty
-        ? 'WHERE $columnCategory like \'%$query%\''
+        ? 'AND $columnCategory like \'%$query%\''
         : '';
     Future<List<Map<String, dynamic>>> result;
 
