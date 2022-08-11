@@ -66,6 +66,19 @@ class TodoDao {
     return result;
   }
 
+  // fetchTask(int id) async {
+  //   final db = await dbProvider.database;
+  //   List<Map<String, dynamic>>? result;
+  //   result = await db?.query(
+  //     todoTABLE,
+  //     where: 'id = ?',
+  //     whereArgs: [id],
+  //   );
+  //
+  //   //result?.map((item) => T0do.fromDatabaseJson(item)).toList()
+  //   return result;
+  // }
+
   //Delete T0do records
   Future<int?> deleteTodo(int id) async {
     final db = await dbProvider.database;

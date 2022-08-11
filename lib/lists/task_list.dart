@@ -35,6 +35,7 @@ class TaskList extends StatelessWidget {
                         itemBuilder: (context, index) {
                           Todo task = snapshot.data![index];
                           return TaskTile(
+                            id: task,
                             deleteCallback: () {
                               data.deleteTodoById(task.id!);
                             },

@@ -3,9 +3,13 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:intl/intl.dart';
 
+import '../model/todo.dart';
+import '../screens/add_screen.dart';
+
 /// The class that controls the appearance of each task tile
 class TaskTile extends StatelessWidget {
   const TaskTile({
+    required this.id,
     required this.task,
     required this.complete,
     required this.isChecked,
@@ -14,6 +18,7 @@ class TaskTile extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  final Todo id;
   final String task;
   final bool isChecked;
   final DateTime? complete;
@@ -32,7 +37,7 @@ class TaskTile extends StatelessWidget {
             SlidableAction(
               onPressed: (_) =>
                   deleteCallback(), // When the delete button is pressed, call the deleteCallback function
-              backgroundColor: const Color(0xFFbd6b73),
+              backgroundColor: Colors.red.withOpacity(0.7),
               foregroundColor: Colors.white,
               icon: Icons.delete_rounded,
               label: 'Delete',
@@ -41,7 +46,14 @@ class TaskTile extends StatelessWidget {
           ],
         ),
         child: ListTile(
-          onTap: () {}, // When the user clicks on the task
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddScreen(id: id),
+              ),
+            );
+          }, // When the user clicks on the task
           tileColor: Colors.white.withOpacity(0.8),
           title: Text(
             task,

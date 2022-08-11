@@ -7,13 +7,23 @@ import 'package:provider/provider.dart';
 import '../model/todo.dart';
 
 class AddScreen extends StatelessWidget {
-  const AddScreen({Key? key}) : super(key: key);
+  const AddScreen({this.id, Key? key}) : super(key: key);
 
+  final Todo? id;
   @override
   Widget build(BuildContext context) {
+    final id = this.id;
     final myTaskController = TextEditingController();
     final myCategoryController = TextEditingController();
+    DateTime currentDate = DateTime.now();
     DateTime? newDate;
+
+    if (id != null) {
+      myTaskController.text = id.task!;
+      myCategoryController.text = id.category ?? '';
+      newDate = DateTime.tryParse(id.completion.toString()) ?? currentDate;
+      currentDate = newDate;
+    }
 
     return Consumer<TodoBloc>(
       builder: (BuildContext context, data, Widget? child) {
@@ -35,9 +45,9 @@ class AddScreen extends StatelessWidget {
                 log(myTaskController.value.text);
                 Navigator.pop(context);
               },
-              label: const Text(
-                'Add Task',
-                style: TextStyle(fontSize: 16),
+              label: Text(
+                id != null ? 'Save changes' : 'Add task',
+                style: const TextStyle(fontSize: 16),
               ),
             ),
           ),
@@ -58,7 +68,7 @@ class AddScreen extends StatelessWidget {
                           icon: Icon(
                             Icons.cancel_outlined,
                             color: Colors.black38.withOpacity(0.3),
-                            size: 45,
+                            size: 44,
                           ),
                         ),
                       ],
@@ -95,7 +105,7 @@ class AddScreen extends StatelessWidget {
                           onPressed: () async {
                             newDate = await showDatePicker(
                               context: context,
-                              initialDate: DateTime.now(),
+                              initialDate: currentDate,
                               firstDate: DateTime(1900),
                               lastDate: DateTime(2100),
                             );
