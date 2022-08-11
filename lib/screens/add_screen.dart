@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../model/todo.dart';
 
 class AddScreen extends StatelessWidget {
@@ -33,6 +32,7 @@ class AddScreen extends StatelessWidget {
             child: FloatingActionButton.extended(
               onPressed: () {
                 final newTodo = Todo(
+                  id: id?.id,
                   task: myTaskController.value.text,
                   category: myCategoryController.value.text.isEmpty
                       ? null
@@ -40,7 +40,7 @@ class AddScreen extends StatelessWidget {
                   completion: newDate?.toString(),
                 );
                 if (newTodo.task!.isNotEmpty) {
-                  data.addTodo(newTodo);
+                  id != null ? data.updateTodo(newTodo) : data.addTodo(newTodo);
                 }
                 log(myTaskController.value.text);
                 Navigator.pop(context);
@@ -131,7 +131,7 @@ class AddScreen extends StatelessWidget {
                           onPressed: () async {
                             TimeOfDay? newTime = await showTimePicker(
                               context: context,
-                              initialTime: data.time,
+                              initialTime: TimeOfDay.now(),
                             );
                             if (newTime != null) {
                               data.time = newTime;

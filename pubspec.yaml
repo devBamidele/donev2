@@ -42,6 +42,8 @@ dependencies:
   provider: ^6.0.3
   path: ^1.8.1
   intl: ^0.17.0
+  android_alarm_manager_plus: ^2.0.6+1
+  flutter_local_notifications: ^9.7.0
 
 dev_dependencies:
   flutter_test:

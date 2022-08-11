@@ -3,10 +3,9 @@ import 'package:donev2/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-main() {
-  runApp(
-    const MyApp(),
-  );
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

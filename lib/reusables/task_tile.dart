@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
@@ -78,6 +80,13 @@ class TaskTile extends StatelessWidget {
             onTap: checkboxCallback,
             isChecked: isChecked,
             size: 23,
+          ),
+          trailing: Transform.rotate(
+            angle: math.pi / 15,
+            child: const Icon(
+              Icons.notifications_active_outlined,
+              size: 26,
+            ),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18.0),
