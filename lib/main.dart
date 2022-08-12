@@ -2,9 +2,11 @@ import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'notification/notification_service.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().init(); //
   runApp(const MyApp());
 }
 
