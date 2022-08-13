@@ -24,7 +24,7 @@ class TodoBloc extends ChangeNotifier {
     getTodos();
     getCategories();
   }
-  TimeOfDay? time;
+  DateTime? time;
 
   getTodos({String? query}) async {
     // (Sink) is a way of adding data reactively to the stream

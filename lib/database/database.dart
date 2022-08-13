@@ -10,6 +10,7 @@ const columnId = 'id';
 const columnTask = 'task';
 const columnCategory = 'category';
 const columnCompletion = 'completion';
+const columnAlarm = 'alarm';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -41,7 +42,8 @@ class DatabaseProvider {
       "$columnTask TEXT, "
       "is_done INTEGER, " // SQLITE doesn't have boolean type
       "$columnCategory TEXT,"
-      "$columnCompletion TEXT"
+      "$columnCompletion TEXT,"
+      "$columnAlarm TEXT"
       ")",
     );
   }

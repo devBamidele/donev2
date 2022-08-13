@@ -13,6 +13,7 @@ class TaskTile extends StatelessWidget {
   const TaskTile({
     required this.id,
     required this.task,
+    required this.alarm,
     required this.complete,
     required this.isChecked,
     required this.deleteCallback,
@@ -22,6 +23,7 @@ class TaskTile extends StatelessWidget {
 
   final Todo id;
   final String task;
+  final String? alarm;
   final bool isChecked;
   final DateTime? complete;
   final Function deleteCallback;
@@ -30,7 +32,7 @@ class TaskTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 7),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 5),
       child: Slidable(
         endActionPane: ActionPane(
           motion: const DrawerMotion(),
@@ -83,10 +85,13 @@ class TaskTile extends StatelessWidget {
           ),
           trailing: Transform.rotate(
             angle: math.pi / 15,
-            child: const Icon(
-              Icons.notifications_active_outlined,
-              size: 26,
-            ),
+            child: alarm != null
+                ? const Icon(
+                    Icons.notifications_active_outlined,
+                    color: Colors.grey,
+                    size: 24,
+                  )
+                : const SizedBox.shrink(),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18.0),

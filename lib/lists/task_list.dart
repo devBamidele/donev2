@@ -1,3 +1,4 @@
+import 'package:donev2/notification/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,6 +35,14 @@ class TaskList extends StatelessWidget {
                         itemCount: snapshot.data?.length,
                         itemBuilder: (context, index) {
                           Todo task = snapshot.data![index];
+                          if (task.alarm != null) {
+                            // Schedule notifications if the alarm is set
+                            NotificationService().scheduleNotifications(
+                              time: DateTime.parse(task.alarm!),
+                              id: task.id!,
+                              notify: task.task!,
+                            );
+                          }
                           return TaskTile(
                             id: task,
                             deleteCallback: () {
@@ -48,6 +57,7 @@ class TaskList extends StatelessWidget {
                             complete: task.completion != null
                                 ? DateTime.tryParse(task.completion!)
                                 : null, // What if I pass a null value ? 👀
+                            alarm: task.alarm,
                           );
                         },
                       ),

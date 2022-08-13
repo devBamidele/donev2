@@ -42,7 +42,11 @@ class NotificationService {
     // );
   }
 
-  Future<void> scheduleNotifications() async {
+  Future<void> scheduleNotifications({
+    required DateTime time,
+    required int id,
+    required String notify,
+  }) async {
     var androidPlatformSpecifics = const AndroidNotificationDetails(
       'alarm_notif',
       'alarm_notif',
@@ -54,14 +58,12 @@ class NotificationService {
       priority: Priority.high,
       ticker: 'ticker',
     );
-    var platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformSpecifics);
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      0,
+      id,
       'Sandbox',
-      'Sandbox launched a notification successfully',
-      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
-      platformChannelSpecifics,
+      notify,
+      tz.TZDateTime.from(time, tz.local),
+      NotificationDetails(android: androidPlatformSpecifics),
       payload: 'Notification Payload',
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation:
@@ -69,8 +71,8 @@ class NotificationService {
     );
   }
 
-  Future<void> cancelNotifications() async {
-    await flutterLocalNotificationsPlugin.cancel(0);
+  Future<void> cancelNotifications(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
   }
 
   Future<void> cancelAllNotifications() async {

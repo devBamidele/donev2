@@ -1,9 +1,18 @@
 import 'dart:developer';
-
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../model/todo.dart';
+
+extension TimeOfDayExtension on TimeOfDay {
+  int compareTo(TimeOfDay other) {
+    if (hour < other.hour) return -1;
+    if (hour > other.hour) return 1;
+    if (minute < other.minute) return -1;
+    if (minute > other.minute) return 1;
+    return 0;
+  }
+}
 
 class AddScreen extends StatelessWidget {
   const AddScreen({this.id, Key? key}) : super(key: key);
@@ -16,12 +25,18 @@ class AddScreen extends StatelessWidget {
     final myCategoryController = TextEditingController();
     DateTime currentDate = DateTime.now();
     DateTime? newDate;
+    TimeOfDay currentTime = TimeOfDay.now();
+    TimeOfDay? newTime;
 
     if (id != null) {
+      // When the page is opened by clicking on a task tile
       myTaskController.text = id.task!;
       myCategoryController.text = id.category ?? '';
-      newDate = DateTime.tryParse(id.completion.toString()) ?? currentDate;
-      currentDate = newDate;
+      currentDate = DateTime.tryParse(id.completion.toString()) ?? currentDate;
+
+      if (id.alarm != null) {
+        currentTime = TimeOfDay.fromDateTime(DateTime.parse(id.alarm!));
+      }
     }
 
     return Consumer<TodoBloc>(
@@ -38,9 +53,11 @@ class AddScreen extends StatelessWidget {
                       ? null
                       : myCategoryController.value.text,
                   completion: newDate?.toString(),
+                  alarm: data.time?.toString(),
                 );
                 if (newTodo.task!.isNotEmpty) {
                   id != null ? data.updateTodo(newTodo) : data.addTodo(newTodo);
+                  data.time = null; // Erase the value
                 }
                 log(myTaskController.value.text);
                 Navigator.pop(context);
@@ -129,12 +146,16 @@ class AddScreen extends StatelessWidget {
                         ),
                         OutlinedButton(
                           onPressed: () async {
-                            TimeOfDay? newTime = await showTimePicker(
+                            newTime = await showTimePicker(
                               context: context,
-                              initialTime: TimeOfDay.now(),
+                              initialTime: currentTime,
                             );
                             if (newTime != null) {
-                              data.time = newTime;
+                              if (TimeOfDay.now().compareTo(newTime!) == -1) {
+                                DateTime alarm = toDateTime(
+                                    date: currentDate, time: newTime!);
+                                data.time = alarm;
+                              }
                             }
                           },
                           style: OutlinedButton.styleFrom(
@@ -162,4 +183,10 @@ class AddScreen extends StatelessWidget {
       },
     );
   }
+
+  toDateTime({
+    required TimeOfDay time,
+    required DateTime date,
+  }) =>
+      DateTime(date.year, date.month, date.day, time.hour, time.minute);
 }
