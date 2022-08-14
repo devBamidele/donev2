@@ -81,19 +81,19 @@ class TaskTile extends StatelessWidget {
                 checkedWidget: const Icon(
                   Icons.check,
                   color: Colors.black,
-                  size: 18,
+                  size: 19,
                 ),
                 checkedColor: Colors.grey,
                 onTap: checkboxCallback,
                 isChecked: isChecked,
-                size: 23,
+                size: 25,
               ),
               trailing: Transform.rotate(
                 angle: math.pi / 15,
                 child: alarm != null
                     ? const Icon(
                         Icons.notifications_active_outlined,
-                        color: Colors.grey,
+                        color: Colors.brown,
                         size: 24,
                       )
                     : const SizedBox.shrink(),

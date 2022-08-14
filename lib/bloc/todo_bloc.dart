@@ -47,6 +47,7 @@ class TodoBloc extends ChangeNotifier {
     _groupController.sink.add(
       await _todoDao.fetchGroup(category),
     );
+    notifyListeners();
   }
 
   addTodo(Todo todo) async {
@@ -59,6 +60,7 @@ class TodoBloc extends ChangeNotifier {
     await _todoDao.updateTodo(todo);
     getTodos();
     getCategories();
+    notifyListeners();
   }
 
   deleteTodoById(int id) async {
