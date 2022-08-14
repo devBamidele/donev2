@@ -40,7 +40,6 @@ class CategoryList extends StatelessWidget {
                             child: CategoryCard(
                               category: item['category'],
                               taskNo: item['COUNT(*)'],
-                              percent: 0.5,
                             ),
                           );
                         },

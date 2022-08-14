@@ -37,6 +37,21 @@ class TodoDao {
     return todos;
   }
 
+  /// The function that provides data that will be displayed on the category screen
+  Future<List<Todo>?> fetchGroup(String category) async {
+    final db = await dbProvider.database;
+    List<Map<String, dynamic>>? result;
+    result = await db?.query(
+      todoTABLE,
+      where: '$columnCategory = ?',
+      whereArgs: [category],
+    );
+
+    List<Todo>? group =
+        result?.map((item) => Todo.fromDatabaseJson(item)).toList();
+    return group;
+  }
+
   Future<List<Map<String, dynamic>>> getCategories({String? query}) async {
     final db = await dbProvider.database;
 
@@ -65,19 +80,6 @@ class TodoDao {
 
     return result;
   }
-
-  // fetchTask(int id) async {
-  //   final db = await dbProvider.database;
-  //   List<Map<String, dynamic>>? result;
-  //   result = await db?.query(
-  //     todoTABLE,
-  //     where: 'id = ?',
-  //     whereArgs: [id],
-  //   );
-  //
-  //   //result?.map((item) => T0do.fromDatabaseJson(item)).toList()
-  //   return result;
-  // }
 
   //Delete T0do records
   Future<int?> deleteTodo(int id) async {

@@ -32,7 +32,8 @@ class AddScreen extends StatelessWidget {
       // When the page is opened by clicking on a task tile
       myTaskController.text = id.task!;
       myCategoryController.text = id.category ?? '';
-      currentDate = DateTime.tryParse(id.completion.toString()) ?? currentDate;
+      newDate = DateTime.tryParse(id.completion.toString()) ?? currentDate;
+      currentDate = newDate;
 
       if (id.alarm != null) {
         currentTime = TimeOfDay.fromDateTime(DateTime.parse(id.alarm!));
