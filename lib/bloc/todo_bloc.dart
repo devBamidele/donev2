@@ -17,14 +17,18 @@ class TodoBloc extends ChangeNotifier {
   final _categoryController =
       StreamController<List<Map<String, dynamic>>>.broadcast();
 
+  final _groupController = StreamController<List<Todo>?>.broadcast();
+
   get todos => _todoController.stream;
   get categories => _categoryController.stream;
+  get group => _groupController.stream;
 
   TodoBloc() {
     getTodos();
     getCategories();
   }
   DateTime? time;
+  String? selected;
 
   getTodos({String? query}) async {
     // (Sink) is a way of adding data reactively to the stream
@@ -36,6 +40,12 @@ class TodoBloc extends ChangeNotifier {
   getCategories({String? query}) async {
     _categoryController.sink.add(
       await _todoDao.getCategories(query: query),
+    );
+  }
+
+  getGroup({required String category}) async {
+    _groupController.sink.add(
+      await _todoDao.fetchGroup(category),
     );
   }
 

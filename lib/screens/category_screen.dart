@@ -1,3 +1,4 @@
+import 'package:donev2/lists/mod_category_list.dart';
 import 'package:flutter/material.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -42,6 +43,9 @@ class CategoryScreen extends StatelessWidget {
                     fontSize: 20,
                   ),
                 ),
+                const Expanded(
+                  child: ModifiedCategoryList(),
+                )
               ],
             ),
           ),
