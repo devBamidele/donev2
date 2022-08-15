@@ -1,3 +1,4 @@
+import 'package:donev2/constants.dart';
 import 'package:donev2/screens/category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,57 +19,54 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<TodoBloc>(
       builder: (_, data, Widget? child) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: GestureDetector(
-            onTap: () {
-              data.selected = category;
-              data.length = taskNo;
-              data.getGroup(category: data.selected);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CategoryScreen(),
-                ),
-              );
-            },
-            child: Container(
-              width: 195,
-              decoration: BoxDecoration(
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(1.5, 1.5), //(x,y)
-                    blurRadius: 3.5,
-                  ),
-                ],
-                color: Colors.white.withOpacity(0.95),
-                borderRadius: BorderRadius.circular(15),
+        return GestureDetector(
+          onTap: () {
+            data.selected = category;
+            data.length = taskNo;
+            data.getGroup(category: data.selected);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CategoryScreen(),
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 8,
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: Card(
+              elevation: 12,
+              child: Container(
+                width: 195,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(17),
+                  color: kListTileColor,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      taskNo > 1 ? '$taskNo tasks' : '$taskNo task',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black.withOpacity(0.6),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        taskNo > 1 ? '$taskNo tasks' : '$taskNo task',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          letterSpacing: 1.2,
+                        ),
                       ),
-                    ),
-                    Text(
-                      category,
-                      style: const TextStyle(
-                        fontSize: 27,
-                        fontWeight: FontWeight.w600,
+                      Text(
+                        category,
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.5,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

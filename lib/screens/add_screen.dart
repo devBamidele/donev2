@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:donev2/bloc/todo_bloc.dart';
+import 'package:donev2/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../model/todo.dart';
@@ -64,8 +65,11 @@ class AddScreen extends StatelessWidget {
                 Navigator.pop(context);
               },
               label: Text(
-                id != null ? 'Save changes' : 'Add task',
-                style: const TextStyle(fontSize: 16),
+                id != null ? 'Save Changes' : 'Add Task',
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -84,6 +88,7 @@ class AddScreen extends StatelessWidget {
                       },
                       icon: const Icon(
                         Icons.arrow_back_rounded,
+                        color: kTertiaryColor,
                       ),
                     ),
                   ),

@@ -79,7 +79,7 @@ class TaskTile extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
-              elevation: 10,
+              elevation: 8,
               child: ListTile(
                 onTap: () {
                   Navigator.push(
@@ -110,10 +110,10 @@ class TaskTile extends StatelessWidget {
                   checkedWidget: const Icon(
                     Icons.check,
                     color: Colors.black,
-                    size: 19,
+                    size: 21,
                   ),
                   uncheckedColor: kScaffoldColor,
-                  checkedColor: Colors.grey,
+                  checkedColor: kTertiaryColor,
                   onTap: checkboxCallback,
                   isChecked: isChecked,
                   size: 25,

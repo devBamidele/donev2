@@ -24,6 +24,7 @@ class HomeScreen extends StatelessWidget {
           child: const Icon(
             Icons.add,
             size: 33,
+            color: Colors.white,
           ),
         ),
       ),
@@ -63,7 +64,10 @@ class HomeScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    icon: const Icon(Icons.search_rounded),
+                    icon: const Icon(
+                      Icons.search_rounded,
+                      color: kTertiaryColor,
+                    ),
                   )
                 ],
               ),

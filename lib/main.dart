@@ -35,6 +35,9 @@ class MyApp extends StatelessWidget {
             style: ListTileStyle.drawer,
             tileColor: kListTileColor,
           ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: kSecondaryColor,
+          ),
         ),
         debugShowCheckedModeBanner: false,
         //Our only screen/page we have
