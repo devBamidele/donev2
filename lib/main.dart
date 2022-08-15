@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),
-            horizontalTitleGap: 10,
+            horizontalTitleGap: 7,
             style: ListTileStyle.drawer,
             tileColor: kListTileColor,
           ),

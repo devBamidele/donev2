@@ -36,7 +36,7 @@ class TaskTile extends StatelessWidget {
     return Consumer<TodoBloc>(
       builder: (_, data, Widget? child) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 5),
+          padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5),
           child: Dismissible(
             background: Container(
               color: kScaffoldColor,
@@ -76,9 +76,6 @@ class TaskTile extends StatelessWidget {
             direction: DismissDirection.horizontal,
             key: ObjectKey(id),
             child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
               elevation: 8,
               child: ListTile(
                 onTap: () {

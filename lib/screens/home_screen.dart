@@ -1,7 +1,9 @@
 import 'package:donev2/constants.dart';
 import 'package:donev2/screens/add_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../bloc/todo_bloc.dart';
 import '../lists/category_list.dart';
 import '../lists/task_list.dart';
 import '../search_sheet.dart';
@@ -11,85 +13,117 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 20, right: 5),
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AddScreen()),
-            );
-          },
-          child: const Icon(
-            Icons.add,
-            size: 33,
-            color: Colors.white,
-          ),
-        ),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 10,
-            horizontal: 15,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Welcome back !',
-                style: TextStyle(
-                  fontSize: 35,
+    return Consumer<TodoBloc>(
+      builder: (BuildContext context, data, Widget? child) {
+        return Scaffold(
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.only(bottom: 20, right: 5),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(27.0),
+              ),
+              elevation: 8,
+              shadowColor: const Color(0xffEE2F69),
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AddScreen()),
+                  );
+                },
+                child: const Icon(
+                  Icons.add,
+                  size: 33,
+                  color: Colors.white,
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+          ),
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 15,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('CATEGORIES'),
-                  IconButton(
-                    iconSize: 27,
-                    onPressed: () {
-                      showModalBottomSheet(
-                        isScrollControlled: true,
-                        shape: kRoundedBorder,
-                        context: context,
-                        builder: (context) => SingleChildScrollView(
-                          child: Container(
-                            padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom,
-                            ),
-                            child: const SearchSheet(),
-                          ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        iconSize: kIconSize,
+                        onPressed: () {
+                          data.getTodos();
+                          data.getCategories();
+                        },
+                        icon: const Icon(
+                          Icons.menu,
+                          color: kTertiaryColor,
                         ),
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.search_rounded,
-                      color: kTertiaryColor,
+                      ),
+                      IconButton(
+                        iconSize: kIconSize,
+                        onPressed: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            shape: kRoundedBorder,
+                            context: context,
+                            builder: (context) => SingleChildScrollView(
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom,
+                                ),
+                                child: const SearchSheet(),
+                              ),
+                            ),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.search_rounded,
+                          color: kTertiaryColor,
+                        ),
+                      )
+                    ],
+                  ),
+                  const Text(
+                    'Welcome back !',
+                    style: TextStyle(
+                      fontSize: 35,
                     ),
+                  ),
+                  spacing(),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      'CATEGORIES',
+                      style: kText1,
+                    ),
+                  ),
+                  spacing(),
+                  const SizedBox(
+                    height: 120,
+                    child: CategoryList(),
+                  ),
+                  spacing(),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      'YOUR TASKS',
+                      style: kText1,
+                    ),
+                  ),
+                  spacing(),
+                  const Expanded(
+                    child: TaskList(),
                   )
                 ],
               ),
-              const SizedBox(
-                height: 100,
-                child: CategoryList(),
-              ),
-              spacing(),
-              const Text(
-                'TODAY\'S TASKS',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-              spacing(),
-              const Expanded(
-                child: TaskList(),
-              )
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

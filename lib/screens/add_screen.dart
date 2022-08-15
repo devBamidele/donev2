@@ -81,7 +81,7 @@ class AddScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: IconButton(
-                      iconSize: 30,
+                      iconSize: kIconSize,
                       color: Colors.black54,
                       onPressed: () {
                         Navigator.pop(context);

@@ -36,7 +36,7 @@ class CategoryList extends StatelessWidget {
                           final item = snapshot.data![index];
                           return Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                                const EdgeInsets.symmetric(horizontal: 3.0),
                             child: CategoryCard(
                               category: item['category'],
                               taskNo: item['COUNT(*)'],
