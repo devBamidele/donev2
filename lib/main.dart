@@ -1,4 +1,5 @@
 import 'package:donev2/bloc/todo_bloc.dart';
+import 'package:donev2/constants.dart';
 import 'package:donev2/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,11 +19,24 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<TodoBloc>(
       create: (_) => TodoBloc(),
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
+        theme: ThemeData.dark().copyWith(
           visualDensity: VisualDensity.adaptivePlatformDensity,
-          scaffoldBackgroundColor: const Color(0xFFD2FDFF),
+          scaffoldBackgroundColor: kScaffoldColor,
+          cardTheme: CardTheme(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+          ),
+          listTileTheme: ListTileThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            horizontalTitleGap: 10,
+            style: ListTileStyle.drawer,
+            tileColor: kListTileColor,
+          ),
         ),
+        debugShowCheckedModeBanner: false,
         //Our only screen/page we have
         home: const HomeScreen(),
       ),

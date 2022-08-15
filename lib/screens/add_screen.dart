@@ -70,54 +70,55 @@ class AddScreen extends StatelessWidget {
             ),
           ),
           body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: IconButton(
+                      iconSize: 30,
+                      color: Colors.black54,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back_rounded,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 25,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
+                        TextFormField(
+                          controller: myTaskController,
+                          // The validator receives the text that the user has entered.
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter some text';
+                            }
+                            return null;
                           },
-                          icon: Icon(
-                            Icons.cancel_outlined,
-                            color: Colors.black38.withOpacity(0.3),
-                            size: 44,
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(),
+                            labelText: 'Enter your task',
                           ),
                         ),
-                      ],
-                    ),
-                    TextFormField(
-                      controller: myTaskController,
-                      // The validator receives the text that the user has entered.
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'Enter your task',
-                      ),
-                    ),
-                    TextFormField(
-                      controller: myCategoryController,
-                      decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'Enter a category',
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                        TextFormField(
+                          controller: myCategoryController,
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(),
+                            labelText: 'Enter a category',
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         OutlinedButton.icon(
                           // The completion date widget
                           onPressed: () async {
@@ -144,6 +145,9 @@ class AddScreen extends StatelessWidget {
                               ),
                             ),
                           ),
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         OutlinedButton(
                           onPressed: () async {
@@ -173,10 +177,64 @@ class AddScreen extends StatelessWidget {
                             color: Colors.lightBlueAccent,
                           ),
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ListTile(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              color: Colors.grey,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          horizontalTitleGap: 0,
+                          title: const Text(
+                            'Due date',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                          leading: const Icon(
+                            Icons.calendar_today_outlined,
+                            size: 26,
+                          ),
+                          trailing: Switch(
+                            value: false,
+                            onChanged: (bool value) {},
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ListTile(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              color: Colors.grey,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          horizontalTitleGap: 0,
+                          title: const Text(
+                            'Set notification',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                          leading: const Icon(
+                            Icons.alarm,
+                            size: 26,
+                          ),
+                          trailing: Switch(
+                            value: false,
+                            onChanged: (bool value) {},
+                          ),
+                        ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

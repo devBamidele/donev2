@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:donev2/bloc/todo_bloc.dart';
+import 'package:donev2/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:intl/intl.dart';
@@ -37,69 +37,97 @@ class TaskTile extends StatelessWidget {
       builder: (_, data, Widget? child) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 5),
-          child: Slidable(
-            endActionPane: ActionPane(
-              motion: const DrawerMotion(),
-              extentRatio: 0.28,
-              children: [
-                SlidableAction(
-                  onPressed: (_) =>
-                      deleteCallback(), // When the delete button is pressed, call the deleteCallback function
-                  backgroundColor: Colors.red.withOpacity(0.7),
-                  foregroundColor: Colors.white,
-                  icon: Icons.delete_rounded,
-                  label: 'Delete',
-                  borderRadius: BorderRadius.circular(18),
-                ),
-              ],
-            ),
-            child: ListTile(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        AddScreen(id: id), // This will be eventually removed
+          child: Dismissible(
+            background: Container(
+              color: kScaffoldColor,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.delete_outline_outlined,
+                        color: kSecondaryColor,
+                        size: 33,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Delete task',
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                        ),
+                      ),
+                    ],
                   ),
-                );
-              }, // When the user clicks on the task
-              tileColor: Colors.white.withOpacity(0.8),
-              title: Text(
-                task,
-                style: TextStyle(
-                  fontSize: 18,
-                  decoration: isChecked ? TextDecoration.lineThrough : null,
                 ),
               ),
-              subtitle: Text(
-                complete != null
-                    ? DateFormat('EEEE,  MMM dd, y.').format(complete!)
-                    : 'No completion date',
-              ),
-              horizontalTitleGap: 5,
-              leading: RoundCheckBox(
-                checkedWidget: const Icon(
-                  Icons.check,
-                  color: Colors.black,
-                  size: 19,
-                ),
-                checkedColor: Colors.grey,
-                onTap: checkboxCallback,
-                isChecked: isChecked,
-                size: 25,
-              ),
-              trailing: Transform.rotate(
-                angle: math.pi / 15,
-                child: alarm != null
-                    ? const Icon(
-                        Icons.notifications_active_outlined,
-                        color: Colors.brown,
-                        size: 24,
-                      )
-                    : const SizedBox.shrink(),
-              ),
+            ),
+            onDismissed: (direction) {
+              deleteCallback();
+              // Then show a snackbar.
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //     SnackBar(content: Text('$task has been deleted')));
+            },
+            direction: DismissDirection.horizontal,
+            key: ObjectKey(id),
+            child: Card(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              elevation: 10,
+              child: ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          AddScreen(id: id), // This will be eventually removed
+                    ),
+                  );
+                }, // When the user clicks on the task
+                title: Text(
+                  task,
+                  style: TextStyle(
+                    fontSize: 18.5,
+                    decoration: isChecked
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none,
+                    decorationColor: Colors.black.withOpacity(0.8),
+                    decorationThickness: 3,
+                  ),
+                ),
+                subtitle: Text(
+                  complete != null
+                      ? DateFormat('EEEE,  MMM dd, y.').format(complete!)
+                      : 'No completion date',
+                ),
+                leading: RoundCheckBox(
+                  checkedWidget: const Icon(
+                    Icons.check,
+                    color: Colors.black,
+                    size: 19,
+                  ),
+                  uncheckedColor: kScaffoldColor,
+                  checkedColor: Colors.grey,
+                  onTap: checkboxCallback,
+                  isChecked: isChecked,
+                  size: 25,
+                ),
+                trailing: Transform.rotate(
+                  angle: math.pi / 15,
+                  child: alarm != null
+                      ? const Icon(
+                          Icons.notifications_active_outlined,
+                          color: Colors.brown,
+                          size: 24,
+                        )
+                      : const SizedBox.shrink(),
+                ),
               ),
             ),
           ),
