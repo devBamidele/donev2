@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                           data.getCategories();
                         },
                         icon: const Icon(
-                          Icons.menu,
+                          Icons.menu_rounded,
                           color: kTertiaryColor,
                         ),
                       ),
@@ -87,10 +87,16 @@ class HomeScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  const Text(
-                    'Welcome back !',
-                    style: TextStyle(
-                      fontSize: 35,
+                  spacing(height: 7),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(
+                      'What\'s up  👋',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 33,
+                        letterSpacing: 1.5,
+                      ),
                     ),
                   ),
                   spacing(),
