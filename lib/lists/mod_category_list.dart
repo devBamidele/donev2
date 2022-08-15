@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +24,7 @@ class ModifiedCategoryList extends StatelessWidget {
           ) {
             if (!snapshot.hasData) {
               // At the initial stage when there is no stream
-              data.getGroup(category: data.selected!);
+              data.getGroup(category: data.selected);
               return const LoadingData();
             } else {
               return snapshot
@@ -33,6 +35,8 @@ class ModifiedCategoryList extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: snapshot.data?.length,
                         itemBuilder: (context, index) {
+                          data.length = snapshot.data?.length;
+                          log(data.length.toString());
                           Todo task = snapshot.data![index];
                           return TaskTile(
                             id: task,

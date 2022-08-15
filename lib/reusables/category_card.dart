@@ -23,14 +23,12 @@ class CategoryCard extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               data.selected = category;
-              data.getGroup(category: data.selected!);
+              data.length = taskNo;
+              data.getGroup(category: data.selected);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CategoryScreen(
-                    category: category,
-                    taskNo: taskNo,
-                  ),
+                  builder: (context) => const CategoryScreen(),
                 ),
               );
             },

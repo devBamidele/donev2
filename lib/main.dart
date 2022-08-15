@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          visualDensity: VisualDensity.adaptivePlatformDensity,
           scaffoldBackgroundColor: const Color(0xFFD2FDFF),
         ),
         //Our only screen/page we have

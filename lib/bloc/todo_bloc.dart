@@ -28,7 +28,17 @@ class TodoBloc extends ChangeNotifier {
     getCategories();
   }
   DateTime? time;
-  String? selected;
+  String selected = '';
+  int? _length;
+
+  int? get length => _length;
+
+  set length(int? length) {
+    Future.delayed(Duration.zero, () {
+      _length = length;
+      notifyListeners();
+    });
+  }
 
   getTodos({String? query}) async {
     // (Sink) is a way of adding data reactively to the stream
@@ -47,7 +57,6 @@ class TodoBloc extends ChangeNotifier {
     _groupController.sink.add(
       await _todoDao.fetchGroup(category),
     );
-    notifyListeners();
   }
 
   addTodo(Todo todo) async {
@@ -60,13 +69,14 @@ class TodoBloc extends ChangeNotifier {
     await _todoDao.updateTodo(todo);
     getTodos();
     getCategories();
-    notifyListeners();
+    getGroup(category: selected);
   }
 
   deleteTodoById(int id) async {
     _todoDao.deleteTodo(id);
     getTodos();
     getCategories();
+    getGroup(category: selected);
   }
 
   @override
