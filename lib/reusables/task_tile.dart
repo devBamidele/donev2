@@ -78,7 +78,7 @@ class TaskTile extends StatelessWidget {
               elevation: 8,
               child: ListTile(
                 onTap: () {
-                  Navigator.pushNamed(context, AddScreen.tag);
+                  Navigator.pushNamed(context, AddScreen.tag, arguments: id);
                 }, // When the user clicks on the task
                 title: Text(
                   task,
