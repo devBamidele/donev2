@@ -1,6 +1,8 @@
 import 'package:donev2/bloc/todo_bloc.dart';
-import 'package:donev2/constants.dart';
+import 'package:donev2/screens/add_screen.dart';
+import 'package:donev2/screens/category_screen.dart';
 import 'package:donev2/screens/home_screen.dart';
+import 'package:donev2/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'notification/notification_service.dart';
@@ -19,29 +21,14 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<TodoBloc>(
       create: (_) => TodoBloc(),
       child: MaterialApp(
-        theme: ThemeData.dark().copyWith(
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          scaffoldBackgroundColor: kScaffoldColor,
-          cardTheme: CardTheme(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-          ),
-          listTileTheme: ListTileThemeData(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            horizontalTitleGap: 7,
-            style: ListTileStyle.drawer,
-            tileColor: kListTileColor,
-          ),
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: kSecondaryColor,
-          ),
-        ),
+        theme: MyTheme().themeData,
         debugShowCheckedModeBanner: false,
-        //Our only screen/page we have
-        home: const HomeScreen(),
+        initialRoute: '/',
+        routes: {
+          HomeScreen.tag: (context) => const HomeScreen(),
+          CategoryScreen.tag: (context) => const CategoryScreen(),
+          AddScreen.tag: (context) => const AddScreen(),
+        },
       ),
     );
   }

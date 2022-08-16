@@ -69,7 +69,6 @@ class TaskTile extends StatelessWidget {
             ),
             onDismissed: (direction) {
               deleteCallback();
-              // Then show a snackbar.
               // ScaffoldMessenger.of(context).showSnackBar(
               //     SnackBar(content: Text('$task has been deleted')));
             },
@@ -79,13 +78,7 @@ class TaskTile extends StatelessWidget {
               elevation: 8,
               child: ListTile(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          AddScreen(id: id), // This will be eventually removed
-                    ),
-                  );
+                  Navigator.pushNamed(context, AddScreen.tag);
                 }, // When the user clicks on the task
                 title: Text(
                   task,

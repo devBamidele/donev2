@@ -4,8 +4,10 @@ const kScaffoldColor = Color(0xFF0D1020);
 const kListTileColor = Color(0xFF1D1E33);
 const kSecondaryColor = Color(0xFFEB1555);
 const kTertiaryColor = Color(0xff8A95D0);
+const kShadowColor = Color(0xffEE2F69);
 double kIconSize = 30;
 
+// The shape of the bottomModalSheet
 const kRoundedBorder = RoundedRectangleBorder(
   borderRadius: BorderRadius.only(
     topLeft: Radius.circular(20.0),

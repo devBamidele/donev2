@@ -18,6 +18,8 @@ extension TimeOfDayExtension on TimeOfDay {
 class AddScreen extends StatelessWidget {
   const AddScreen({this.id, Key? key}) : super(key: key);
 
+  static const tag = '/add';
+
   final Todo? id;
   @override
   Widget build(BuildContext context) {

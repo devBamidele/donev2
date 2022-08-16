@@ -24,12 +24,7 @@ class CategoryCard extends StatelessWidget {
             data.selected = category;
             data.length = taskNo;
             data.getGroup(category: data.selected);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CategoryScreen(),
-              ),
-            );
+            Navigator.pushNamed(context, CategoryScreen.tag);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),

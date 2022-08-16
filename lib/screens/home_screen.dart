@@ -11,6 +11,8 @@ import '../search_sheet.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  static const tag = '/';
+
   @override
   Widget build(BuildContext context) {
     return Consumer<TodoBloc>(
@@ -23,14 +25,13 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(27.0),
               ),
               elevation: 8,
-              shadowColor: const Color(0xffEE2F69),
+              shadowColor: kShadowColor,
               child: FloatingActionButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const AddScreen()),
-                  );
+                  // Navigate to Add Task Screen
+                  Navigator.pushNamed(context, AddScreen.tag);
                 },
+                tooltip: 'Add a task',
                 child: const Icon(
                   Icons.add,
                   size: 33,
@@ -52,6 +53,7 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
+                        tooltip: 'Show all',
                         iconSize: kIconSize,
                         onPressed: () {
                           data.getTodos();
@@ -63,6 +65,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       IconButton(
+                        tooltip: 'Search',
                         iconSize: kIconSize,
                         onPressed: () {
                           showModalBottomSheet(
