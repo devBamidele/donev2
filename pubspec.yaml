@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.17.0
   flutter_local_notifications: ^9.7.0
   timezone: ^0.8.0
+  responsive_framework: ^0.2.0
 
 dev_dependencies:
   flutter_test:

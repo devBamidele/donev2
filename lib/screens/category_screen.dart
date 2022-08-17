@@ -3,6 +3,8 @@ import 'package:donev2/lists/mod_category_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'extras/custom_back_button.dart';
+
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({Key? key}) : super(key: key);
 
@@ -14,44 +16,52 @@ class CategoryScreen extends StatelessWidget {
       builder: (_, data, Widget? child) {
         return Scaffold(
           body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 15,
-              ),
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      data.selected,
-                      style: const TextStyle(
-                        fontSize: 34,
-                      ),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: CustomBackButton(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 15,
                     ),
-                    Text(
-                      data.length! > 1
-                          ? '${data.length} tasks'
-                          : '${data.length} task',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black.withOpacity(0.6),
-                      ),
+                    child: Column(
+                      children: [
+                        Text(
+                          data.selected,
+                          style: const TextStyle(
+                            fontSize: 34,
+                          ),
+                        ),
+                        Text(
+                          data.length! > 1
+                              ? '${data.length} tasks'
+                              : '${data.length} task',
+                          style: const TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                        const Text(
+                          'Tasks',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const SizedBox(
+                          height: 200,
+                          child: ModifiedCategoryList(),
+                        ),
+                      ],
                     ),
-                    const Text(
-                      'Tasks',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Expanded(
-                      child: ModifiedCategoryList(),
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

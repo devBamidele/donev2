@@ -5,6 +5,7 @@ import 'package:donev2/theme_data/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'notification/notification_service.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,19 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<TodoBloc>(
       create: (_) => TodoBloc(),
       child: MaterialApp(
+        // Make it responsive to different screen sizes
+        builder: (context, child) => ResponsiveWrapper.builder(
+          child,
+          maxWidth: 1700,
+          minWidth: 350,
+          defaultScale: true,
+          breakpoints: [
+            const ResponsiveBreakpoint.resize(350, name: MOBILE),
+            const ResponsiveBreakpoint.autoScale(600, name: TABLET),
+            const ResponsiveBreakpoint.resize(800, name: DESKTOP),
+            const ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+          ],
+        ),
         theme: MyTheme().themeData,
         debugShowCheckedModeBanner: false,
         initialRoute: HomeScreen.tag,

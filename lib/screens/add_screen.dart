@@ -1,9 +1,9 @@
 import 'dart:developer';
 import 'package:donev2/bloc/todo_bloc.dart';
-import 'package:donev2/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../model/todo.dart';
+import 'extras/custom_back_button.dart';
 
 extension TimeOfDayExtension on TimeOfDay {
   int compareTo(TimeOfDay other) {
@@ -80,19 +80,9 @@ class AddScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: IconButton(
-                      iconSize: kIconSize,
-                      color: Colors.black54,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back_rounded,
-                        color: kTertiaryColor,
-                      ),
-                    ),
+                  const Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: CustomBackButton(),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
