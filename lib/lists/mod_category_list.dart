@@ -30,13 +30,14 @@ class ModifiedCategoryList extends StatelessWidget {
               return snapshot
                       .data!.isNotEmpty // When the snapshots are received
                   ? ScrollConfiguration(
-                      behavior: ScrollConfiguration.of(context)
-                          .copyWith(scrollbars: false),
+                      behavior: ScrollConfiguration.of(context).copyWith(
+                        scrollbars: false,
+                        physics: const BouncingScrollPhysics(),
+                      ),
                       child: ListView.builder(
                         itemCount: snapshot.data?.length,
                         itemBuilder: (context, index) {
                           data.length = snapshot.data?.length;
-                          log(data.length.toString());
                           Todo task = snapshot.data![index];
                           return TaskTile(
                             id: task,

@@ -1,4 +1,5 @@
 import 'package:donev2/bloc/todo_bloc.dart';
+import 'package:donev2/constants.dart';
 import 'package:donev2/lists/mod_category_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,45 +21,68 @@ class CategoryScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.all(5.0),
-                    child: CustomBackButton(),
-                  ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 15,
+                    padding: const EdgeInsets.only(
+                      left: 7.5,
+                      top: 10,
+                      right: 7.5,
                     ),
-                    child: Column(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          data.selected,
-                          style: const TextStyle(
-                            fontSize: 34,
+                        const CustomBackButton(),
+                        IconButton(
+                          tooltip: 'Search',
+                          iconSize: kIconSize,
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.search_rounded,
+                            color: kTertiaryColor,
                           ),
-                        ),
-                        Text(
-                          data.length! > 1
-                              ? '${data.length} tasks'
-                              : '${data.length} task',
-                          style: const TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
-                        const Text(
-                          'Tasks',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const SizedBox(
-                          height: 200,
-                          child: ModifiedCategoryList(),
-                        ),
+                        )
                       ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 8,
+                        left: 15,
+                        right: 15,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            data.selected,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 33,
+                              letterSpacing: 1.5,
+                            ),
+                          ),
+                          Text(
+                            data.length! > 1
+                                ? '${data.length} tasks'
+                                : '${data.length} task',
+                            style: const TextStyle(
+                              fontSize: 15,
+                            ),
+                          ),
+                          const Text(
+                            'Tasks',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Expanded(
+                            child: ModifiedCategoryList(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
