@@ -72,14 +72,8 @@ class HomeScreen extends StatelessWidget {
                             isScrollControlled: true,
                             shape: kRoundedBorder,
                             context: context,
-                            builder: (context) => SingleChildScrollView(
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom,
-                                ),
-                                child: const SearchSheet(),
-                              ),
+                            builder: (context) => const SearchSheet(
+                              searchText: 'Search everywhere',
                             ),
                           );
                         },

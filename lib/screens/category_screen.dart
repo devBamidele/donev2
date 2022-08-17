@@ -1,6 +1,7 @@
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/constants.dart';
 import 'package:donev2/lists/mod_category_list.dart';
+import 'package:donev2/search_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,72 +18,71 @@ class CategoryScreen extends StatelessWidget {
       builder: (_, data, Widget? child) {
         return Scaffold(
           body: SafeArea(
-            child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 15,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 7.5,
-                      top: 10,
-                      right: 7.5,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const CustomBackButton(),
-                        IconButton(
-                          tooltip: 'Search',
-                          iconSize: kIconSize,
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.search_rounded,
-                            color: kTertiaryColor,
-                          ),
-                        )
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const CustomBackButton(),
+                      IconButton(
+                        tooltip: 'Search',
+                        iconSize: kIconSize,
+                        onPressed: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            shape: kRoundedBorder,
+                            context: context,
+                            builder: (context) => SearchSheet(
+                              searchText: 'Search ${data.selected}',
+                            ),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.search_rounded,
+                          color: kTertiaryColor,
+                        ),
+                      )
+                    ],
                   ),
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 8,
-                        left: 15,
-                        right: 15,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            data.selected,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 33,
-                              letterSpacing: 1.5,
-                            ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          data.selected,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 33,
+                            letterSpacing: 1.5,
                           ),
-                          Text(
-                            data.length! > 1
-                                ? '${data.length} tasks'
-                                : '${data.length} task',
-                            style: const TextStyle(
-                              fontSize: 15,
-                            ),
+                        ),
+                        Text(
+                          data.length! > 1
+                              ? '${data.length} tasks'
+                              : '${data.length} task',
+                          style: const TextStyle(
+                            fontSize: 15,
                           ),
-                          const Text(
-                            'Tasks',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
+                        ),
+                        const Text(
+                          'Tasks',
+                          style: TextStyle(
+                            fontSize: 20,
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Expanded(
-                            child: ModifiedCategoryList(),
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Expanded(
+                          child: ModifiedCategoryList(),
+                        ),
+                      ],
                     ),
                   ),
                 ],

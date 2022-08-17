@@ -10,8 +10,8 @@ double kIconSize = 30;
 // The shape of the bottomModalSheet
 const kRoundedBorder = RoundedRectangleBorder(
   borderRadius: BorderRadius.only(
-    topLeft: Radius.circular(20.0),
-    topRight: Radius.circular(20.0),
+    topLeft: Radius.circular(30.0),
+    topRight: Radius.circular(30.0),
   ),
 );
 
