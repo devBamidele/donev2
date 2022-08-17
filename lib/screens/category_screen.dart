@@ -4,7 +4,6 @@ import 'package:donev2/lists/mod_category_list.dart';
 import 'package:donev2/search_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'extras/custom_back_button.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -30,23 +29,40 @@ class CategoryScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const CustomBackButton(),
-                      IconButton(
-                        tooltip: 'Search',
-                        iconSize: kIconSize,
-                        onPressed: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            shape: kRoundedBorder,
-                            context: context,
-                            builder: (context) => SearchSheet(
-                              searchText: 'Search ${data.selected}',
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            tooltip: 'Show all',
+                            iconSize: kIconSize,
+                            onPressed: () {
+                              data.getGroup(category: data.selected);
+                            },
+                            icon: const Icon(
+                              Icons.menu_rounded,
+                              color: kTertiaryColor,
                             ),
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.search_rounded,
-                          color: kTertiaryColor,
-                        ),
+                          ),
+                          IconButton(
+                            tooltip: 'Search',
+                            iconSize: kIconSize,
+                            onPressed: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                shape: kRoundedBorder,
+                                context: context,
+                                builder: (context) => SearchSheet(
+                                  searchText: 'Search ${data.selected}',
+                                  screen: tag,
+                                ),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.search_rounded,
+                              color: kTertiaryColor,
+                            ),
+                          ),
+                        ],
                       )
                     ],
                   ),
@@ -57,8 +73,8 @@ class CategoryScreen extends StatelessWidget {
                         Text(
                           data.selected,
                           style: const TextStyle(
+                            fontSize: 30,
                             fontWeight: FontWeight.w600,
-                            fontSize: 33,
                             letterSpacing: 1.5,
                           ),
                         ),

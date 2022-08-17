@@ -53,9 +53,9 @@ class TodoBloc extends ChangeNotifier {
     );
   }
 
-  getGroup({required String category}) async {
+  getGroup({required String category, String? query}) async {
     _groupController.sink.add(
-      await _todoDao.fetchGroup(category),
+      await _todoDao.fetchGroup(category: category, query: query),
     );
   }
 

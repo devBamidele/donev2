@@ -24,7 +24,7 @@ class TodoDao {
       result = await db?.query(
         todoTABLE,
         columns: columns,
-        where: 'task LIKE ?',
+        where: '$columnTask LIKE ?',
         whereArgs: ["%$query%"],
       );
     } else {
@@ -38,15 +38,18 @@ class TodoDao {
   }
 
   /// The function that provides data that will be displayed on the category screen
-  Future<List<Todo>?> fetchGroup(String category) async {
+  Future<List<Todo>?> fetchGroup(
+      {required String category, String? query}) async {
     final db = await dbProvider.database;
-    List<Map<String, dynamic>>? result;
-    result = await db?.query(
-      todoTABLE,
-      where: '$columnCategory = ?',
-      whereArgs: [category],
-    );
 
+    final text = query != null && query.isNotEmpty
+        ? 'AND $columnTask like \'%$query%\''
+        : '';
+
+    List<Map<String, dynamic>>? result;
+    result = await db?.rawQuery(
+      'select * from $todoTABLE where $columnCategory is \'$category\' $text',
+    );
     List<Todo>? group =
         result?.map((item) => Todo.fromDatabaseJson(item)).toList();
     return group;

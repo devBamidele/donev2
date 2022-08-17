@@ -74,6 +74,7 @@ class HomeScreen extends StatelessWidget {
                             context: context,
                             builder: (context) => const SearchSheet(
                               searchText: 'Search everywhere',
+                              screen: tag,
                             ),
                           );
                         },
@@ -106,7 +107,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   spacing(),
                   const SizedBox(
-                    height: 120,
+                    height: 115,
                     child: CategoryList(),
                   ),
                   spacing(),

@@ -2,7 +2,6 @@ import 'package:donev2/constants.dart';
 import 'package:donev2/screens/category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../bloc/todo_bloc.dart';
 
 class CategoryCard extends StatelessWidget {
@@ -55,8 +54,8 @@ class CategoryCard extends StatelessWidget {
                       Text(
                         category,
                         style: const TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 27,
+                          fontWeight: FontWeight.w500,
                           letterSpacing: 1.5,
                         ),
                       ),

@@ -1,4 +1,6 @@
 import 'package:donev2/bloc/todo_bloc.dart';
+import 'package:donev2/screens/category_screen.dart';
+import 'package:donev2/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,10 +10,12 @@ import 'constants.dart';
 class SearchSheet extends StatelessWidget {
   const SearchSheet({
     required this.searchText,
+    required this.screen,
     Key? key,
   }) : super(key: key);
 
   final String searchText;
+  final String screen;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,6 @@ class SearchSheet extends StatelessWidget {
                       children: <Widget>[
                         Expanded(
                           child: TextFormField(
-                            keyboardType: TextInputType.name,
                             controller: searchController,
                             textInputAction: TextInputAction.newline,
                             maxLength: 20,
@@ -64,10 +67,15 @@ class SearchSheet extends StatelessWidget {
                             color: kTertiaryColor,
                           ),
                           onPressed: () {
-                            /*This will get all todos that contains similar string in the textform */
-                            data.getTodos(query: searchController.value.text);
-                            data.getCategories(
-                                query: searchController.value.text);
+                            if (screen == HomeScreen.tag) {
+                              data.getTodos(query: searchController.value.text);
+                              data.getCategories(
+                                  query: searchController.value.text);
+                            } else if (screen == CategoryScreen.tag) {
+                              data.getGroup(
+                                  category: data.selected,
+                                  query: searchController.value.text);
+                            }
                             //dismisses the bottomsheet
                             Navigator.pop(context);
                           },
