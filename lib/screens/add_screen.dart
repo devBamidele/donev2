@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../constants.dart';
 import '../model/todo.dart';
 import 'extras/custom_back_button.dart';
 
@@ -15,15 +16,22 @@ extension TimeOfDayExtension on TimeOfDay {
   }
 }
 
-class AddScreen extends StatelessWidget {
+class AddScreen extends StatefulWidget {
   const AddScreen({this.id, Key? key}) : super(key: key);
 
   static const tag = '/add';
-
   final Todo? id;
+
+  @override
+  State<AddScreen> createState() => _AddScreenState();
+}
+
+class _AddScreenState extends State<AddScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    final id = this.id;
+    final id = widget.id;
     final myTaskController = TextEditingController();
     final myCategoryController = TextEditingController();
     DateTime currentDate = DateTime.now();
@@ -46,25 +54,26 @@ class AddScreen extends StatelessWidget {
     return Consumer<TodoBloc>(
       builder: (BuildContext context, data, Widget? child) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 20, right: 5),
             child: FloatingActionButton.extended(
               onPressed: () {
-                final newTodo = Todo(
-                  id: id?.id,
-                  task: myTaskController.value.text,
-                  category: myCategoryController.value.text.isEmpty
-                      ? null
-                      : myCategoryController.value.text,
-                  completion: newDate?.toString(),
-                  alarm: data.time?.toString(),
-                );
-                if (newTodo.task!.isNotEmpty) {
+                if (_formKey.currentState!.validate()) {
+                  final newTodo = Todo(
+                    id: id?.id,
+                    task: myTaskController.value.text,
+                    category: myCategoryController.value.text.isEmpty
+                        ? null
+                        : myCategoryController.value.text,
+                    completion: newDate?.toString(),
+                    alarm: data.time?.toString(),
+                  );
                   id != null ? data.updateTodo(newTodo) : data.addTodo(newTodo);
                   data.time = null; // Erase the value
+                  log(myTaskController.value.text);
+                  Navigator.pop(context);
                 }
-                log(myTaskController.value.text);
-                Navigator.pop(context);
               },
               label: Text(
                 id != null ? 'Save Changes' : 'Add Task',
@@ -81,36 +90,72 @@ class AddScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Padding(
-                    padding: EdgeInsets.all(5.0),
+                    padding: EdgeInsets.only(left: 12, top: 7),
                     child: CustomBackButton(),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 20,
+                      vertical: 5,
                       horizontal: 25,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextFormField(
-                          controller: myTaskController,
-                          // The validator receives the text that the user has entered.
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                            border: UnderlineInputBorder(),
-                            labelText: 'Enter your task',
+                        Text(
+                          id != null ? 'Edit Task' : 'Add Task',
+                          style: const TextStyle(
+                            fontSize: 33,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.5,
                           ),
                         ),
-                        TextFormField(
-                          controller: myCategoryController,
-                          decoration: const InputDecoration(
-                            border: UnderlineInputBorder(),
-                            labelText: 'Enter a category',
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                maxLength: 30,
+                                style: const TextStyle(
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                controller: myTaskController,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter a task';
+                                  } else if (value.length < 3) {
+                                    return 'Too short';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                decoration: const InputDecoration(
+                                  labelText: 'Enter your task',
+                                  labelStyle: TextStyle(
+                                    fontSize: 19,
+                                    color: kTertiaryColor,
+                                  ),
+                                ),
+                              ),
+                              TextFormField(
+                                maxLength: 15,
+                                style: const TextStyle(
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                controller: myCategoryController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Enter category',
+                                  labelStyle: TextStyle(
+                                    fontSize: 19,
+                                    color: kTertiaryColor,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(

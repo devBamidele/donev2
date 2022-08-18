@@ -35,19 +35,10 @@ class ModifiedCategoryList extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: snapshot.data?.length,
                         itemBuilder: (context, index) {
-                          data.length = snapshot.data?.length;
+                          //data.length = snapshot.data?.length; => This gives me errors
                           Todo task = snapshot.data![index];
                           return TaskTile(
                             id: task,
-                            deleteCallback: () {
-                              data.deleteTodoById(task.id!);
-                            },
-                            task: task.task!,
-                            checkboxCallback: (bool? value) {
-                              task.isDone = !task.isDone;
-                              data.updateTodo(task);
-                            },
-                            isChecked: task.isDone,
                             complete: task.completion != null
                                 ? DateTime.tryParse(task.completion!)
                                 : null, // What if I pass a null value ? 👀

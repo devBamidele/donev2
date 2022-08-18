@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../bloc/todo_bloc.dart';
 import '../lists/category_list.dart';
 import '../lists/task_list.dart';
-import '../search_sheet.dart';
+import 'extras/search_sheet.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

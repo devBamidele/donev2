@@ -34,10 +34,8 @@ class TodoBloc extends ChangeNotifier {
   int? get length => _length;
 
   set length(int? length) {
-    Future.delayed(Duration.zero, () {
-      _length = length;
-      notifyListeners();
-    });
+    _length = length;
+    notifyListeners();
   }
 
   getTodos({String? query}) async {

@@ -14,22 +14,14 @@ import '../screens/add_screen.dart';
 class TaskTile extends StatelessWidget {
   const TaskTile({
     required this.id,
-    required this.task,
     required this.alarm,
     required this.complete,
-    required this.isChecked,
-    required this.deleteCallback,
-    required this.checkboxCallback,
     Key? key,
   }) : super(key: key);
 
   final Todo id;
-  final String task;
   final String? alarm;
-  final bool isChecked;
   final DateTime? complete;
-  final Function deleteCallback;
-  final Function(bool?) checkboxCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -68,20 +60,20 @@ class TaskTile extends StatelessWidget {
               ),
             ),
             onDismissed: (direction) {
-              deleteCallback();
+              data.deleteTodoById(id.id!);
               // Display a short pop up message
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   duration: const Duration(milliseconds: 1200),
                   content: Text(
-                    'Successfully deleted $task',
+                    'Successfully deleted \'${id.task!}\'',
                     textAlign: TextAlign.center,
                   ),
                 ),
               );
             },
             direction: DismissDirection.startToEnd,
-            key: ObjectKey(id),
+            key: ObjectKey(id.id!),
             child: Card(
               elevation: 8,
               child: ListTile(
@@ -89,10 +81,10 @@ class TaskTile extends StatelessWidget {
                   Navigator.pushNamed(context, AddScreen.tag, arguments: id);
                 }, // When the user clicks on the task
                 title: Text(
-                  task,
+                  id.task!,
                   style: TextStyle(
                     fontSize: 18.5,
-                    decoration: isChecked
+                    decoration: id.isDone
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
                     decorationColor: Colors.black.withOpacity(0.8),
@@ -112,8 +104,11 @@ class TaskTile extends StatelessWidget {
                   ),
                   uncheckedColor: kScaffoldColor,
                   checkedColor: kTertiaryColor,
-                  onTap: checkboxCallback,
-                  isChecked: isChecked,
+                  onTap: (bool? value) {
+                    id.isDone = !id.isDone;
+                    data.updateTodo(id);
+                  },
+                  isChecked: id.isDone,
                   size: 25,
                 ),
                 trailing: Transform.rotate(

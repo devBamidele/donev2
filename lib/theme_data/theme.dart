@@ -9,6 +9,12 @@ class MyTheme {
       backgroundColor: kListTileColor,
     ),
     inputDecorationTheme: const InputDecorationTheme(
+      errorStyle: TextStyle(
+        color: kShadowColor,
+      ),
+      errorBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: kShadowColor),
+      ),
       enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(color: kTertiaryColor),
       ),

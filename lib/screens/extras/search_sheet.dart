@@ -4,7 +4,7 @@ import 'package:donev2/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'constants.dart';
+import '../../constants.dart';
 
 /// The sheet that comes in display when the search button is clicked
 class SearchSheet extends StatelessWidget {
