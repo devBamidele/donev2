@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Essential Colors
 const kScaffoldColor = Color(0xFF0D1020);
 const kListTileColor = Color(0xFF1D1E33);
 const kSecondaryColor = Color(0xFFEB1555);
@@ -12,6 +13,13 @@ const kRoundedBorder = RoundedRectangleBorder(
   borderRadius: BorderRadius.only(
     topLeft: Radius.circular(30.0),
     topRight: Radius.circular(30.0),
+  ),
+);
+
+// The shape of the alert dialog
+const kAlertShape = RoundedRectangleBorder(
+  borderRadius: BorderRadius.all(
+    Radius.circular(30),
   ),
 );
 

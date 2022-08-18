@@ -15,6 +15,7 @@ class CategoryCard extends StatelessWidget {
   final Object id;
   final String category;
   final int taskNo;
+  final double cardWidth = 195;
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +25,23 @@ class CategoryCard extends StatelessWidget {
           background: Container(
             color: kScaffoldColor,
             child: Padding(
-              padding: const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(top: 10),
               child: Align(
-                alignment: Alignment.centerLeft,
+                alignment: Alignment.topCenter,
                 child: Row(
-                  children: [
-                    const Icon(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
                       Icons.delete_outline_outlined,
                       color: kSecondaryColor,
-                      size: 33,
+                      size: 34,
                     ),
-                    const SizedBox(
-                      width: 10,
+                    SizedBox(
+                      width: 5,
                     ),
                     Text(
-                      'Delete $category',
-                      style: const TextStyle(
+                      'Delete',
+                      style: TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 2,
@@ -50,34 +52,44 @@ class CategoryCard extends StatelessWidget {
               ),
             ),
           ),
-          onDismissed: (direction) {},
+          onDismissed: (direction) {
+            data.deleteCategory(category);
+          },
           confirmDismiss: (direction) async {
             return showDialog<bool?>(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text('Delete $category?'),
+                  title: Text(
+                    'Delete $category',
+                  ),
                   content: const Text(
-                      'Are you sure you want to delete this category. You cannot undo this action !'),
+                      'Are you sure you want to delete this category ?'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context, false);
                       },
-                      child: const Text('Cancel'),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(color: kTertiaryColor, fontSize: 18),
+                      ),
                     ),
                     TextButton(
-                      child: const Text('Confirm'),
                       onPressed: () {
                         Navigator.pop(context, true);
                       },
+                      child: const Text(
+                        'Confirm',
+                        style: TextStyle(color: kShadowColor, fontSize: 18),
+                      ),
                     ),
                   ],
                 );
               },
             );
           },
-          direction: DismissDirection.vertical,
+          direction: DismissDirection.down,
           key: ObjectKey(id),
           child: GestureDetector(
             onTap: () {
@@ -91,7 +103,7 @@ class CategoryCard extends StatelessWidget {
               child: Card(
                 elevation: 12,
                 child: Container(
-                  width: 195,
+                  width: cardWidth,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(17),
                     color: kListTileColor,

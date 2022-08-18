@@ -8,7 +8,7 @@ class MyTheme {
     // widgets use the canvas color
     // canvasColor: Colors.transparent,
     bottomSheetTheme: const BottomSheetThemeData(
-      backgroundColor: kScaffoldColor,
+      backgroundColor: kListTileColor,
     ),
     inputDecorationTheme: const InputDecorationTheme(
       enabledBorder: UnderlineInputBorder(
@@ -35,6 +35,12 @@ class MyTheme {
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: kSecondaryColor,
+    ),
+    dialogTheme: const DialogTheme(
+      backgroundColor: kListTileColor,
+      shape: kAlertShape,
+      contentTextStyle: TextStyle(fontSize: 17),
+      titleTextStyle: TextStyle(fontSize: 23),
     ),
   );
 }

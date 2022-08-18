@@ -41,7 +41,7 @@ class TaskTile extends StatelessWidget {
             background: Container(
               color: kScaffoldColor,
               child: Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 10),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Row(
@@ -49,13 +49,13 @@ class TaskTile extends StatelessWidget {
                       Icon(
                         Icons.delete_outline_outlined,
                         color: kSecondaryColor,
-                        size: 33,
+                        size: 34,
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Text(
-                        'Delete task',
+                        'Delete',
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
@@ -72,7 +72,7 @@ class TaskTile extends StatelessWidget {
               // ScaffoldMessenger.of(context).showSnackBar(
               //     SnackBar(content: Text('$task has been deleted')));
             },
-            direction: DismissDirection.horizontal,
+            direction: DismissDirection.startToEnd,
             key: ObjectKey(id),
             child: Card(
               elevation: 8,

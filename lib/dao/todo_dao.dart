@@ -96,6 +96,17 @@ class TodoDao {
     return result;
   }
 
+  // Delete a category
+  Future<int?> deleteCategory(String category) async {
+    final db = await dbProvider.database;
+    var result = await db?.delete(
+      todoTABLE,
+      where: '$columnCategory = ?',
+      whereArgs: [category],
+    );
+    return result;
+  }
+
   //This will be useful when I want to delete all the rows in the database
   Future deleteAllTodos() async {
     final db = await dbProvider.database;

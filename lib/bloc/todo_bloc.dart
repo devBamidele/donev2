@@ -79,6 +79,12 @@ class TodoBloc extends ChangeNotifier {
     getGroup(category: selected);
   }
 
+  deleteCategory(String category) async {
+    _todoDao.deleteCategory(category);
+    getTodos();
+    getCategories();
+  }
+
   @override
   dispose() {
     super.dispose();
