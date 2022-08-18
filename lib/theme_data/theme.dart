@@ -4,9 +4,7 @@ import '../constants.dart';
 // The theme for DONE
 class MyTheme {
   ThemeData themeData = ThemeData.dark().copyWith(
-    // I could optionally use this, however I don't know how many
-    // widgets use the canvas color
-    // canvasColor: Colors.transparent,
+    // canvasColor: Colors.transparent, => I could also use this
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: kListTileColor,
     ),
@@ -41,6 +39,15 @@ class MyTheme {
       shape: kAlertShape,
       contentTextStyle: TextStyle(fontSize: 17),
       titleTextStyle: TextStyle(fontSize: 23),
+    ),
+    snackBarTheme: const SnackBarThemeData(
+      backgroundColor: kTertiaryColor,
+      contentTextStyle: TextStyle(
+        color: Colors.black87,
+        fontSize: 19,
+        fontWeight: FontWeight.w400,
+        fontStyle: FontStyle.italic,
+      ),
     ),
   );
 }

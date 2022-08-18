@@ -54,6 +54,16 @@ class CategoryCard extends StatelessWidget {
           ),
           onDismissed: (direction) {
             data.deleteCategory(category);
+            // Display a short pop up message
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: const Duration(milliseconds: 1200),
+                content: Text(
+                  'Successfully deleted $category',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
           },
           confirmDismiss: (direction) async {
             return showDialog<bool?>(

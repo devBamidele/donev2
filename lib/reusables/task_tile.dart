@@ -69,8 +69,16 @@ class TaskTile extends StatelessWidget {
             ),
             onDismissed: (direction) {
               deleteCallback();
-              // ScaffoldMessenger.of(context).showSnackBar(
-              //     SnackBar(content: Text('$task has been deleted')));
+              // Display a short pop up message
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  duration: const Duration(milliseconds: 1200),
+                  content: Text(
+                    'Successfully deleted $task',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
             },
             direction: DismissDirection.startToEnd,
             key: ObjectKey(id),
