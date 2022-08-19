@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../model/todo.dart';
@@ -166,116 +167,105 @@ class _AddScreenState extends State<AddScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          OutlinedButton.icon(
-                            // The completion date widget
-                            onPressed: () async {
-                              newDate = await showDatePicker(
-                                context: context,
-                                initialDate: currentDate,
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime(2100),
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.calendar_today_outlined,
-                              size: 22,
-                            ),
-                            label: const Text(
-                              "Completion Date",
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.all(12),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(18),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 55,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: const [
+                                    Icon(Icons.calendar_today_outlined),
+                                    SizedBox(width: 15),
+                                    Text(
+                                      "Completion Date",
+                                      style: TextStyle(fontSize: 17.5),
+                                    ),
+                                  ],
                                 ),
-                              ),
+                                OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    minimumSize: const Size(85, 37),
+                                    backgroundColor: kScaffoldColor,
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18),
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    newDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: currentDate,
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime(2100),
+                                    );
+                                  },
+                                  child: Text(
+                                    newDate != null
+                                        ? DateFormat('MMM dd, y')
+                                            .format(newDate!)
+                                        : '-- / -- / ---',
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
+                          const Divider(
+                            indent: 10,
+                            endIndent: 10,
                           ),
-                          OutlinedButton(
-                            onPressed: () async {
-                              newTime = await showTimePicker(
-                                context: context,
-                                initialTime: currentTime,
-                              );
-                              if (newTime != null) {
-                                if (TimeOfDay.now().compareTo(newTime!) == -1) {
-                                  DateTime alarm = toDateTime(
-                                      date: currentDate, time: newTime!);
-                                  data.time = alarm;
-                                }
-                              }
-                            },
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.all(7),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(18),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 55,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: const [
+                                    Icon(Icons.alarm),
+                                    SizedBox(width: 15),
+                                    Text(
+                                      "Notification",
+                                      style: TextStyle(fontSize: 17.5),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ),
-                            child: const Icon(
-                              Icons.notifications_none_rounded,
-                              size: 32,
-                              color: Colors.lightBlueAccent,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          ListTile(
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                color: Colors.grey,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            horizontalTitleGap: 0,
-                            title: const Text(
-                              'Due date',
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                            leading: const Icon(
-                              Icons.calendar_today_outlined,
-                              size: 26,
-                            ),
-                            trailing: Switch(
-                              value: false,
-                              onChanged: (bool value) {},
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          ListTile(
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                color: Colors.grey,
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            horizontalTitleGap: 0,
-                            title: const Text(
-                              'Set notification',
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                            leading: const Icon(
-                              Icons.alarm,
-                              size: 26,
-                            ),
-                            trailing: Switch(
-                              value: false,
-                              onChanged: (bool value) {},
+                                OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    minimumSize: const Size(85, 37),
+                                    backgroundColor: kScaffoldColor,
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18),
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    newTime = await showTimePicker(
+                                      context: context,
+                                      initialTime: currentTime,
+                                    );
+                                    if (newTime != null) {
+                                      if (TimeOfDay.now().compareTo(newTime!) ==
+                                          -1) {
+                                        DateTime alarm = toDateTime(
+                                            date: currentDate, time: newTime!);
+                                        data.time = alarm;
+                                      }
+                                    }
+                                  },
+                                  child: const Text(
+                                    '3:30 pm',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ],
