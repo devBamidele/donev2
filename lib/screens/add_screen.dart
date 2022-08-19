@@ -53,230 +53,236 @@ class _AddScreenState extends State<AddScreen> {
 
     return Consumer<TodoBloc>(
       builder: (BuildContext context, data, Widget? child) {
-        return Scaffold(
-          resizeToAvoidBottomInset: false,
-          floatingActionButton: Padding(
-            padding: const EdgeInsets.only(bottom: 20, right: 5),
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  final newTodo = Todo(
-                    id: id?.id,
-                    task: myTaskController.value.text,
-                    category: myCategoryController.value.text.isEmpty
-                        ? null
-                        : myCategoryController.value.text,
-                    completion: newDate?.toString(),
-                    alarm: data.time?.toString(),
-                  );
-                  id != null ? data.updateTodo(newTodo) : data.addTodo(newTodo);
-                  data.time = null; // Erase the value
-                  log(myTaskController.value.text);
-                  Navigator.pop(context);
-                }
-              },
-              label: Text(
-                id != null ? 'Save Changes' : 'Add Task',
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
+        return GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus
+              ?.unfocus(), // To remove the focus of the text field
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.only(bottom: 20, right: 5),
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    final newTodo = Todo(
+                      id: id?.id,
+                      task: myTaskController.value.text,
+                      category: myCategoryController.value.text.isEmpty
+                          ? null
+                          : myCategoryController.value.text,
+                      completion: newDate?.toString(),
+                      alarm: data.time?.toString(),
+                    );
+                    id != null
+                        ? data.updateTodo(newTodo)
+                        : data.addTodo(newTodo);
+                    data.time = null; // Erase the value
+                    log(myTaskController.value.text);
+                    Navigator.pop(context);
+                  }
+                },
+                label: Text(
+                  id != null ? 'Save Changes' : 'Add Task',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
-          ),
-          body: SafeArea(
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 12, top: 7),
-                    child: CustomBackButton(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 5,
-                      horizontal: 25,
+            body: SafeArea(
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 12, top: 7),
+                      child: CustomBackButton(),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          id != null ? 'Edit Task' : 'Add Task',
-                          style: const TextStyle(
-                            fontSize: 33,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1.5,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 25,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            id != null ? 'Edit Task' : 'Add Task',
+                            style: const TextStyle(
+                              fontSize: 33,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1.5,
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                maxLength: 30,
-                                style: const TextStyle(
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                controller: myTaskController,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter a task';
-                                  } else if (value.length < 3) {
-                                    return 'Too short';
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                  labelText: 'Enter your task',
-                                  labelStyle: TextStyle(
-                                    fontSize: 19,
-                                    color: kTertiaryColor,
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  maxLength: 30,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  controller: myTaskController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter a task';
+                                    } else if (value.length < 3) {
+                                      return 'Too short';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  decoration: const InputDecoration(
+                                    labelText: 'Enter your task *',
+                                    labelStyle: TextStyle(
+                                      fontSize: 17,
+                                      color: kTertiaryColor,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              TextFormField(
-                                maxLength: 15,
-                                style: const TextStyle(
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                controller: myCategoryController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Enter category',
-                                  labelStyle: TextStyle(
-                                    fontSize: 19,
-                                    color: kTertiaryColor,
+                                TextFormField(
+                                  maxLength: 12,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  controller: myCategoryController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Enter category',
+                                    labelStyle: TextStyle(
+                                      fontSize: 17,
+                                      color: kTertiaryColor,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        OutlinedButton.icon(
-                          // The completion date widget
-                          onPressed: () async {
-                            newDate = await showDatePicker(
-                              context: context,
-                              initialDate: currentDate,
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100),
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.calendar_today_outlined,
-                            size: 22,
+                          const SizedBox(
+                            height: 20,
                           ),
-                          label: const Text(
-                            "Completion Date",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.all(12),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(18),
+                          OutlinedButton.icon(
+                            // The completion date widget
+                            onPressed: () async {
+                              newDate = await showDatePicker(
+                                context: context,
+                                initialDate: currentDate,
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime(2100),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.calendar_today_outlined,
+                              size: 22,
+                            ),
+                            label: const Text(
+                              "Completion Date",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.all(12),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        OutlinedButton(
-                          onPressed: () async {
-                            newTime = await showTimePicker(
-                              context: context,
-                              initialTime: currentTime,
-                            );
-                            if (newTime != null) {
-                              if (TimeOfDay.now().compareTo(newTime!) == -1) {
-                                DateTime alarm = toDateTime(
-                                    date: currentDate, time: newTime!);
-                                data.time = alarm;
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          OutlinedButton(
+                            onPressed: () async {
+                              newTime = await showTimePicker(
+                                context: context,
+                                initialTime: currentTime,
+                              );
+                              if (newTime != null) {
+                                if (TimeOfDay.now().compareTo(newTime!) == -1) {
+                                  DateTime alarm = toDateTime(
+                                      date: currentDate, time: newTime!);
+                                  data.time = alarm;
+                                }
                               }
-                            }
-                          },
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.all(7),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(18),
+                            },
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.all(7),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18),
+                                ),
                               ),
                             ),
-                          ),
-                          child: const Icon(
-                            Icons.notifications_none_rounded,
-                            size: 32,
-                            color: Colors.lightBlueAccent,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        ListTile(
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          horizontalTitleGap: 0,
-                          title: const Text(
-                            'Due date',
-                            style: TextStyle(
-                              fontSize: 18,
+                            child: const Icon(
+                              Icons.notifications_none_rounded,
+                              size: 32,
+                              color: Colors.lightBlueAccent,
                             ),
                           ),
-                          leading: const Icon(
-                            Icons.calendar_today_outlined,
-                            size: 26,
+                          const SizedBox(
+                            height: 10,
                           ),
-                          trailing: Switch(
-                            value: false,
-                            onChanged: (bool value) {},
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        ListTile(
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                              color: Colors.grey,
-                              width: 1,
+                          ListTile(
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          horizontalTitleGap: 0,
-                          title: const Text(
-                            'Set notification',
-                            style: TextStyle(
-                              fontSize: 18,
+                            horizontalTitleGap: 0,
+                            title: const Text(
+                              'Due date',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            leading: const Icon(
+                              Icons.calendar_today_outlined,
+                              size: 26,
+                            ),
+                            trailing: Switch(
+                              value: false,
+                              onChanged: (bool value) {},
                             ),
                           ),
-                          leading: const Icon(
-                            Icons.alarm,
-                            size: 26,
+                          const SizedBox(
+                            height: 10,
                           ),
-                          trailing: Switch(
-                            value: false,
-                            onChanged: (bool value) {},
+                          ListTile(
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            horizontalTitleGap: 0,
+                            title: const Text(
+                              'Set notification',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            leading: const Icon(
+                              Icons.alarm,
+                              size: 26,
+                            ),
+                            trailing: Switch(
+                              value: false,
+                              onChanged: (bool value) {},
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

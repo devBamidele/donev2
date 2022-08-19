@@ -59,7 +59,7 @@ class CategoryCard extends StatelessWidget {
               SnackBar(
                 duration: const Duration(milliseconds: 1200),
                 content: Text(
-                  'Successfully deleted $category',
+                  'Successfully deleted \'$category\'',
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -134,12 +134,17 @@ class CategoryCard extends StatelessWidget {
                             letterSpacing: 1.2,
                           ),
                         ),
-                        Text(
-                          category,
-                          style: const TextStyle(
-                            fontSize: 27,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.5,
+                        FittedBox(
+                          // Make the text scale down to fit
+                          alignment: Alignment.centerLeft,
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            category,
+                            style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.5,
+                            ),
                           ),
                         ),
                       ],

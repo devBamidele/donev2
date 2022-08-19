@@ -50,7 +50,7 @@ class MyTheme {
       backgroundColor: kTertiaryColor,
       contentTextStyle: TextStyle(
         color: Colors.black87,
-        fontSize: 19,
+        fontSize: 17.5,
         fontWeight: FontWeight.w400,
         fontStyle: FontStyle.italic,
       ),
