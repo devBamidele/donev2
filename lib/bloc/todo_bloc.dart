@@ -16,9 +16,12 @@ class TodoBloc extends ChangeNotifier {
   final _todoController = StreamController<List<Todo>?>.broadcast();
   final _categoryController =
       StreamController<List<Map<String, dynamic>>>.broadcast();
-
   final _groupController = StreamController<List<Todo>?>.broadcast();
 
+  final formKey =
+      GlobalKey<FormState>(); // The key for my forms on the add_screen page
+
+  /// Getters for the stream
   get todos => _todoController.stream;
   get categories => _categoryController.stream;
   get group => _groupController.stream;
@@ -33,6 +36,12 @@ class TodoBloc extends ChangeNotifier {
   DateTime? time;
   String selected = '';
   int? _length;
+  DateTime? myTime = DateTime.now();
+
+  // I don't know why this works
+  update({DateTime? value, TimeOfDay? value2}) {
+    notifyListeners();
+  }
 
   int? get length => _length;
 

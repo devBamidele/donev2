@@ -17,22 +17,15 @@ extension TimeOfDayExtension on TimeOfDay {
   }
 }
 
-class AddScreen extends StatefulWidget {
+class AddScreen extends StatelessWidget {
   const AddScreen({this.id, Key? key}) : super(key: key);
 
   static const tag = '/add';
   final Todo? id;
 
   @override
-  State<AddScreen> createState() => _AddScreenState();
-}
-
-class _AddScreenState extends State<AddScreen> {
-  final _formKey = GlobalKey<FormState>();
-
-  @override
   Widget build(BuildContext context) {
-    final id = widget.id;
+    final id = this.id;
     final myTaskController = TextEditingController();
     final myCategoryController = TextEditingController();
     DateTime currentDate = DateTime.now();
@@ -63,7 +56,7 @@ class _AddScreenState extends State<AddScreen> {
               padding: const EdgeInsets.only(bottom: 20, right: 5),
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+                  if (data.formKey.currentState!.validate()) {
                     final newTodo = Todo(
                       id: id?.id,
                       task: myTaskController.value.text,
@@ -76,7 +69,9 @@ class _AddScreenState extends State<AddScreen> {
                     id != null
                         ? data.updateTodo(newTodo)
                         : data.addTodo(newTodo);
-                    data.time = null; // Erase the value
+                    // Erase the values
+                    data.time = null;
+                    data.currentTask = null;
                     log(myTaskController.value.text);
                     Navigator.pop(context);
                   }
@@ -119,7 +114,7 @@ class _AddScreenState extends State<AddScreen> {
                             height: 20,
                           ),
                           Form(
-                            key: _formKey,
+                            key: data.formKey,
                             child: Column(
                               children: [
                                 TextFormField(
@@ -196,9 +191,14 @@ class _AddScreenState extends State<AddScreen> {
                                     newDate = await showDatePicker(
                                       context: context,
                                       initialDate: currentDate,
-                                      firstDate: DateTime(1900),
-                                      lastDate: DateTime(2100),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2150),
                                     );
+                                    if (newDate != null) {
+                                      currentDate = newDate!;
+                                    }
+                                    // Update all instances of newDate
+                                    data.update(value: newDate);
                                   },
                                   child: Text(
                                     newDate != null
@@ -251,15 +251,21 @@ class _AddScreenState extends State<AddScreen> {
                                     if (newTime != null) {
                                       if (TimeOfDay.now().compareTo(newTime!) ==
                                           -1) {
+                                        currentTime = newTime!;
                                         DateTime alarm = toDateTime(
                                             date: currentDate, time: newTime!);
+
+                                        // Update all instances of newDate
+                                        data.update(value2: newTime);
                                         data.time = alarm;
                                       }
                                     }
                                   },
-                                  child: const Text(
-                                    '3:30 pm',
-                                    style: TextStyle(
+                                  child: Text(
+                                    newTime != null
+                                        ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
+                                        : '-- : --',
+                                    style: const TextStyle(
                                       fontSize: 17,
                                       color: Colors.white,
                                     ),
