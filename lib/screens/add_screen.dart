@@ -41,7 +41,8 @@ class AddScreen extends StatelessWidget {
       currentDate = newDate;
 
       if (id.alarm != null) {
-        currentTime = TimeOfDay.fromDateTime(DateTime.parse(id.alarm!));
+        newTime = TimeOfDay.fromDateTime(DateTime.parse(id.alarm!));
+        currentTime = newTime;
       }
     }
 
@@ -251,11 +252,11 @@ class AddScreen extends StatelessWidget {
                                     if (newTime != null) {
                                       if (TimeOfDay.now().compareTo(newTime!) ==
                                           -1) {
-                                        currentTime = newTime!;
                                         DateTime alarm = toDateTime(
                                             date: currentDate, time: newTime!);
 
                                         // Update all instances of newDate
+                                        currentTime = newTime!;
                                         data.update(value2: newTime);
                                         data.time = alarm;
                                       }

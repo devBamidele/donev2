@@ -95,7 +95,7 @@ class TaskTile extends StatelessWidget {
                 subtitle: Text(
                   complete != null
                       ? DateFormat('EEEE,  MMM dd, y.').format(complete!)
-                      : 'No completion date',
+                      : '',
                 ),
                 leading: RoundCheckBox(
                   checkedWidget: const Icon(
@@ -113,11 +113,11 @@ class TaskTile extends StatelessWidget {
                   size: 25,
                 ),
                 trailing: Transform.rotate(
-                  angle: math.pi / 15,
+                  angle: math.pi / 12,
                   child: alarm != null
                       ? const Icon(
                           Icons.notifications_active_outlined,
-                          color: Colors.brown,
+                          color: kTertiaryColor,
                           size: 24,
                         )
                       : const SizedBox.shrink(),
