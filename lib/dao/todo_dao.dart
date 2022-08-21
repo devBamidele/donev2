@@ -14,6 +14,14 @@ class TodoDao {
     );
   }
 
+  // Get the next row on the database
+  Future<int> getNext() async {
+    final db = await dbProvider.database;
+    List<Map<String, dynamic>>? result =
+        await db?.rawQuery('SELECT last_insert_rowid() from $todoTABLE');
+    return result![0]['last_insert_rowid()'];
+  }
+
   //Get All T0do items and search if query string was passed
   Future<List<Todo>?> getTodos(
       {required List<String> columns, String? query}) async {

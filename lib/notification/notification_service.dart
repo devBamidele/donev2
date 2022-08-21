@@ -46,6 +46,7 @@ class NotificationService {
     required DateTime time,
     required int id,
     required String notify,
+    required String? heading,
   }) async {
     var androidPlatformSpecifics = const AndroidNotificationDetails(
       'alarm_notif',
@@ -60,11 +61,11 @@ class NotificationService {
     );
     await flutterLocalNotificationsPlugin.zonedSchedule(
       id,
-      'Sandbox',
+      heading != null ? heading.toString() : '',
       notify,
       tz.TZDateTime.from(time, tz.local),
       NotificationDetails(android: androidPlatformSpecifics),
-      payload: 'Notification Payload',
+      payload: notify,
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,

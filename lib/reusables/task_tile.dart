@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/constants.dart';
+import 'package:donev2/notification/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
@@ -60,7 +61,9 @@ class TaskTile extends StatelessWidget {
               ),
             ),
             onDismissed: (direction) {
+              // Delete task from the database and cancel it's notification
               data.deleteTodoById(id.id!);
+              NotificationService().cancelNotifications(id.id!);
               // Display a short pop up message
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

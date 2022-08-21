@@ -24,6 +24,7 @@ class TaskList extends StatelessWidget {
             if (!snapshot.hasData) {
               // At the initial stage when there is no stream
               data.getTodos();
+              data.getNext(); //Todo: This should be shifted to the very start of the app
               return const LoadingData();
             } else {
               return snapshot
@@ -37,14 +38,6 @@ class TaskList extends StatelessWidget {
                         itemCount: snapshot.data?.length,
                         itemBuilder: (context, index) {
                           Todo task = snapshot.data![index];
-                          if (task.alarm != null) {
-                            // Schedule notifications if the alarm is set
-                            NotificationService().scheduleNotifications(
-                              time: DateTime.parse(task.alarm!),
-                              id: task.id!,
-                              notify: task.task!,
-                            );
-                          }
                           return TaskTile(
                             id: task,
                             complete: task.completion != null

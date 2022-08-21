@@ -44,6 +44,7 @@ dependencies:
   flutter_local_notifications: ^9.7.0
   timezone: ^0.8.0
   responsive_framework: ^0.2.0
+  flutter_switch: ^0.3.2
 
 dev_dependencies:
   flutter_test:

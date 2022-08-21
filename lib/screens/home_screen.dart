@@ -29,6 +29,7 @@ class HomeScreen extends StatelessWidget {
               child: FloatingActionButton(
                 onPressed: () {
                   // Navigate to Add Task Screen
+                  data.getNext();
                   Navigator.pushNamed(context, AddScreen.tag);
                 },
                 tooltip: 'Add a task',

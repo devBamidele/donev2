@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'package:donev2/bloc/todo_bloc.dart';
+import 'package:donev2/notification/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../model/todo.dart';
 import 'extras/custom_back_button.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
 extension TimeOfDayExtension on TimeOfDay {
   int compareTo(TimeOfDay other) {
@@ -67,9 +69,29 @@ class AddScreen extends StatelessWidget {
                       completion: newDate?.toString(),
                       alarm: data.time?.toString(),
                     );
-                    id != null
-                        ? data.updateTodo(newTodo)
-                        : data.addTodo(newTodo);
+
+                    if (id != null) {
+                      data.updateTodo(newTodo);
+                      if (newTodo.alarm != null) {
+                        NotificationService().scheduleNotifications(
+                          time: DateTime.parse(newTodo.alarm!),
+                          id: newTodo.id!,
+                          notify: newTodo.task!,
+                          heading: newTodo.category,
+                        );
+                      }
+                    } else {
+                      data.addTodo(newTodo);
+                      if (newTodo.alarm != null) {
+                        NotificationService().scheduleNotifications(
+                          time: DateTime.parse(newTodo.alarm!),
+                          id: data.nextNumber! + 1,
+                          notify: newTodo.task!,
+                          heading: newTodo.category,
+                        );
+                      }
+                    }
+
                     // Erase the values
                     data.time = null;
                     data.currentTask = null;
@@ -275,6 +297,10 @@ class AddScreen extends StatelessWidget {
                               ],
                             ),
                           ),
+                          FlutterSwitch(
+                            value: true,
+                            onToggle: (value) {},
+                          )
                         ],
                       ),
                     ),

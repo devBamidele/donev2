@@ -37,6 +37,7 @@ class TodoBloc extends ChangeNotifier {
   String selected = '';
   int? _length;
   DateTime? myTime = DateTime.now();
+  int? nextNumber;
 
   // I don't know why this works
   update({DateTime? value, TimeOfDay? value2}) {
@@ -67,6 +68,11 @@ class TodoBloc extends ChangeNotifier {
     _groupController.sink.add(
       await _todoDao.fetchGroup(category: category, query: query),
     );
+  }
+
+  void getNext() async {
+    nextNumber = await _todoDao.getNext();
+    notifyListeners();
   }
 
   addTodo(Todo todo) async {
