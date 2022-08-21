@@ -45,6 +45,7 @@ dependencies:
   timezone: ^0.8.0
   responsive_framework: ^0.2.0
   flutter_switch: ^0.3.2
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +63,18 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: Asap
+      fonts:
+        - asset: fonts/Asap-Bold.ttf
+        - asset: fonts/Asap-BoldItalic.ttf
+        - asset: fonts/Asap-Italic.ttf
+        - asset: fonts/Asap-Medium.ttf
+        - asset: fonts/Asap-MediumItalic.ttf
+        - asset: fonts/Asap-Regular.ttf
+        - asset: fonts/Asap-SemiBold.ttf
+        - asset: fonts/Asap-SemiBoldItalic.ttf
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

@@ -4,10 +4,13 @@ import 'package:donev2/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../model/todo.dart';
+import '../screens/splash_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case SplashScreen.tag:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case HomeScreen.tag:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case AddScreen.tag:
