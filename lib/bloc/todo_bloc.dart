@@ -40,6 +40,7 @@ class TodoBloc extends ChangeNotifier {
   DateTime? myTime = DateTime.now();
   int? nextNumber;
   String? username = ' 👋';
+  int maxLength = 9;
 
   // I don't know why this works
   update({DateTime? value, TimeOfDay? value2}) {
@@ -55,6 +56,25 @@ class TodoBloc extends ChangeNotifier {
 
   // If a value is not present in storage we get a null value
   //int intValue = await prefs.getInt('intValue') ?? 0;
+
+  // Set the max length of the name text
+  setMaxChar(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    int length = 9;
+    if (width <= 400) {
+      length = 8;
+    } else if (width > 400 && width <= 450) {
+      length = 10;
+    } else if (width > 450 && width <= 500) {
+      length = 11;
+    } else if (width > 500 && width < 600) {
+      length = 12;
+    } else if (width >= 600) {
+      length = 14;
+    }
+    maxLength = length;
+    notifyListeners();
+  }
 
   verifyKey() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

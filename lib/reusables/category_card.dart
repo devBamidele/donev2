@@ -141,8 +141,8 @@ class CategoryCard extends StatelessWidget {
                           child: Text(
                             category,
                             style: const TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 26,
+                              fontWeight: FontWeight.w400,
                               letterSpacing: 1.5,
                             ),
                           ),

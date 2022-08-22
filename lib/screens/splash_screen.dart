@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:donev2/bloc/todo_bloc.dart';
@@ -24,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTime() async {
-    var duration = const Duration(milliseconds: 4000);
+    var duration = const Duration(milliseconds: 2500);
     return Timer(duration, myRoute);
   }
 
@@ -62,6 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: AnimatedTextKit(
                   onFinished: () {
                     data.verifyKey();
+                    data.setMaxChar(context);
                   },
                   totalRepeatCount: 1,
                   isRepeatingAnimation: false,

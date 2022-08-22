@@ -38,19 +38,15 @@ class RenameSheet extends StatelessWidget {
                                 // Ensure the text field passes some criteria
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter a name';
-                                } else if (value
-                                        .startsWith(RegExp(r'^[a-zA-Z0-9]')) ==
-                                    false) {
+                                } else if (value.startsWith(' ')) {
                                   return 'Cannot start with \'$value\'';
-                                } else if (value.length < 3) {
-                                  return 'Too short';
                                 } else {
                                   return null;
                                 }
                               },
                               controller: editNameController,
                               textInputAction: TextInputAction.newline,
-                              maxLength: 12,
+                              maxLength: data.maxLength,
                               style: const TextStyle(
                                 fontSize: 21,
                                 fontWeight: FontWeight.w400,

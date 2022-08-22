@@ -92,19 +92,16 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: Row(
                       children: [
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            'What\'s up ${data.username}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 30,
-                              letterSpacing: 1.5,
-                            ),
+                        Text(
+                          'What\'s up, ${data.username}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 29,
+                            letterSpacing: 1.5,
                           ),
                         ),
                         IconButton(
-                          padding: const EdgeInsets.only(bottom: 10, left: 5),
+                          padding: const EdgeInsets.only(bottom: 13, left: 5),
                           alignment: Alignment.bottomLeft,
                           tooltip: 'Rename',
                           iconSize: 17,
@@ -134,7 +131,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   spacing(),
                   const SizedBox(
-                    height: 115,
+                    height: 110,
                     child: CategoryList(),
                   ),
                   spacing(),

@@ -1,6 +1,5 @@
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/route/route_generator.dart';
-import 'package:donev2/screens/home_screen.dart';
 import 'package:donev2/screens/splash_screen.dart';
 import 'package:donev2/theme_data/theme.dart';
 import 'package:flutter/material.dart';
