@@ -1,5 +1,6 @@
 import 'package:donev2/model/todo.dart';
 import 'package:donev2/dao/todo_dao.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:async';
 
@@ -38,6 +39,7 @@ class TodoBloc extends ChangeNotifier {
   int? _length;
   DateTime? myTime = DateTime.now();
   int? nextNumber;
+  String? username = ' 👋';
 
   // I don't know why this works
   update({DateTime? value, TimeOfDay? value2}) {
@@ -48,6 +50,29 @@ class TodoBloc extends ChangeNotifier {
 
   set length(int? length) {
     _length = length;
+    notifyListeners();
+  }
+
+  // If a value is not present in storage we get a null value
+  //int intValue = await prefs.getInt('intValue') ?? 0;
+
+  verifyKey() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('Name')) {
+      getName();
+    } else {
+      editName();
+    }
+  }
+
+  editName({String name = '👋'}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('Name', name);
+  }
+
+  getName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    username = prefs.getString('Name');
     notifyListeners();
   }
 

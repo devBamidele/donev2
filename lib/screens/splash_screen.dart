@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTime() async {
-    var duration = const Duration(milliseconds: 3500);
+    var duration = const Duration(milliseconds: 4000);
     return Timer(duration, myRoute);
   }
 
@@ -60,6 +60,9 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 80),
                 child: AnimatedTextKit(
+                  onFinished: () {
+                    data.verifyKey();
+                  },
                   totalRepeatCount: 1,
                   isRepeatingAnimation: false,
                   animatedTexts: [
@@ -74,7 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                       textAlign: TextAlign.center,
-                      speed: const Duration(milliseconds: 300),
+                      speed: const Duration(milliseconds: 350),
                     ),
                   ],
                 ),

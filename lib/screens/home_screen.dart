@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../bloc/todo_bloc.dart';
 import '../lists/category_list.dart';
 import '../lists/task_list.dart';
+import 'extras/rename_sheet.dart';
 import 'extras/search_sheet.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -87,15 +88,40 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   spacing(height: 7),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Text(
-                      'What\'s up  👋',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 33,
-                        letterSpacing: 1.5,
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      children: [
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            'What\'s up ${data.username}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 30,
+                              letterSpacing: 1.5,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          padding: const EdgeInsets.only(bottom: 10, left: 5),
+                          alignment: Alignment.bottomLeft,
+                          tooltip: 'Rename',
+                          iconSize: 17,
+                          onPressed: () {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              shape: kRoundedBorder,
+                              context: context,
+                              builder: (context) => const RenameSheet(),
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.mode_edit_rounded,
+                            color: kTertiaryColor,
+                          ),
+                        )
+                      ],
                     ),
                   ),
                   spacing(),

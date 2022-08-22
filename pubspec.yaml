@@ -46,6 +46,7 @@ dependencies:
   responsive_framework: ^0.2.0
   flutter_switch: ^0.3.2
   animated_text_kit: ^4.2.2
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
