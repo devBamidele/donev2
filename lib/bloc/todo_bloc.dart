@@ -41,6 +41,7 @@ class TodoBloc extends ChangeNotifier {
   int? nextNumber;
   String? username = ' 👋';
   int maxLength = 9;
+  int currentOption = 2;
 
   // I don't know why this works
   update({DateTime? value, TimeOfDay? value2}) {
@@ -109,10 +110,15 @@ class TodoBloc extends ChangeNotifier {
     );
   }
 
-  getGroup({required String category, String? query}) async {
-    _groupController.sink.add(
-      await _todoDao.fetchGroup(category: category, query: query),
+  getGroup({required String category, String? query, int selected = 2}) async {
+    List<Todo>? result = await _todoDao.fetchGroup(
+      category: category,
+      query: query,
+      selected: selected,
     );
+    _length = result?.length;
+    _groupController.sink.add(result);
+    notifyListeners();
   }
 
   void getNext() async {
@@ -130,14 +136,22 @@ class TodoBloc extends ChangeNotifier {
     await _todoDao.updateTodo(todo);
     getTodos();
     getCategories();
-    getGroup(category: selected);
+    getGroup(category: selected, selected: currentOption);
+  }
+
+  renameCategory({required String from, required String to}) async {
+    await _todoDao.renameCategory(from: from, to: to);
+    getTodos();
+    getCategories();
+    selected = to;
+    notifyListeners();
   }
 
   deleteTodoById(int id) async {
     _todoDao.deleteTodo(id);
     getTodos();
     getCategories();
-    getGroup(category: selected);
+    getGroup(category: selected, selected: currentOption);
   }
 
   deleteCategory(String category) async {

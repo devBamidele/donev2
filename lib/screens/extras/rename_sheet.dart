@@ -6,8 +6,11 @@ import '../../constants.dart';
 
 class RenameSheet extends StatelessWidget {
   const RenameSheet({
+    required this.function,
     Key? key,
   }) : super(key: key);
+
+  final String function;
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +42,15 @@ class RenameSheet extends StatelessWidget {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter a name';
                                 } else if (value.startsWith(' ')) {
-                                  return 'Cannot start with \'$value\'';
+                                  return 'Cannot start with a space';
                                 } else {
                                   return null;
                                 }
                               },
                               controller: editNameController,
                               textInputAction: TextInputAction.newline,
-                              maxLength: data.maxLength,
+                              maxLength:
+                                  function == '/name' ? data.maxLength : 10,
                               style: const TextStyle(
                                 fontSize: 21,
                                 fontWeight: FontWeight.w400,
@@ -73,9 +77,16 @@ class RenameSheet extends StatelessWidget {
                           ),
                           onPressed: () {
                             if (data.formKey.currentState!.validate()) {
-                              data.editName(
-                                  name: editNameController.value.text);
-                              data.getName();
+                              if (function == '/name') {
+                                data.editName(
+                                    name: editNameController.value.text);
+                                data.getName();
+                              } else if (function == '/category') {
+                                data.renameCategory(
+                                  from: data.selected,
+                                  to: editNameController.value.text,
+                                );
+                              }
                               //dismisses the bottomsheet
                               Navigator.pop(context);
                             }

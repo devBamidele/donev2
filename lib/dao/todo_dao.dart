@@ -23,8 +23,10 @@ class TodoDao {
   }
 
   //Get All T0do items and search if query string was passed
-  Future<List<Todo>?> getTodos(
-      {required List<String> columns, String? query}) async {
+  Future<List<Todo>?> getTodos({
+    required List<String> columns,
+    String? query,
+  }) async {
     final db = await dbProvider.database;
 
     List<Map<String, dynamic>>? result;
@@ -46,23 +48,34 @@ class TodoDao {
   }
 
   /// The function that provides data that will be displayed on the category screen
-  Future<List<Todo>?> fetchGroup(
-      {required String category, String? query}) async {
+  Future<List<Todo>?> fetchGroup({
+    required String category,
+    String? query,
+    int selected = 2,
+  }) async {
     final db = await dbProvider.database;
 
     final text = query != null && query.isNotEmpty
         ? 'AND $columnTask like \'%$query%\''
         : '';
 
+    String demand = '';
+    if (selected == 1) {
+      demand = 'and is_done = 1';
+    } else if (selected == 0) {
+      demand = 'and is_done = 0';
+    }
+
     List<Map<String, dynamic>>? result;
     result = await db?.rawQuery(
-      'select * from $todoTABLE where $columnCategory is \'$category\' $text',
+      'select * from $todoTABLE where $columnCategory is \'$category\' $demand $text',
     );
     List<Todo>? group =
         result?.map((item) => Todo.fromDatabaseJson(item)).toList();
     return group;
   }
 
+  /// The function that provides the categoryList data to display
   Future<List<Map<String, dynamic>>> getCategories({String? query}) async {
     final db = await dbProvider.database;
 
@@ -87,6 +100,16 @@ class TodoDao {
       todo.toDatabaseJson(),
       where: "id = ?",
       whereArgs: [todo.id],
+    );
+
+    return result;
+  }
+
+  renameCategory({required String from, required String to}) async {
+    final db = await dbProvider.database;
+
+    var result = db!.rawQuery(
+      'Update $todoTABLE set $columnCategory = \'$to\' where $columnCategory = \'$from\'',
     );
 
     return result;

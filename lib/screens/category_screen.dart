@@ -5,6 +5,7 @@ import 'package:donev2/screens/extras/search_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'extras/custom_back_button.dart';
+import 'extras/rename_sheet.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({Key? key}) : super(key: key);
@@ -33,17 +34,6 @@ class CategoryScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
-                            tooltip: 'Show all',
-                            iconSize: kIconSize,
-                            onPressed: () {
-                              data.getGroup(category: data.selected);
-                            },
-                            icon: const Icon(
-                              Icons.menu_rounded,
-                              color: kTertiaryColor,
-                            ),
-                          ),
-                          IconButton(
                             tooltip: 'Search',
                             iconSize: kIconSize,
                             onPressed: () {
@@ -62,38 +52,118 @@ class CategoryScreen extends StatelessWidget {
                               color: kTertiaryColor,
                             ),
                           ),
+                          PopupMenuButton(
+                            color: const Color(0xff12172B),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                            icon: Icon(
+                              Icons.more_vert_rounded,
+                              size: kIconSize,
+                              color: kTertiaryColor,
+                            ),
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry>[
+                              PopupMenuItem(
+                                onTap: () {
+                                  data.getGroup(category: data.selected);
+                                },
+                                child: const Text('Show all'),
+                              ),
+                              const PopupMenuDivider(),
+                              PopupMenuItem(
+                                onTap: () {
+                                  data.getGroup(
+                                      category: data.selected, selected: 1);
+                                  data.currentOption = 1;
+                                },
+                                child: const Text('Completed'),
+                              ),
+                              const PopupMenuDivider(),
+                              PopupMenuItem(
+                                onTap: () {
+                                  data.getGroup(
+                                      category: data.selected, selected: 0);
+                                  data.currentOption = 0;
+                                },
+                                child: const Text('Uncompleted'),
+                              ),
+                            ],
+                          )
                         ],
                       )
                     ],
                   ),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          data.selected,
-                          style: const TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1.5,
-                          ),
-                        ),
-                        Text(
-                          data.length! > 1
-                              ? '${data.length} tasks'
-                              : '${data.length} task',
-                          style: const TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
-                        const Text(
-                          'Tasks',
-                          style: TextStyle(
-                            fontSize: 20,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    data.selected,
+                                    style: const TextStyle(
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 1.5,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    padding: const EdgeInsets.only(
+                                      bottom: 11,
+                                      left: 5,
+                                    ),
+                                    alignment: Alignment.bottomLeft,
+                                    tooltip: 'Rename',
+                                    iconSize: 16,
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        shape: kRoundedBorder,
+                                        context: context,
+                                        builder: (context) => const RenameSheet(
+                                          function: '/category',
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.mode_edit_rounded,
+                                      color: kTertiaryColor,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              Text(
+                                data.length! > 1
+                                    ? '${data.length} tasks'
+                                    : '${data.length} task',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              const Text(
+                                'Tasks',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 15,
                         ),
                         const Expanded(
                           child: ModifiedCategoryList(),
