@@ -142,7 +142,7 @@ class CategoryCard extends StatelessWidget {
                             category,
                             style: const TextStyle(
                               fontSize: 26,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w500,
                               letterSpacing: 1.5,
                             ),
                           ),

@@ -12,6 +12,13 @@ class NotificationService {
   }
   NotificationService._internal();
 
+  static const icon = 'notify';
+  static const alarm = 'ring';
+  static const alarm2 = 'rick';
+  static const channelId = '244456';
+  static const channelName = 'doneChannel';
+  static const channelDes = 'Channel for Done notification';
+
   //instance of FlutterLocalNotificationsPlugin
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -19,16 +26,20 @@ class NotificationService {
   Future<void> init() async {
     //Initialization Settings for Android
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('revolve');
+        AndroidInitializationSettings(icon);
 
     //InitializationSettings for initializing settings for both the Android platform
     const InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
+        InitializationSettings(
+      android: initializationSettingsAndroid,
+    );
 
     tz.initializeTimeZones(); //  <----
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: selectNotification);
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onSelectNotification: selectNotification,
+    );
   }
 
   void selectNotification(String? payload) async {
@@ -49,20 +60,22 @@ class NotificationService {
     required String? heading,
   }) async {
     var androidPlatformSpecifics = const AndroidNotificationDetails(
-      'alarm_notif',
-      'alarm_notif',
-      channelDescription: 'Channel for Alarm notification',
-      icon: 'revolve',
-      sound: RawResourceAndroidNotificationSound('sound'),
-      largeIcon: DrawableResourceAndroidBitmap('revolve'),
+      channelId,
+      channelName,
+      channelDescription: channelDes,
+      icon: icon,
+      sound: RawResourceAndroidNotificationSound(
+        alarm,
+      ),
+      largeIcon: DrawableResourceAndroidBitmap(icon),
       importance: Importance.max,
       priority: Priority.high,
-      ticker: 'ticker',
+      ticker: 'This is a ticker',
     );
     await flutterLocalNotificationsPlugin.zonedSchedule(
       id,
-      heading != null ? heading.toString() : '',
-      notify,
+      heading != null ? 'Category: ${heading.toString()}' : '',
+      'Task: $notify',
       tz.TZDateTime.from(time, tz.local),
       NotificationDetails(android: androidPlatformSpecifics),
       payload: notify,

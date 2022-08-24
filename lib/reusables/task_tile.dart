@@ -117,13 +117,7 @@ class TaskTile extends StatelessWidget {
                 ),
                 trailing: Transform.rotate(
                   angle: math.pi / 12,
-                  child: alarm != null
-                      ? const Icon(
-                          Icons.notifications_active_outlined,
-                          color: kTertiaryColor,
-                          size: 24,
-                        )
-                      : const SizedBox.shrink(),
+                  child: trailingWidget(),
                 ),
               ),
             ),
@@ -132,4 +126,28 @@ class TaskTile extends StatelessWidget {
       },
     );
   }
+
+  Widget trailingWidget() {
+    dynamic exp = const SizedBox.shrink();
+
+    if (alarm != null) {
+      if (DateTime.parse(alarm!).isAfter(DateTime.now())) {
+        exp = const Icon(
+          Icons.notifications_active_outlined,
+          color: kTertiaryColor,
+          size: 24,
+        );
+      }
+    }
+    return exp;
+  }
 }
+
+// alarm != null &&
+// DateTime.tryParse(alarm!).isBefore(DateTime.now())
+// ? const Icon(
+// Icons.notifications_active_outlined,
+// color: kTertiaryColor,
+// size: 24,
+// )
+// : const SizedBox.shrink(),

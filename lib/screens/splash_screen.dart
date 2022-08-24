@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:donev2/bloc/todo_bloc.dart';
@@ -25,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTime() async {
-    var duration = const Duration(milliseconds: 2500);
+    var duration = const Duration(milliseconds: 2000);
     return Timer(duration, myRoute);
   }
 
@@ -79,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                       textAlign: TextAlign.center,
-                      speed: const Duration(milliseconds: 350),
+                      speed: const Duration(milliseconds: 330),
                     ),
                   ],
                 ),
