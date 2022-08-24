@@ -22,6 +22,7 @@ class HomeScreen extends StatelessWidget {
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 20, right: 5),
             child: Card(
+              color: kScaffoldColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(27.0),
               ),
