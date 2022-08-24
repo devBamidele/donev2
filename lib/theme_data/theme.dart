@@ -55,5 +55,30 @@ class MyTheme {
         fontStyle: FontStyle.italic,
       ),
     ),
+    timePickerTheme: TimePickerThemeData(
+      helpTextStyle: const TextStyle(
+        letterSpacing: 1.5,
+        fontFamily: 'Asap',
+        fontSize: 16,
+      ),
+      backgroundColor: kListTileColor,
+      dayPeriodBorderSide: const BorderSide(style: BorderStyle.none),
+      dialBackgroundColor: const Color(0xff2d2e4e),
+      hourMinuteShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      dayPeriodShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      dayPeriodTextStyle: const TextStyle(
+        fontFamily: 'Asap',
+        fontSize: 18,
+      ),
+      hourMinuteTextStyle: const TextStyle(
+        fontFamily: 'Asap',
+        fontSize: 53,
+      ),
+      shape: kAlertShape,
+    ),
   );
 }

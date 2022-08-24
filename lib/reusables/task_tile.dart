@@ -142,12 +142,3 @@ class TaskTile extends StatelessWidget {
     return exp;
   }
 }
-
-// alarm != null &&
-// DateTime.tryParse(alarm!).isBefore(DateTime.now())
-// ? const Icon(
-// Icons.notifications_active_outlined,
-// color: kTertiaryColor,
-// size: 24,
-// )
-// : const SizedBox.shrink(),

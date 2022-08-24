@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -13,7 +12,6 @@ class NotificationService {
   NotificationService._internal();
 
   static const icon = 'notify';
-  static const alarm = 'ring';
   static const alarm2 = 'rick';
   static const channelId = '244456';
   static const channelName = 'doneChannel';
@@ -38,19 +36,8 @@ class NotificationService {
 
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onSelectNotification: selectNotification,
+      onSelectNotification: (String? payload) {},
     );
-  }
-
-  void selectNotification(String? payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: $payload');
-    }
-    // await Navigator.push(
-    //   context,
-    //   MaterialPageRoute<void>(
-    //       builder: (context) => HomeScreen(payload: payload)),
-    // );
   }
 
   Future<void> scheduleNotifications({
@@ -65,7 +52,7 @@ class NotificationService {
       channelDescription: channelDes,
       icon: icon,
       sound: RawResourceAndroidNotificationSound(
-        alarm,
+        alarm2,
       ),
       largeIcon: DrawableResourceAndroidBitmap(icon),
       importance: Importance.max,
