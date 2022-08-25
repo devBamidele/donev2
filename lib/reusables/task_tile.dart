@@ -3,13 +3,13 @@ import 'dart:math' as math;
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/constants.dart';
 import 'package:donev2/notification/notification_service.dart';
+import 'package:donev2/screens/edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:intl/intl.dart';
 
 import '../model/todo.dart';
-import '../screens/add_screen.dart';
 
 /// The class that controls the appearance of each task tile
 class TaskTile extends StatelessWidget {
@@ -81,8 +81,7 @@ class TaskTile extends StatelessWidget {
               elevation: 8,
               child: ListTile(
                 onTap: () {
-                  data.currentTask = id;
-                  Navigator.pushNamed(context, AddScreen.tag, arguments: id);
+                  Navigator.pushNamed(context, EditScreen.tag, arguments: id);
                 }, // When the user clicks on the task
                 title: Text(
                   id.task,

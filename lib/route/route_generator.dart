@@ -1,5 +1,6 @@
 import 'package:donev2/screens/add_screen.dart';
 import 'package:donev2/screens/category_screen.dart';
+import 'package:donev2/screens/edit_screen.dart';
 import 'package:donev2/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,9 @@ class RouteGenerator {
       case AddScreen.tag:
         final args = settings.arguments as Todo?;
         return MaterialPageRoute(builder: (_) => AddScreen(id: args));
+      case EditScreen.tag:
+        final args = settings.arguments as Todo;
+        return MaterialPageRoute(builder: (_) => EditScreen(id: args));
       case CategoryScreen.tag:
         return MaterialPageRoute(builder: (_) => const CategoryScreen());
       default:

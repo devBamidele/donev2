@@ -33,8 +33,6 @@ class TodoBloc extends ChangeNotifier {
   }
 
   // This object holds the information on the 'Add Task' / 'Edit Task' Page
-  Todo? currentTask;
-  DateTime? time;
   String selected = '';
   int? _length;
   DateTime? myTime = DateTime.now();

@@ -1,14 +1,15 @@
 import 'dart:developer';
 
-import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/notification/notification_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../bloc/todo_bloc.dart';
 import '../constants.dart';
 import '../model/todo.dart';
 import 'extras/custom_back_button.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 
 extension TimeOfDayExtension on TimeOfDay {
   int compareTo(TimeOfDay other) {
@@ -20,37 +21,42 @@ extension TimeOfDayExtension on TimeOfDay {
   }
 }
 
-class AddScreen extends StatelessWidget {
-  const AddScreen({this.id, Key? key}) : super(key: key);
+class EditScreen extends StatefulWidget {
+  const EditScreen({
+    required this.id,
+    Key? key,
+  }) : super(key: key);
 
-  static const tag = '/add';
-  final Todo? id;
+  static const tag = '/edit';
+  final Todo id;
+
+  @override
+  State<EditScreen> createState() => _EditScreenState();
+}
+
+class _EditScreenState extends State<EditScreen> {
+  final myTaskController = TextEditingController();
+  final myCategoryController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final id = this.id;
-    final myTaskController = TextEditingController();
-    final myCategoryController = TextEditingController();
-    DateTime currentDate = DateTime.now();
-    DateTime? newDate;
-    TimeOfDay currentTime = TimeOfDay.now();
-    TimeOfDay? newTime;
-    bool enabled = false;
-    DateTime? editedAlarm;
+    myTaskController.text = widget.id.task;
+    myCategoryController.text = widget.id.category ?? '';
 
-    if (id != null) {
-      // When the page is opened by clicking on a task tile
-      myTaskController.text = id.task;
-      myCategoryController.text = id.category ?? '';
-      newDate = DateTime.tryParse(id.completion.toString()) ?? currentDate;
-      currentDate = newDate;
-      enabled = id.ring;
+    // Checks to see if the task already has a completion date set
+    DateTime? newDate =
+        DateTime.tryParse(widget.id.completion.toString()) ?? DateTime.now();
+    DateTime currentDate = newDate; // => Why can't I use newDate directly
 
-      if (id.alarm != null) {
-        newTime = TimeOfDay.fromDateTime(DateTime.parse(id.alarm!));
-        currentTime = newTime;
-      }
-    }
+    TimeOfDay? newTime = TimeOfDay.fromDateTime(
+      DateTime.parse(
+        widget.id.alarm ?? DateTime.now().toString(),
+      ),
+    );
+    TimeOfDay currentTime = newTime; // => Why can't I use newTime directly
+
+    bool enabled = widget.id.ring; // If the alarm is enabled or not
+    DateTime? editedAlarm; // Store the changed alarm value
 
     return Consumer<TodoBloc>(
       builder: (BuildContext context, data, Widget? child) {
@@ -64,46 +70,37 @@ class AddScreen extends StatelessWidget {
               child: FloatingActionButton.extended(
                 onPressed: () {
                   if (data.formKey.currentState!.validate()) {
+                    // Create a new Task and populate them with predetermined values
                     final newTodo = Todo(
-                      id: id?.id,
+                      id: widget.id.id,
                       task: myTaskController.value.text,
                       category: myCategoryController.value.text.isEmpty
                           ? null
                           : myCategoryController.value.text,
-                      completion: newDate?.toString(),
+                      completion: newDate.toString(),
                       alarm: editedAlarm?.toString(),
                       ring: enabled,
                     );
+                    data.updateTodo(newTodo); // Update the data in the database
 
-                    if (id != null) {
-                      data.updateTodo(newTodo);
-                      if (newTodo.alarm != null) {
-                        NotificationService().scheduleNotifications(
-                          time: DateTime.parse(newTodo.alarm!),
-                          id: newTodo.id!,
-                          notify: newTodo.task,
-                          heading: newTodo.category,
-                        );
-                      }
-                    } else {
-                      data.addTodo(newTodo);
-                      if (newTodo.alarm != null) {
-                        NotificationService().scheduleNotifications(
-                          time: DateTime.parse(newTodo.alarm!),
-                          id: data.nextNumber! + 1,
-                          notify: newTodo.task,
-                          heading: newTodo.category,
-                        );
-                      }
+                    if (enabled) {
+                      // If the use wants to be notified
+                      // Then schedule a notification
+                      NotificationService().scheduleNotifications(
+                        time: DateTime.parse(newTodo.alarm!),
+                        id: newTodo.id!,
+                        notify: newTodo.task,
+                        heading: newTodo.category,
+                      );
                     }
-
+                    // Erase the values
                     log(myTaskController.value.text);
                     Navigator.pop(context);
                   }
                 },
-                label: Text(
-                  id != null ? 'Save Changes' : 'Add Task',
-                  style: const TextStyle(
+                label: const Text(
+                  'Save Changes',
+                  style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
                   ),
@@ -127,9 +124,9 @@ class AddScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            id != null ? 'Edit Task' : 'Add Task',
-                            style: const TextStyle(
+                          const Text(
+                            'Edit Task',
+                            style: TextStyle(
                               fontSize: 33,
                               fontWeight: FontWeight.w600,
                               letterSpacing: 1.5,
@@ -229,10 +226,10 @@ class AddScreen extends StatelessWidget {
                                       },
                                     );
                                     if (newDate != null) {
-                                      currentDate = newDate!;
+                                      setState(() {
+                                        currentDate = newDate!;
+                                      });
                                     }
-                                    // Update all instances of newDate
-                                    data.update(value: newDate);
                                   },
                                   child: Text(
                                     newDate != null
@@ -263,7 +260,7 @@ class AddScreen extends StatelessWidget {
                                     Icon(
                                       Icons.alarm,
                                       size: kIconSize,
-                                      color: newTime != null
+                                      color: enabled
                                           ? Colors.white
                                           : Colors.white60,
                                     ),
@@ -293,6 +290,7 @@ class AddScreen extends StatelessWidget {
 
                                             // Update all instances of newDate
                                             currentTime = newTime!;
+
                                             data.update(value2: newTime);
                                           }
                                         }
@@ -308,7 +306,7 @@ class AddScreen extends StatelessWidget {
                                   value: enabled,
                                   onToggle: (value) async {
                                     enabled = !enabled;
-                                    if (data.checked == true) {
+                                    if (enabled == true) {
                                       newTime = await showTimePicker(
                                         context: context,
                                         initialTime: currentTime,
@@ -322,10 +320,12 @@ class AddScreen extends StatelessWidget {
                                               time: newTime!);
 
                                           // Update all instances of newDate
-                                          currentTime = newTime!;
-                                          data.update(value2: newTime);
+                                          setState(() {
+                                            currentTime = newTime!;
+                                          });
                                         }
                                       }
+                                      enabled = false;
                                     }
                                   },
                                   height: 32,
@@ -346,6 +346,13 @@ class AddScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    myTaskController.dispose();
+    myCategoryController.dispose();
+    super.dispose();
   }
 
   toDateTime({
