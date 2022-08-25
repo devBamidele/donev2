@@ -216,6 +216,17 @@ class AddScreen extends StatelessWidget {
                                       initialDate: currentDate,
                                       firstDate: DateTime(2000),
                                       lastDate: DateTime(2150),
+                                      builder: (_, child) {
+                                        return Theme(
+                                          data: Theme.of(context).copyWith(
+                                            colorScheme: const ColorScheme.dark(
+                                              primary: kTertiaryColor,
+                                              surface: Color(0xff2d2e4e),
+                                            ),
+                                          ),
+                                          child: child!,
+                                        );
+                                      },
                                     );
                                     if (newDate != null) {
                                       currentDate = newDate!;
