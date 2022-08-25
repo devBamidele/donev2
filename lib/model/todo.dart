@@ -1,9 +1,9 @@
 class Todo {
   int? id; //This is the primary key
 
-  String? task; // For example, "Buy milk"
+  String task; // For example, "Buy milk"
 
-  bool isDone = false; // This is the checkbox state
+  bool isDone; // This is the checkbox state
 
   String? category; // This is the category of the task
 
@@ -11,13 +11,16 @@ class Todo {
 
   String? alarm; // This is the alarm the user has set
 
+  bool ring; // This shows if the alarm is toggled on or off
+
   Todo({
     this.id,
-    this.task,
+    required this.task,
     this.isDone = false,
     this.category,
     this.completion,
     this.alarm,
+    this.ring = false,
   });
 
   factory Todo.fromDatabaseJson(Map<String, dynamic> data) => Todo(
@@ -30,6 +33,7 @@ class Todo {
         category: data['category'],
         completion: data['completion'],
         alarm: data['alarm'],
+        ring: data['ring'] == 0 ? false : true,
       );
   Map<String, dynamic> toDatabaseJson() => {
         // Convert T0do objects to Json objects to be stored in the database
@@ -39,5 +43,6 @@ class Todo {
         "category": category,
         "completion": completion,
         "alarm": alarm,
+        "ring": ring == false ? 0 : 1,
       };
 }

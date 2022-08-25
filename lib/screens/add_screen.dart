@@ -37,7 +37,7 @@ class AddScreen extends StatelessWidget {
 
     if (id != null) {
       // When the page is opened by clicking on a task tile
-      myTaskController.text = id.task!;
+      myTaskController.text = id.task;
       myCategoryController.text = id.category ?? '';
       newDate = DateTime.tryParse(id.completion.toString()) ?? currentDate;
       currentDate = newDate;
@@ -76,7 +76,7 @@ class AddScreen extends StatelessWidget {
                         NotificationService().scheduleNotifications(
                           time: DateTime.parse(newTodo.alarm!),
                           id: newTodo.id!,
-                          notify: newTodo.task!,
+                          notify: newTodo.task,
                           heading: newTodo.category,
                         );
                       }
@@ -86,7 +86,7 @@ class AddScreen extends StatelessWidget {
                         NotificationService().scheduleNotifications(
                           time: DateTime.parse(newTodo.alarm!),
                           id: data.nextNumber! + 1,
-                          notify: newTodo.task!,
+                          notify: newTodo.task,
                           heading: newTodo.category,
                         );
                       }
@@ -193,11 +193,9 @@ class AddScreen extends StatelessWidget {
                               children: [
                                 Row(
                                   children: const [
-                                    Icon(Icons.calendar_today_outlined),
-                                    SizedBox(width: 15),
                                     Text(
                                       "Completion Date",
-                                      style: TextStyle(fontSize: 17.5),
+                                      style: TextStyle(fontSize: 18),
                                     ),
                                   ],
                                 ),
@@ -259,59 +257,83 @@ class AddScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-                                  children: const [
-                                    Icon(Icons.alarm),
-                                    SizedBox(width: 15),
-                                    Text(
-                                      "Notification",
-                                      style: TextStyle(fontSize: 17.5),
+                                  children: [
+                                    Icon(
+                                      Icons.alarm,
+                                      size: kIconSize,
+                                      color: newTime != null
+                                          ? Colors.white
+                                          : Colors.white60,
                                     ),
+                                    const SizedBox(width: 15),
+                                    Text(
+                                      newTime != null
+                                          ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
+                                          : '-- : --',
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        newTime = await showTimePicker(
+                                          context: context,
+                                          initialTime: currentTime,
+                                        );
+                                        if (newTime != null) {
+                                          if (TimeOfDay.now()
+                                                  .compareTo(newTime!) ==
+                                              -1) {
+                                            DateTime alarm = toDateTime(
+                                                date: currentDate,
+                                                time: newTime!);
+
+                                            // Update all instances of newDate
+                                            currentTime = newTime!;
+                                            data.update(value2: newTime);
+                                            data.time = alarm;
+                                          }
+                                        }
+                                      },
+                                      child: const Text(
+                                        'Edit',
+                                        style: TextStyle(fontSize: 18.5),
+                                      ),
+                                    )
                                   ],
                                 ),
-                                OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    minimumSize: const Size(85, 37),
-                                    backgroundColor: kScaffoldColor,
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18),
-                                    ),
-                                  ),
-                                  onPressed: () async {
-                                    newTime = await showTimePicker(
-                                      context: context,
-                                      initialTime: currentTime,
-                                    );
-                                    if (newTime != null) {
-                                      if (TimeOfDay.now().compareTo(newTime!) ==
-                                          -1) {
-                                        DateTime alarm = toDateTime(
-                                            date: currentDate, time: newTime!);
+                                FlutterSwitch(
+                                  value: id?.ring ?? false,
+                                  onToggle: (value) async {
+                                    if (data.checked == true) {
+                                      newTime = await showTimePicker(
+                                        context: context,
+                                        initialTime: currentTime,
+                                      );
+                                      if (newTime != null) {
+                                        if (TimeOfDay.now()
+                                                .compareTo(newTime!) ==
+                                            -1) {
+                                          DateTime alarm = toDateTime(
+                                              date: currentDate,
+                                              time: newTime!);
 
-                                        // Update all instances of newDate
-                                        currentTime = newTime!;
-                                        data.update(value2: newTime);
-                                        data.time = alarm;
+                                          // Update all instances of newDate
+                                          currentTime = newTime!;
+                                          data.update(value2: newTime);
+                                          data.time = alarm;
+                                        }
                                       }
                                     }
                                   },
-                                  child: Text(
-                                    newTime != null
-                                        ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
-                                        : '-- : --',
-                                    style: const TextStyle(
-                                      fontSize: 17,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                )
+                                  height: 32,
+                                  width: 64,
+                                  showOnOff: true,
+                                ),
                               ],
                             ),
                           ),
-                          FlutterSwitch(
-                            value: true,
-                            onToggle: (value) {},
-                          )
                         ],
                       ),
                     ),

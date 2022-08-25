@@ -42,6 +42,7 @@ class TodoBloc extends ChangeNotifier {
   String? username = ' 👋';
   int maxLength = 9;
   int currentOption = 2;
+  bool checked = false;
 
   // I don't know why this works
   update({DateTime? value, TimeOfDay? value2}) {
@@ -121,7 +122,7 @@ class TodoBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getNext() async {
+  getNext() async {
     nextNumber = await _todoDao.getNext();
     notifyListeners();
   }

@@ -5,12 +5,14 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 // Define const that will be used throughout the app
+const file = 'DoneDatabase.db';
 const todoTABLE = 'Todo';
 const columnId = 'id';
 const columnTask = 'task';
 const columnCategory = 'category';
 const columnCompletion = 'completion';
 const columnAlarm = 'alarm';
+const columnRing = 'ring';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -25,7 +27,7 @@ class DatabaseProvider {
   createDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     //"DoneDatabase.db is our database instance name
-    String path = join(documentsDirectory.path, "DoneDatabase.db");
+    String path = join(documentsDirectory.path, file);
     return await openDatabase(path,
         version: 1, onCreate: initDB, onUpgrade: onUpgrade);
   }
@@ -43,7 +45,8 @@ class DatabaseProvider {
       "is_done INTEGER, " // SQLITE doesn't have boolean type
       "$columnCategory TEXT,"
       "$columnCompletion TEXT,"
-      "$columnAlarm TEXT"
+      "$columnAlarm TEXT,"
+      "$columnRing INTEGER"
       ")",
     );
   }

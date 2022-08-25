@@ -69,7 +69,7 @@ class TaskTile extends StatelessWidget {
                 SnackBar(
                   duration: const Duration(milliseconds: 1200),
                   content: Text(
-                    'Successfully deleted \'${id.task!}\'',
+                    'Successfully deleted \'${id.task}\'',
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -85,7 +85,7 @@ class TaskTile extends StatelessWidget {
                   Navigator.pushNamed(context, AddScreen.tag, arguments: id);
                 }, // When the user clicks on the task
                 title: Text(
-                  id.task!,
+                  id.task,
                   style: TextStyle(
                     fontSize: 18.5,
                     decoration: id.isDone

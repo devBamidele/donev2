@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants.dart';
 
+// Customized button for popping off the stack
 class CustomBackButton extends StatelessWidget {
   const CustomBackButton({
     Key? key,
