@@ -37,6 +37,7 @@ class EditScreen extends StatefulWidget {
 class _EditScreenState extends State<EditScreen> {
   final myTaskController = TextEditingController();
   final myCategoryController = TextEditingController();
+  late bool status = widget.id.ring;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,6 @@ class _EditScreenState extends State<EditScreen> {
     );
     TimeOfDay currentTime = newTime; // => Why can't I use newTime directly
 
-    bool enabled = widget.id.ring; // If the alarm is enabled or not
     DateTime? editedAlarm; // Store the changed alarm value
 
     return Consumer<TodoBloc>(
@@ -70,6 +70,14 @@ class _EditScreenState extends State<EditScreen> {
               child: FloatingActionButton.extended(
                 onPressed: () {
                   if (data.formKey.currentState!.validate()) {
+                    // Verify that both the setDate and the and the setTime are in the future
+                    DateTime verify =
+                        toDateTime(date: currentDate, time: newTime!);
+
+                    if (verify.isBefore(DateTime.now()) == false) {
+                      editedAlarm = verify;
+                    }
+
                     // Create a new Task and populate them with predetermined values
                     final newTodo = Todo(
                       id: widget.id.id,
@@ -79,13 +87,12 @@ class _EditScreenState extends State<EditScreen> {
                           : myCategoryController.value.text,
                       completion: newDate.toString(),
                       alarm: editedAlarm?.toString(),
-                      ring: enabled,
+                      ring: status,
                     );
                     data.updateTodo(newTodo); // Update the data in the database
 
-                    if (enabled) {
-                      // If the use wants to be notified
-                      // Then schedule a notification
+                    if (newTodo.alarm != null) {
+                      // Schedule a notification if the use wants it
                       NotificationService().scheduleNotifications(
                         time: DateTime.parse(newTodo.alarm!),
                         id: newTodo.id!,
@@ -93,8 +100,6 @@ class _EditScreenState extends State<EditScreen> {
                         heading: newTodo.category,
                       );
                     }
-                    // Erase the values
-                    log(myTaskController.value.text);
                     Navigator.pop(context);
                   }
                 },
@@ -226,10 +231,10 @@ class _EditScreenState extends State<EditScreen> {
                                       },
                                     );
                                     if (newDate != null) {
-                                      setState(() {
-                                        currentDate = newDate!;
-                                      });
+                                      currentDate = newDate!;
                                     }
+                                    // Update all instances of newDate
+                                    data.update(value: newDate);
                                   },
                                   child: Text(
                                     newDate != null
@@ -251,7 +256,6 @@ class _EditScreenState extends State<EditScreen> {
                           ),
                           SizedBox(
                             width: double.infinity,
-                            height: 55,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -259,18 +263,18 @@ class _EditScreenState extends State<EditScreen> {
                                   children: [
                                     Icon(
                                       Icons.alarm,
-                                      size: kIconSize,
-                                      color: enabled
+                                      size: 35,
+                                      color: status
                                           ? Colors.white
                                           : Colors.white60,
                                     ),
-                                    const SizedBox(width: 15),
+                                    const SizedBox(width: 10),
                                     Text(
-                                      newTime != null
+                                      newTime != null && status
                                           ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
                                           : '-- : --',
                                       style: const TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 20,
                                         color: Colors.white,
                                       ),
                                     ),
@@ -281,18 +285,10 @@ class _EditScreenState extends State<EditScreen> {
                                           initialTime: currentTime,
                                         );
                                         if (newTime != null) {
-                                          if (TimeOfDay.now()
-                                                  .compareTo(newTime!) ==
-                                              -1) {
-                                            editedAlarm = toDateTime(
-                                                date: currentDate,
-                                                time: newTime!);
-
-                                            // Update all instances of newDate
-                                            currentTime = newTime!;
-
-                                            data.update(value2: newTime);
-                                          }
+                                          // Update all instances of newDate
+                                          currentTime = newTime!;
+                                          log(editedAlarm.toString());
+                                          data.update(value2: newTime);
                                         }
                                       },
                                       child: const Text(
@@ -303,34 +299,14 @@ class _EditScreenState extends State<EditScreen> {
                                   ],
                                 ),
                                 FlutterSwitch(
-                                  value: enabled,
-                                  onToggle: (value) async {
-                                    enabled = !enabled;
-                                    if (enabled == true) {
-                                      newTime = await showTimePicker(
-                                        context: context,
-                                        initialTime: currentTime,
-                                      );
-                                      if (newTime != null) {
-                                        if (TimeOfDay.now()
-                                                .compareTo(newTime!) ==
-                                            -1) {
-                                          editedAlarm = toDateTime(
-                                              date: currentDate,
-                                              time: newTime!);
-
-                                          // Update all instances of newDate
-                                          setState(() {
-                                            currentTime = newTime!;
-                                          });
-                                        }
-                                      }
-                                      enabled = false;
-                                    }
+                                  value: status,
+                                  onToggle: (value) {
+                                    setState(() {
+                                      status = !status;
+                                    });
                                   },
                                   height: 32,
-                                  width: 64,
-                                  showOnOff: true,
+                                  width: 70,
                                 ),
                               ],
                             ),
