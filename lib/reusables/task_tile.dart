@@ -134,7 +134,7 @@ class TaskTile extends StatelessWidget {
         exp = const Icon(
           Icons.notifications_active_outlined,
           color: kTertiaryColor,
-          size: 24,
+          size: 25,
         );
       }
     }

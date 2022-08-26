@@ -15,8 +15,7 @@ class RouteGenerator {
       case HomeScreen.tag:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case AddScreen.tag:
-        final args = settings.arguments as Todo?;
-        return MaterialPageRoute(builder: (_) => AddScreen(id: args));
+        return MaterialPageRoute(builder: (_) => const AddScreen());
       case EditScreen.tag:
         final args = settings.arguments as Todo;
         return MaterialPageRoute(builder: (_) => EditScreen(id: args));

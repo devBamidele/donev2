@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/notification/notification_service.dart';
 import 'package:flutter/material.dart';
@@ -10,47 +8,29 @@ import '../model/todo.dart';
 import 'extras/custom_back_button.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
-extension TimeOfDayExtension on TimeOfDay {
-  int compareTo(TimeOfDay other) {
-    if (hour < other.hour) return -1;
-    if (hour > other.hour) return 1;
-    if (minute < other.minute) return -1;
-    if (minute > other.minute) return 1;
-    return 0;
-  }
-}
-
-class AddScreen extends StatelessWidget {
-  const AddScreen({this.id, Key? key}) : super(key: key);
+class AddScreen extends StatefulWidget {
+  const AddScreen({Key? key}) : super(key: key);
 
   static const tag = '/add';
-  final Todo? id;
+
+  @override
+  State<AddScreen> createState() => _AddScreenState();
+}
+
+class _AddScreenState extends State<AddScreen> {
+  final myTaskController = TextEditingController();
+  final myCategoryController = TextEditingController();
+  bool status = false;
 
   @override
   Widget build(BuildContext context) {
-    final id = this.id;
-    final myTaskController = TextEditingController();
-    final myCategoryController = TextEditingController();
-    DateTime currentDate = DateTime.now();
-    DateTime? newDate;
-    TimeOfDay currentTime = TimeOfDay.now();
-    TimeOfDay? newTime;
-    bool enabled = false;
-    DateTime? editedAlarm;
+    DateTime? newDate = DateTime.now();
+    DateTime currentDate = newDate;
+    TimeOfDay? newTime = TimeOfDay.now();
+    TimeOfDay currentTime = newTime;
 
-    if (id != null) {
-      // When the page is opened by clicking on a task tile
-      myTaskController.text = id.task;
-      myCategoryController.text = id.category ?? '';
-      newDate = DateTime.tryParse(id.completion.toString()) ?? currentDate;
-      currentDate = newDate;
-      enabled = id.ring;
-
-      if (id.alarm != null) {
-        newTime = TimeOfDay.fromDateTime(DateTime.parse(id.alarm!));
-        currentTime = newTime;
-      }
-    }
+    bool proceed = false;
+    DateTime? editedAlarm; // Store the changed alarm value
 
     return Consumer<TodoBloc>(
       builder: (BuildContext context, data, Widget? child) {
@@ -64,46 +44,53 @@ class AddScreen extends StatelessWidget {
               child: FloatingActionButton.extended(
                 onPressed: () {
                   if (data.formKey.currentState!.validate()) {
+                    // Verify that the setDate and setTime are in the future
+                    DateTime verify =
+                        toDateTime(date: currentDate, time: newTime!);
+
+                    if (status) {
+                      if (verify.isBefore(DateTime.now()) == true) {
+                        proceed = false;
+                      } else {
+                        editedAlarm = verify;
+                        proceed = true;
+                      }
+                    }
+
                     final newTodo = Todo(
-                      id: id?.id,
                       task: myTaskController.value.text,
                       category: myCategoryController.value.text.isEmpty
                           ? null
                           : myCategoryController.value.text,
                       completion: newDate?.toString(),
                       alarm: editedAlarm?.toString(),
-                      ring: enabled,
+                      ring: status,
                     );
 
-                    if (id != null) {
-                      data.updateTodo(newTodo);
-                      if (newTodo.alarm != null) {
-                        NotificationService().scheduleNotifications(
-                          time: DateTime.parse(newTodo.alarm!),
-                          id: newTodo.id!,
-                          notify: newTodo.task,
-                          heading: newTodo.category,
-                        );
-                      }
-                    } else {
-                      data.addTodo(newTodo);
-                      if (newTodo.alarm != null) {
-                        NotificationService().scheduleNotifications(
-                          time: DateTime.parse(newTodo.alarm!),
-                          id: data.nextNumber! + 1,
-                          notify: newTodo.task,
-                          heading: newTodo.category,
-                        );
-                      }
+                    // Add the data to the database
+                    data.addTodo(newTodo);
+
+                    if (newTodo.alarm != null && status) {
+                      // Schedule a notification if the use wants it
+                      NotificationService().scheduleNotifications(
+                        time: DateTime.parse(newTodo.alarm!),
+                        id: data.nextNumber! + 1,
+                        notify: newTodo.task,
+                        heading: newTodo.category,
+                      );
                     }
 
-                    log(myTaskController.value.text);
-                    Navigator.pop(context);
+                    if (proceed) {
+                      Navigator.pop(context);
+                    } else {
+                      snackbarMessage(
+                          'You are setting a notification for a past date');
+                    }
                   }
                 },
-                label: Text(
-                  id != null ? 'Save Changes' : 'Add Task',
-                  style: const TextStyle(
+                label: const Text(
+                  'Add Task',
+                  style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
                   ),
@@ -127,9 +114,9 @@ class AddScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            id != null ? 'Edit Task' : 'Add Task',
-                            style: const TextStyle(
+                          const Text(
+                            'Add Task',
+                            style: TextStyle(
                               fontSize: 33,
                               fontWeight: FontWeight.w600,
                               letterSpacing: 1.5,
@@ -197,17 +184,17 @@ class AddScreen extends StatelessWidget {
                                   children: const [
                                     Text(
                                       "Completion Date",
-                                      style: TextStyle(fontSize: 18),
+                                      style: TextStyle(fontSize: 18.5),
                                     ),
                                   ],
                                 ),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(
-                                    minimumSize: const Size(85, 37),
+                                    minimumSize: const Size(90, 40),
                                     backgroundColor: kScaffoldColor,
-                                    elevation: 5,
+                                    elevation: 3,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                   ),
                                   onPressed: () async {
@@ -215,7 +202,7 @@ class AddScreen extends StatelessWidget {
                                       context: context,
                                       initialDate: currentDate,
                                       firstDate: DateTime(2000),
-                                      lastDate: DateTime(2150),
+                                      lastDate: DateTime(2100),
                                       builder: (_, child) {
                                         return Theme(
                                           data: Theme.of(context).copyWith(
@@ -240,7 +227,7 @@ class AddScreen extends StatelessWidget {
                                             .format(newDate!)
                                         : '-- / -- / ---',
                                     style: const TextStyle(
-                                      fontSize: 17,
+                                      fontSize: 18.5,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -254,7 +241,6 @@ class AddScreen extends StatelessWidget {
                           ),
                           SizedBox(
                             width: double.infinity,
-                            height: 55,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -262,75 +248,67 @@ class AddScreen extends StatelessWidget {
                                   children: [
                                     Icon(
                                       Icons.alarm,
-                                      size: kIconSize,
-                                      color: newTime != null
+                                      size: 34,
+                                      color: status
                                           ? Colors.white
                                           : Colors.white60,
                                     ),
                                     const SizedBox(width: 15),
-                                    Text(
-                                      newTime != null
-                                          ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
-                                          : '-- : --',
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.white,
+                                    OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        minimumSize: const Size(90, 40),
+                                        elevation: 3,
+                                        backgroundColor: kScaffoldColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
                                       ),
-                                    ),
-                                    TextButton(
                                       onPressed: () async {
                                         newTime = await showTimePicker(
                                           context: context,
                                           initialTime: currentTime,
                                         );
                                         if (newTime != null) {
-                                          if (TimeOfDay.now()
-                                                  .compareTo(newTime!) ==
-                                              -1) {
-                                            editedAlarm = toDateTime(
-                                                date: currentDate,
-                                                time: newTime!);
-
-                                            // Update all instances of newDate
-                                            currentTime = newTime!;
-                                            data.update(value2: newTime);
-                                          }
-                                        }
-                                      },
-                                      child: const Text(
-                                        'Edit',
-                                        style: TextStyle(fontSize: 18.5),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                FlutterSwitch(
-                                  value: enabled,
-                                  onToggle: (value) async {
-                                    enabled = !enabled;
-                                    if (data.checked == true) {
-                                      newTime = await showTimePicker(
-                                        context: context,
-                                        initialTime: currentTime,
-                                      );
-                                      if (newTime != null) {
-                                        if (TimeOfDay.now()
-                                                .compareTo(newTime!) ==
-                                            -1) {
-                                          editedAlarm = toDateTime(
-                                              date: currentDate,
-                                              time: newTime!);
-
                                           // Update all instances of newDate
                                           currentTime = newTime!;
                                           data.update(value2: newTime);
                                         }
-                                      }
-                                    }
+                                      },
+                                      child: Text(
+                                        newTime != null && status
+                                            ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
+                                            : 'Disabled',
+                                        style: TextStyle(
+                                          fontSize: 18.5,
+                                          color: status
+                                              ? Colors.white
+                                              : Colors.white60,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                FlutterSwitch(
+                                  value: status,
+                                  onToggle: (value) {
+                                    setState(() {
+                                      status = !status;
+                                    });
                                   },
-                                  height: 32,
-                                  width: 64,
-                                  showOnOff: true,
+                                  toggleSize: 22,
+                                  height: 30,
+                                  width: 60,
+                                  inactiveColor: kScaffoldColor,
+                                  activeColor: kTertiaryColor,
+                                  padding: 5,
+                                  inactiveSwitchBorder: Border.all(
+                                    color: Colors.white30,
+                                    width: 1.2,
+                                  ),
+                                  activeSwitchBorder: Border.all(
+                                    color: kTertiaryColor,
+                                  ),
                                 ),
                               ],
                             ),
@@ -345,6 +323,25 @@ class AddScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  @override
+  void dispose() {
+    myTaskController.dispose();
+    myCategoryController.dispose();
+    super.dispose();
+  }
+
+  snackbarMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(milliseconds: 1500),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 

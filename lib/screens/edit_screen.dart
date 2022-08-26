@@ -11,16 +11,6 @@ import '../constants.dart';
 import '../model/todo.dart';
 import 'extras/custom_back_button.dart';
 
-extension TimeOfDayExtension on TimeOfDay {
-  int compareTo(TimeOfDay other) {
-    if (hour < other.hour) return -1;
-    if (hour > other.hour) return 1;
-    if (minute < other.minute) return -1;
-    if (minute > other.minute) return 1;
-    return 0;
-  }
-}
-
 class EditScreen extends StatefulWidget {
   const EditScreen({
     required this.id,
@@ -56,6 +46,7 @@ class _EditScreenState extends State<EditScreen> {
     );
     TimeOfDay currentTime = newTime; // => Why can't I use newTime directly
 
+    bool proceed = true;
     DateTime? editedAlarm; // Store the changed alarm value
 
     return Consumer<TodoBloc>(
@@ -70,12 +61,17 @@ class _EditScreenState extends State<EditScreen> {
               child: FloatingActionButton.extended(
                 onPressed: () {
                   if (data.formKey.currentState!.validate()) {
-                    // Verify that both the setDate and the and the setTime are in the future
+                    // Verify that the setDate and setTime are in the future
                     DateTime verify =
                         toDateTime(date: currentDate, time: newTime!);
 
-                    if (verify.isBefore(DateTime.now()) == false) {
-                      editedAlarm = verify;
+                    if (status) {
+                      if (verify.isBefore(DateTime.now()) == true) {
+                        proceed = false;
+                      } else {
+                        editedAlarm = verify;
+                        proceed = true;
+                      }
                     }
 
                     // Create a new Task and populate them with predetermined values
@@ -89,9 +85,11 @@ class _EditScreenState extends State<EditScreen> {
                       alarm: editedAlarm?.toString(),
                       ring: status,
                     );
-                    data.updateTodo(newTodo); // Update the data in the database
 
-                    if (newTodo.alarm != null) {
+                    // Update the data in the database
+                    data.updateTodo(newTodo);
+
+                    if (newTodo.alarm != null && status) {
                       // Schedule a notification if the use wants it
                       NotificationService().scheduleNotifications(
                         time: DateTime.parse(newTodo.alarm!),
@@ -100,7 +98,12 @@ class _EditScreenState extends State<EditScreen> {
                         heading: newTodo.category,
                       );
                     }
-                    Navigator.pop(context);
+                    if (proceed) {
+                      Navigator.pop(context);
+                    } else {
+                      snackbarMessage(
+                          'You are setting a notification for a past date');
+                    }
                   }
                 },
                 label: const Text(
@@ -199,17 +202,17 @@ class _EditScreenState extends State<EditScreen> {
                                   children: const [
                                     Text(
                                       "Completion Date",
-                                      style: TextStyle(fontSize: 18),
+                                      style: TextStyle(fontSize: 18.5),
                                     ),
                                   ],
                                 ),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(
-                                    minimumSize: const Size(85, 37),
+                                    minimumSize: const Size(90, 40),
+                                    elevation: 3,
                                     backgroundColor: kScaffoldColor,
-                                    elevation: 5,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
                                   ),
                                   onPressed: () async {
@@ -217,7 +220,7 @@ class _EditScreenState extends State<EditScreen> {
                                       context: context,
                                       initialDate: currentDate,
                                       firstDate: DateTime(2000),
-                                      lastDate: DateTime(2150),
+                                      lastDate: DateTime(2100),
                                       builder: (_, child) {
                                         return Theme(
                                           data: Theme.of(context).copyWith(
@@ -242,7 +245,7 @@ class _EditScreenState extends State<EditScreen> {
                                             .format(newDate!)
                                         : '-- / -- / ---',
                                     style: const TextStyle(
-                                      fontSize: 17,
+                                      fontSize: 18.5,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -263,22 +266,22 @@ class _EditScreenState extends State<EditScreen> {
                                   children: [
                                     Icon(
                                       Icons.alarm,
-                                      size: 35,
+                                      size: 34,
                                       color: status
                                           ? Colors.white
                                           : Colors.white60,
                                     ),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      newTime != null && status
-                                          ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
-                                          : '-- : --',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
+                                    const SizedBox(width: 15),
+                                    OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        minimumSize: const Size(90, 40),
+                                        elevation: 3,
+                                        backgroundColor: kScaffoldColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
                                       ),
-                                    ),
-                                    TextButton(
                                       onPressed: () async {
                                         newTime = await showTimePicker(
                                           context: context,
@@ -291,11 +294,18 @@ class _EditScreenState extends State<EditScreen> {
                                           data.update(value2: newTime);
                                         }
                                       },
-                                      child: const Text(
-                                        'Edit',
-                                        style: TextStyle(fontSize: 18.5),
+                                      child: Text(
+                                        newTime != null && status
+                                            ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
+                                            : 'Disabled',
+                                        style: TextStyle(
+                                          fontSize: 18.5,
+                                          color: status
+                                              ? Colors.white
+                                              : Colors.white60,
+                                        ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                                 FlutterSwitch(
@@ -305,8 +315,19 @@ class _EditScreenState extends State<EditScreen> {
                                       status = !status;
                                     });
                                   },
-                                  height: 32,
-                                  width: 70,
+                                  toggleSize: 22,
+                                  height: 30,
+                                  width: 60,
+                                  inactiveColor: kScaffoldColor,
+                                  activeColor: kTertiaryColor,
+                                  padding: 5,
+                                  inactiveSwitchBorder: Border.all(
+                                    color: Colors.white30,
+                                    width: 1.2,
+                                  ),
+                                  activeSwitchBorder: Border.all(
+                                    color: kTertiaryColor,
+                                  ),
                                 ),
                               ],
                             ),
@@ -329,6 +350,18 @@ class _EditScreenState extends State<EditScreen> {
     myTaskController.dispose();
     myCategoryController.dispose();
     super.dispose();
+  }
+
+  snackbarMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(milliseconds: 1500),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
   }
 
   toDateTime({
