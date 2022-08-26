@@ -41,58 +41,66 @@ class _AddScreenState extends State<AddScreen> {
             resizeToAvoidBottomInset: false,
             floatingActionButton: Padding(
               padding: const EdgeInsets.only(bottom: 20, right: 5),
-              child: FloatingActionButton.extended(
-                onPressed: () {
-                  if (data.formKey.currentState!.validate()) {
-                    // Verify that the setDate and setTime are in the future
-                    DateTime verify =
-                        toDateTime(date: currentDate, time: newTime!);
+              child: Card(
+                color: kScaffoldColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(27.0),
+                ),
+                elevation: 6,
+                shadowColor: kShadowColor,
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    if (data.formKey.currentState!.validate()) {
+                      // Verify that the setDate and setTime are in the future
+                      DateTime verify =
+                          toDateTime(date: currentDate, time: newTime!);
 
-                    if (status) {
-                      if (verify.isBefore(DateTime.now()) == true) {
-                        proceed = false;
+                      if (status) {
+                        if (verify.isBefore(DateTime.now()) == true) {
+                          proceed = false;
+                        } else {
+                          editedAlarm = verify;
+                          proceed = true;
+                        }
+                      }
+
+                      final newTodo = Todo(
+                        task: myTaskController.value.text,
+                        category: myCategoryController.value.text.isEmpty
+                            ? null
+                            : myCategoryController.value.text,
+                        completion: newDate?.toString(),
+                        alarm: editedAlarm?.toString(),
+                        ring: status,
+                      );
+
+                      // Add the data to the database
+                      data.addTodo(newTodo);
+
+                      if (newTodo.alarm != null && status) {
+                        // Schedule a notification if the use wants it
+                        NotificationService().scheduleNotifications(
+                          time: DateTime.parse(newTodo.alarm!),
+                          id: data.nextNumber! + 1,
+                          notify: newTodo.task,
+                          heading: newTodo.category,
+                        );
+                      }
+
+                      if (proceed) {
+                        Navigator.pop(context);
                       } else {
-                        editedAlarm = verify;
-                        proceed = true;
+                        snackbarMessage(
+                            'You are setting a notification for a past date');
                       }
                     }
-
-                    final newTodo = Todo(
-                      task: myTaskController.value.text,
-                      category: myCategoryController.value.text.isEmpty
-                          ? null
-                          : myCategoryController.value.text,
-                      completion: newDate?.toString(),
-                      alarm: editedAlarm?.toString(),
-                      ring: status,
-                    );
-
-                    // Add the data to the database
-                    data.addTodo(newTodo);
-
-                    if (newTodo.alarm != null && status) {
-                      // Schedule a notification if the use wants it
-                      NotificationService().scheduleNotifications(
-                        time: DateTime.parse(newTodo.alarm!),
-                        id: data.nextNumber! + 1,
-                        notify: newTodo.task,
-                        heading: newTodo.category,
-                      );
-                    }
-
-                    if (proceed) {
-                      Navigator.pop(context);
-                    } else {
-                      snackbarMessage(
-                          'You are setting a notification for a past date');
-                    }
-                  }
-                },
-                label: const Text(
-                  'Add Task',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
+                  },
+                  label: const Text(
+                    'Add Task',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

@@ -58,59 +58,67 @@ class _EditScreenState extends State<EditScreen> {
             resizeToAvoidBottomInset: false,
             floatingActionButton: Padding(
               padding: const EdgeInsets.only(bottom: 20, right: 5),
-              child: FloatingActionButton.extended(
-                onPressed: () {
-                  if (data.formKey.currentState!.validate()) {
-                    // Verify that the setDate and setTime are in the future
-                    DateTime verify =
-                        toDateTime(date: currentDate, time: newTime!);
+              child: Card(
+                color: kScaffoldColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(27.0),
+                ),
+                elevation: 6,
+                shadowColor: kShadowColor,
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    if (data.formKey.currentState!.validate()) {
+                      // Verify that the setDate and setTime are in the future
+                      DateTime verify =
+                          toDateTime(date: currentDate, time: newTime!);
 
-                    if (status) {
-                      if (verify.isBefore(DateTime.now()) == true) {
-                        proceed = false;
+                      if (status) {
+                        if (verify.isBefore(DateTime.now()) == true) {
+                          proceed = false;
+                        } else {
+                          editedAlarm = verify;
+                          proceed = true;
+                        }
+                      }
+
+                      // Create a new Task and populate them with predetermined values
+                      final newTodo = Todo(
+                        id: widget.id.id,
+                        task: myTaskController.value.text,
+                        category: myCategoryController.value.text.isEmpty
+                            ? null
+                            : myCategoryController.value.text,
+                        completion: newDate.toString(),
+                        alarm: editedAlarm?.toString(),
+                        ring: status,
+                      );
+
+                      // Update the data in the database
+                      data.updateTodo(newTodo);
+
+                      if (newTodo.alarm != null && status) {
+                        // Schedule a notification if the use wants it
+                        NotificationService().scheduleNotifications(
+                          time: DateTime.parse(newTodo.alarm!),
+                          id: newTodo.id!,
+                          notify: newTodo.task,
+                          heading: newTodo.category,
+                        );
+                      }
+                      if (proceed) {
+                        Navigator.pop(context);
                       } else {
-                        editedAlarm = verify;
-                        proceed = true;
+                        snackbarMessage(
+                            'You are setting a notification for a past date');
                       }
                     }
-
-                    // Create a new Task and populate them with predetermined values
-                    final newTodo = Todo(
-                      id: widget.id.id,
-                      task: myTaskController.value.text,
-                      category: myCategoryController.value.text.isEmpty
-                          ? null
-                          : myCategoryController.value.text,
-                      completion: newDate.toString(),
-                      alarm: editedAlarm?.toString(),
-                      ring: status,
-                    );
-
-                    // Update the data in the database
-                    data.updateTodo(newTodo);
-
-                    if (newTodo.alarm != null && status) {
-                      // Schedule a notification if the use wants it
-                      NotificationService().scheduleNotifications(
-                        time: DateTime.parse(newTodo.alarm!),
-                        id: newTodo.id!,
-                        notify: newTodo.task,
-                        heading: newTodo.category,
-                      );
-                    }
-                    if (proceed) {
-                      Navigator.pop(context);
-                    } else {
-                      snackbarMessage(
-                          'You are setting a notification for a past date');
-                    }
-                  }
-                },
-                label: const Text(
-                  'Save Changes',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
+                  },
+                  label: const Text(
+                    'Save Changes',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
