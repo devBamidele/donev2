@@ -19,9 +19,11 @@ class CategoryScreen extends StatelessWidget {
         return Scaffold(
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 15,
+              padding: const EdgeInsets.only(
+                top: 5,
+                right: 15,
+                left: 15,
+                bottom: 10,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +74,6 @@ class CategoryScreen extends StatelessWidget {
                                 },
                                 child: const Text('Show all'),
                               ),
-                              const PopupMenuDivider(),
                               PopupMenuItem(
                                 onTap: () {
                                   data.getGroup(
@@ -81,7 +82,6 @@ class CategoryScreen extends StatelessWidget {
                                 },
                                 child: const Text('Completed'),
                               ),
-                              const PopupMenuDivider(),
                               PopupMenuItem(
                                 onTap: () {
                                   data.getGroup(

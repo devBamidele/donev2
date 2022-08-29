@@ -27,7 +27,7 @@ class EditScreen extends StatefulWidget {
 class _EditScreenState extends State<EditScreen> {
   final myTaskController = TextEditingController();
   final myCategoryController = TextEditingController();
-  late bool status = widget.id.ring;
+  late bool switchState = widget.id.ring;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class _EditScreenState extends State<EditScreen> {
                       DateTime verify =
                           toDateTime(date: currentDate, time: newTime!);
 
-                      if (status) {
+                      if (switchState) {
                         if (verify.isBefore(DateTime.now()) == true) {
                           proceed = false;
                         } else {
@@ -88,15 +88,16 @@ class _EditScreenState extends State<EditScreen> {
                         category: myCategoryController.value.text.isEmpty
                             ? null
                             : myCategoryController.value.text,
+                        isDone: widget.id.isDone,
                         completion: newDate.toString(),
                         alarm: editedAlarm?.toString(),
-                        ring: status,
+                        ring: switchState,
                       );
 
                       // Update the data in the database
                       data.updateTodo(newTodo);
 
-                      if (newTodo.alarm != null && status) {
+                      if (newTodo.alarm != null && switchState) {
                         // Schedule a notification if the use wants it
                         NotificationService().scheduleNotifications(
                           time: DateTime.parse(newTodo.alarm!),
@@ -129,7 +130,7 @@ class _EditScreenState extends State<EditScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                      padding: EdgeInsets.only(left: 12, top: 7),
+                      padding: EdgeInsets.only(left: 10, top: 5),
                       child: CustomBackButton(),
                     ),
                     Padding(
@@ -275,7 +276,7 @@ class _EditScreenState extends State<EditScreen> {
                                     Icon(
                                       Icons.alarm,
                                       size: 34,
-                                      color: status
+                                      color: switchState
                                           ? Colors.white
                                           : Colors.white60,
                                     ),
@@ -303,12 +304,12 @@ class _EditScreenState extends State<EditScreen> {
                                         }
                                       },
                                       child: Text(
-                                        newTime != null && status
+                                        newTime != null && switchState
                                             ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
                                             : 'Disabled',
                                         style: TextStyle(
                                           fontSize: 18.5,
-                                          color: status
+                                          color: switchState
                                               ? Colors.white
                                               : Colors.white60,
                                         ),
@@ -317,10 +318,10 @@ class _EditScreenState extends State<EditScreen> {
                                   ],
                                 ),
                                 FlutterSwitch(
-                                  value: status,
+                                  value: switchState,
                                   onToggle: (value) {
                                     setState(() {
-                                      status = !status;
+                                      switchState = !switchState;
                                     });
                                   },
                                   toggleSize: 22,

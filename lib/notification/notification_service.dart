@@ -14,7 +14,7 @@ class NotificationService {
   static const icon = 'notify';
   static const alarm2 = 'rick';
   static const channelId = '244456';
-  static const channelName = 'doneChannel';
+  static const channelName = 'Done Notifications';
   static const channelDes = 'Channel for Done notification';
 
   //instance of FlutterLocalNotificationsPlugin

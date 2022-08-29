@@ -20,7 +20,7 @@ class AddScreen extends StatefulWidget {
 class _AddScreenState extends State<AddScreen> {
   final myTaskController = TextEditingController();
   final myCategoryController = TextEditingController();
-  bool status = false;
+  bool switchState = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class _AddScreenState extends State<AddScreen> {
     TimeOfDay? newTime = TimeOfDay.now();
     TimeOfDay currentTime = newTime;
 
-    bool proceed = false;
+    bool proceed = true;
     DateTime? editedAlarm; // Store the changed alarm value
 
     return Consumer<TodoBloc>(
@@ -55,7 +55,7 @@ class _AddScreenState extends State<AddScreen> {
                       DateTime verify =
                           toDateTime(date: currentDate, time: newTime!);
 
-                      if (status) {
+                      if (switchState) {
                         if (verify.isBefore(DateTime.now()) == true) {
                           proceed = false;
                         } else {
@@ -71,13 +71,13 @@ class _AddScreenState extends State<AddScreen> {
                             : myCategoryController.value.text,
                         completion: newDate?.toString(),
                         alarm: editedAlarm?.toString(),
-                        ring: status,
+                        ring: switchState,
                       );
 
                       // Add the data to the database
                       data.addTodo(newTodo);
 
-                      if (newTodo.alarm != null && status) {
+                      if (newTodo.alarm != null && switchState) {
                         // Schedule a notification if the use wants it
                         NotificationService().scheduleNotifications(
                           time: DateTime.parse(newTodo.alarm!),
@@ -111,7 +111,7 @@ class _AddScreenState extends State<AddScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                      padding: EdgeInsets.only(left: 12, top: 7),
+                      padding: EdgeInsets.only(left: 10, top: 5),
                       child: CustomBackButton(),
                     ),
                     Padding(
@@ -147,6 +147,8 @@ class _AddScreenState extends State<AddScreen> {
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter a task';
+                                    } else if (value.startsWith(' ')) {
+                                      return 'Cannot start with a space';
                                     } else if (value.length < 3) {
                                       return 'Too short';
                                     } else {
@@ -257,7 +259,7 @@ class _AddScreenState extends State<AddScreen> {
                                     Icon(
                                       Icons.alarm,
                                       size: 34,
-                                      color: status
+                                      color: switchState
                                           ? Colors.white
                                           : Colors.white60,
                                     ),
@@ -284,12 +286,12 @@ class _AddScreenState extends State<AddScreen> {
                                         }
                                       },
                                       child: Text(
-                                        newTime != null && status
+                                        newTime != null && switchState
                                             ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
                                             : 'Disabled',
                                         style: TextStyle(
                                           fontSize: 18.5,
-                                          color: status
+                                          color: switchState
                                               ? Colors.white
                                               : Colors.white60,
                                         ),
@@ -298,10 +300,10 @@ class _AddScreenState extends State<AddScreen> {
                                   ],
                                 ),
                                 FlutterSwitch(
-                                  value: status,
+                                  value: switchState,
                                   onToggle: (value) {
                                     setState(() {
-                                      status = !status;
+                                      switchState = !switchState;
                                     });
                                   },
                                   toggleSize: 22,
