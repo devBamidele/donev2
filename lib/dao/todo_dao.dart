@@ -19,7 +19,14 @@ class TodoDao {
     final db = await dbProvider.database;
     List<Map<String, dynamic>>? result =
         await db?.rawQuery('SELECT last_insert_rowid() from $todoTABLE');
-    return result![0]['last_insert_rowid()'];
+    dynamic returnValue;
+    // If the app was just installed, [result?.first] will throw an exception
+    try {
+      returnValue = result?.first['last_insert_rowid()'];
+    } catch (e) {
+      returnValue = 0;
+    }
+    return returnValue;
   }
 
   //Get All T0do items and search if query string was passed
@@ -36,9 +43,14 @@ class TodoDao {
         columns: columns,
         where: '$columnTask LIKE ?',
         whereArgs: ["%$query%"],
+        orderBy: '$columnId desc',
       );
     } else {
-      result = await db?.query(todoTABLE, columns: columns);
+      result = await db?.query(
+        todoTABLE,
+        columns: columns,
+        orderBy: '$columnId desc',
+      );
     }
 
     List<Todo>? todos = result?.isNotEmpty == true
@@ -55,7 +67,7 @@ class TodoDao {
   }) async {
     final db = await dbProvider.database;
 
-    final text = query != null && query.isNotEmpty
+    final search = query != null && query.isNotEmpty
         ? 'AND $columnTask like \'%$query%\''
         : '';
 
@@ -68,7 +80,7 @@ class TodoDao {
 
     List<Map<String, dynamic>>? result;
     result = await db?.rawQuery(
-      'select * from $todoTABLE where $columnCategory is \'$category\' $demand $text',
+      'select * from $todoTABLE where $columnCategory is \'$category\' $demand $search',
     );
     List<Todo>? group =
         result?.map((item) => Todo.fromDatabaseJson(item)).toList();

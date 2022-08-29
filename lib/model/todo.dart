@@ -23,8 +23,8 @@ class Todo {
     this.ring = false,
   });
 
+  /// Convert Json objects to [Todo] objects
   factory Todo.fromDatabaseJson(Map<String, dynamic> data) => Todo(
-        // Convert Json objects to T0do objects
         id: data['id'],
         task: data['task'],
         isDone: data['is_done'] == 0

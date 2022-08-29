@@ -47,8 +47,8 @@ class HomeScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(
                 top: 5,
-                left: 15,
-                right: 15,
+                left: 12,
+                right: 12,
                 bottom: 10,
               ),
               child: Column(
@@ -57,16 +57,28 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        tooltip: 'Show all',
-                        iconSize: kIconSize,
-                        onPressed: () {
-                          data.getTodos();
-                          data.getCategories();
-                        },
-                        icon: const Icon(
-                          Icons.menu_rounded,
-                          color: kTertiaryColor,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6, top: 2),
+                        child: Row(
+                          children: const [
+                            Icon(
+                              Icons.done_rounded,
+                              size: 27,
+                              color: kShadowColor,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Done',
+                              style: TextStyle(
+                                fontFamily: 'Asap',
+                                letterSpacing: 1,
+                                fontSize: 22.5,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       IconButton(

@@ -24,7 +24,6 @@ class TaskList extends StatelessWidget {
             if (!snapshot.hasData) {
               // At the initial stage when there is no stream
               data.getTodos();
-              data.getNext(); //Todo: This should be shifted to the very start of the app
               return const LoadingData();
             } else {
               return snapshot
