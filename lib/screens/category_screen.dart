@@ -143,21 +143,8 @@ class CategoryScreen extends StatelessWidget {
                                 height: 3,
                               ),
                               Text(
-                                data.length! > 1
-                                    ? '${data.length} tasks'
-                                    : '${data.length} task',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 3,
-                              ),
-                              const Text(
-                                'Tasks',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
+                                'Tasks (${data.groupLength})',
+                                style: kText1,
                               ),
                             ],
                           ),

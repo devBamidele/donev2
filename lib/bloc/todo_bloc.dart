@@ -1,9 +1,7 @@
 import 'package:donev2/model/todo.dart';
 import 'package:donev2/dao/todo_dao.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class TodoBloc extends ChangeNotifier {
@@ -34,7 +32,9 @@ class TodoBloc extends ChangeNotifier {
 
   // This object holds the information on the 'Add Task' / 'Edit Task' Page
   String selected = '';
-  int? _length;
+  int? _groupLength;
+  int? _categoryLength;
+  int? _taskLength;
   DateTime? myTime = DateTime.now();
   int? nextNumber;
   String? username = ' 👋';
@@ -47,12 +47,9 @@ class TodoBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  int? get length => _length;
-
-  set length(int? length) {
-    _length = length;
-    notifyListeners();
-  }
+  int? get groupLength => _groupLength;
+  int? get categoryLength => _categoryLength;
+  int? get taskLength => _taskLength;
 
   // If a value is not present in storage we get a null value
   //int intValue = await prefs.getInt('intValue') ?? 0;
@@ -96,17 +93,20 @@ class TodoBloc extends ChangeNotifier {
     notifyListeners();
   }
 
+  // (Sink) is a way of adding data reactively to the stream
   getTodos({String? query}) async {
-    // (Sink) is a way of adding data reactively to the stream
-    _todoController.sink.add(
-      await _todoDao.getTodos(query: query, columns: []),
-    );
+    List<Todo>? result = await _todoDao.getTodos(query: query, columns: []);
+    _taskLength = result?.length;
+    _todoController.sink.add(result);
+    notifyListeners();
   }
 
   getCategories({String? query}) async {
-    _categoryController.sink.add(
-      await _todoDao.getCategories(query: query),
-    );
+    List<Map<String, dynamic>> result =
+        await _todoDao.getCategories(query: query);
+    _categoryLength = result.length;
+    _categoryController.sink.add(result);
+    notifyListeners();
   }
 
   getGroup({required String category, String? query, int selected = 2}) async {
@@ -115,7 +115,7 @@ class TodoBloc extends ChangeNotifier {
       query: query,
       selected: selected,
     );
-    _length = result?.length;
+    _groupLength = result?.length;
     _groupController.sink.add(result);
     notifyListeners();
   }

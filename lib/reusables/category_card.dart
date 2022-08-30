@@ -104,7 +104,6 @@ class CategoryCard extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               data.selected = category;
-              data.length = taskNo;
               data.getGroup(category: data.selected);
               Navigator.pushNamed(context, CategoryScreen.tag);
             },
@@ -128,7 +127,7 @@ class CategoryCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          taskNo > 1 ? '$taskNo tasks' : '$taskNo task',
+                          taskAmount(taskNo),
                           style: const TextStyle(
                             fontSize: 16,
                             letterSpacing: 1.2,
@@ -157,5 +156,17 @@ class CategoryCard extends StatelessWidget {
         );
       },
     );
+  }
+
+  taskAmount(int length) {
+    String text = '';
+    if (length > 1) {
+      text = '$length tasks';
+    } else if (length == 1) {
+      text = '$length task';
+    } else {
+      text = 'No current tasks';
+    }
+    return text;
   }
 }

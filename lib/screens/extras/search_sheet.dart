@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
+import '../search_screen.dart';
 
 /// The sheet that comes in display when the search button is clicked
 class SearchSheet extends StatelessWidget {
@@ -67,17 +68,26 @@ class SearchSheet extends StatelessWidget {
                             color: kTertiaryColor,
                           ),
                           onPressed: () {
+                            String myQuery = searchController.value.text;
                             if (screen == HomeScreen.tag) {
-                              data.getTodos(query: searchController.value.text);
-                              data.getCategories(
-                                  query: searchController.value.text);
+                              data.getTodos(query: myQuery);
+                              data.getCategories(query: myQuery);
+                              Navigator.popAndPushNamed(
+                                context,
+                                SearchScreen.tag,
+                                arguments: myQuery,
+                              );
                             } else if (screen == CategoryScreen.tag) {
                               data.getGroup(
-                                  category: data.selected,
-                                  query: searchController.value.text);
+                                  category: data.selected, query: myQuery);
+                              //dismisses the bottomsheet
+                              Navigator.pop(context);
+                            } else if (screen == SearchScreen.tag) {
+                              data.getTodos(query: myQuery);
+                              data.getCategories(query: myQuery);
+                              //dismisses the bottomsheet
+                              Navigator.pop(context);
                             }
-                            //dismisses the bottomsheet
-                            Navigator.pop(context);
                           },
                         )
                       ],

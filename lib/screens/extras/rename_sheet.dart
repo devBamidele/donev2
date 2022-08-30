@@ -76,15 +76,15 @@ class RenameSheet extends StatelessWidget {
                             color: kTertiaryColor,
                           ),
                           onPressed: () {
+                            String text = editNameController.value.text;
                             if (data.formKey.currentState!.validate()) {
                               if (function == '/name') {
-                                data.editName(
-                                    name: editNameController.value.text);
+                                data.editName(name: text);
                                 data.getName();
                               } else if (function == '/category') {
                                 data.renameCategory(
                                   from: data.selected,
-                                  to: editNameController.value.text,
+                                  to: text,
                                 );
                               }
                               //dismisses the bottomsheet

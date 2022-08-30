@@ -5,6 +5,7 @@ import 'package:donev2/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../model/todo.dart';
+import '../screens/search_screen.dart';
 import '../screens/splash_screen.dart';
 
 class RouteGenerator {
@@ -21,6 +22,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => EditScreen(id: args));
       case CategoryScreen.tag:
         return MaterialPageRoute(builder: (_) => const CategoryScreen());
+      case SearchScreen.tag:
+        final args = settings.arguments as String;
+        return MaterialPageRoute(builder: (_) => SearchScreen(search: args));
       default:
         return _errorRoute();
     }

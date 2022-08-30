@@ -12,7 +12,7 @@ import 'extras/search_sheet.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  static const tag = '/';
+  static const tag = '/home';
 
   @override
   Widget build(BuildContext context) {
