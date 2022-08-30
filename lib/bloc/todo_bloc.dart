@@ -41,6 +41,7 @@ class TodoBloc extends ChangeNotifier {
   int maxLength = 9;
   int currentOption = 2;
   bool checked = false;
+  String? query;
 
   // I don't know why this works
   update({DateTime? value, TimeOfDay? value2}) {

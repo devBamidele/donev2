@@ -1,4 +1,3 @@
-import 'package:donev2/notification/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,8 +8,12 @@ import 'extras/loading_data.dart';
 import 'extras/none_available.dart';
 
 class TaskList extends StatelessWidget {
-  const TaskList({Key? key}) : super(key: key);
+  const TaskList({
+    Key? key,
+    this.myQuery,
+  }) : super(key: key);
 
+  final String? myQuery;
   @override
   Widget build(BuildContext context) {
     return Consumer<TodoBloc>(
@@ -23,7 +26,7 @@ class TaskList extends StatelessWidget {
           ) {
             if (!snapshot.hasData) {
               // At the initial stage when there is no stream
-              data.getTodos();
+              data.getTodos(query: myQuery);
               return const LoadingData();
             } else {
               return snapshot

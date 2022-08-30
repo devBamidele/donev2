@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/constants.dart';
+import 'package:donev2/lists/extras/none_available.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -59,11 +60,11 @@ class SearchScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: AutoSizeText(
-                    'Search results for \'Bamidele\'',
-                    style: TextStyle(
+                    'Search results for \'${data.query}\'',
+                    style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 28,
                       letterSpacing: 1.2,
@@ -72,30 +73,48 @@ class SearchScreen extends StatelessWidget {
                   ),
                 ),
                 spacing(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    categoryAmount(data.categoryLength),
-                    style: kText1,
-                  ),
-                ),
-                spacing(),
-                const SizedBox(
-                  height: 110,
-                  child: CategoryList(),
-                ),
-                spacing(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    taskAmount(data.taskLength),
-                    style: kText1,
-                  ),
-                ),
-                spacing(),
-                const Expanded(
-                  child: TaskList(),
-                )
+                data.categoryLength! > 0
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              categoryAmount(data.categoryLength),
+                              style: kText1,
+                            ),
+                          ),
+                          spacing(),
+                          SizedBox(
+                            height: 110,
+                            child: CategoryList(myQuery: search),
+                          ),
+                          spacing(),
+                        ],
+                      )
+                    : const SizedBox.shrink(),
+                data.taskLength! > 0
+                    ? Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(
+                                taskAmount(data.taskLength),
+                                style: kText1,
+                              ),
+                            ),
+                            spacing(),
+                            Expanded(
+                              child: TaskList(myQuery: search),
+                            )
+                          ],
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
           ),

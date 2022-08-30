@@ -7,8 +7,9 @@ import 'extras/loading_data.dart';
 import 'extras/none_available.dart';
 
 class CategoryList extends StatelessWidget {
-  const CategoryList({Key? key}) : super(key: key);
+  const CategoryList({Key? key, this.myQuery}) : super(key: key);
 
+  final String? myQuery;
   @override
   Widget build(BuildContext context) {
     return Consumer<TodoBloc>(
@@ -21,7 +22,7 @@ class CategoryList extends StatelessWidget {
           ) {
             if (!snapshot.hasData) {
               // At the initial stage when there is no stream
-              data.getCategories();
+              data.getCategories(query: myQuery);
               return const LoadingData();
             } else {
               return snapshot

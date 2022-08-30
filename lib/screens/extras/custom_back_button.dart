@@ -1,4 +1,6 @@
+import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../constants.dart';
 
 // Customized button for popping off the stack
@@ -9,17 +11,23 @@ class CustomBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      tooltip: 'Navigate back',
-      iconSize: kIconSize,
-      color: Colors.black54,
-      onPressed: () {
-        Navigator.pop(context);
+    return Consumer<TodoBloc>(
+      builder: (co, data, Widget? child) {
+        return IconButton(
+          tooltip: 'Navigate back',
+          iconSize: kIconSize,
+          color: Colors.black54,
+          onPressed: () {
+            data.getTodos();
+            data.getCategories();
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+            color: kTertiaryColor,
+          ),
+        );
       },
-      icon: const Icon(
-        Icons.arrow_back_rounded,
-        color: kTertiaryColor,
-      ),
     );
   }
 }

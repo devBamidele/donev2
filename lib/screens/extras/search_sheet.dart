@@ -69,10 +69,9 @@ class SearchSheet extends StatelessWidget {
                           ),
                           onPressed: () {
                             String myQuery = searchController.value.text;
+                            data.query = myQuery;
                             if (screen == HomeScreen.tag) {
-                              data.getTodos(query: myQuery);
-                              data.getCategories(query: myQuery);
-                              Navigator.popAndPushNamed(
+                              Navigator.pushReplacementNamed(
                                 context,
                                 SearchScreen.tag,
                                 arguments: myQuery,
