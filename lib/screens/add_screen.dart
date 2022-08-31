@@ -96,9 +96,9 @@ class _AddScreenState extends State<AddScreen> {
                     }
                   },
                   label: const Text(
-                    'Add Task',
+                    'Create',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 19,
                       color: Colors.white,
                     ),
                   ),
@@ -140,8 +140,7 @@ class _AddScreenState extends State<AddScreen> {
                                 TextFormField(
                                   maxLength: 30,
                                   style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: 24.5,
                                   ),
                                   controller: myTaskController,
                                   validator: (value) {
@@ -156,45 +155,123 @@ class _AddScreenState extends State<AddScreen> {
                                     }
                                   },
                                   decoration: const InputDecoration(
-                                    labelText: 'Enter your task *',
-                                    labelStyle: TextStyle(
-                                      fontSize: 17,
-                                      color: kTertiaryColor,
-                                    ),
+                                    hintText: 'New Task',
                                   ),
                                 ),
                                 TextFormField(
                                   maxLength: 12,
                                   style: const TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 18.5,
                                     fontWeight: FontWeight.w400,
                                   ),
                                   controller: myCategoryController,
                                   decoration: const InputDecoration(
-                                    labelText: 'Enter category',
-                                    labelStyle: TextStyle(
-                                      fontSize: 17,
-                                      color: kTertiaryColor,
-                                    ),
+                                    hintText: 'Group by Category',
                                   ),
                                 ),
                               ],
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
                           SizedBox(
                             width: double.infinity,
-                            height: 55,
+                            height: 35,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-                                  children: const [
-                                    Text(
-                                      "Completion Date",
-                                      style: TextStyle(fontSize: 18.5),
+                                  children: [
+                                    Icon(
+                                      Icons.access_time_rounded,
+                                      size: kIconSize,
+                                    ),
+                                    const SizedBox(width: 25),
+                                    Row(
+                                      children: const [
+                                        Text(
+                                          "All-day",
+                                          style: TextStyle(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                FlutterSwitch(
+                                  value: switchState,
+                                  onToggle: (value) {
+                                    setState(() {
+                                      switchState = !switchState;
+                                    });
+                                  },
+                                  toggleSize: 22,
+                                  height: 25,
+                                  width: 50,
+                                  inactiveColor: kScaffoldColor,
+                                  activeColor: kTertiaryColor,
+                                  padding: 4,
+                                  inactiveSwitchBorder: Border.all(
+                                    color: Colors.white30,
+                                    width: 1.2,
+                                  ),
+                                  activeSwitchBorder: Border.all(
+                                    color: kTertiaryColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.alarm,
+                                      size: 34,
+                                      color: switchState
+                                          ? Colors.white
+                                          : Colors.white60,
+                                    ),
+                                    const SizedBox(width: 15),
+                                    OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        minimumSize: const Size(70, 35),
+                                        elevation: 3,
+                                        backgroundColor: kScaffoldColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        newTime = await showTimePicker(
+                                          context: context,
+                                          initialTime: currentTime,
+                                        );
+                                        if (newTime != null) {
+                                          // Update all instances of newDate
+                                          currentTime = newTime!;
+                                          data.update(value2: newTime);
+                                        }
+                                      },
+                                      child: Text(
+                                        newTime != null && switchState
+                                            ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
+                                            : 'Disabled',
+                                        style: TextStyle(
+                                          fontSize: 18.5,
+                                          color: switchState
+                                              ? Colors.white
+                                              : Colors.white60,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -242,84 +319,6 @@ class _AddScreenState extends State<AddScreen> {
                                     ),
                                   ),
                                 )
-                              ],
-                            ),
-                          ),
-                          const Divider(
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.alarm,
-                                      size: 34,
-                                      color: switchState
-                                          ? Colors.white
-                                          : Colors.white60,
-                                    ),
-                                    const SizedBox(width: 15),
-                                    OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        minimumSize: const Size(90, 40),
-                                        elevation: 3,
-                                        backgroundColor: kScaffoldColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                      ),
-                                      onPressed: () async {
-                                        newTime = await showTimePicker(
-                                          context: context,
-                                          initialTime: currentTime,
-                                        );
-                                        if (newTime != null) {
-                                          // Update all instances of newDate
-                                          currentTime = newTime!;
-                                          data.update(value2: newTime);
-                                        }
-                                      },
-                                      child: Text(
-                                        newTime != null && switchState
-                                            ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
-                                            : 'Disabled',
-                                        style: TextStyle(
-                                          fontSize: 18.5,
-                                          color: switchState
-                                              ? Colors.white
-                                              : Colors.white60,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                FlutterSwitch(
-                                  value: switchState,
-                                  onToggle: (value) {
-                                    setState(() {
-                                      switchState = !switchState;
-                                    });
-                                  },
-                                  toggleSize: 22,
-                                  height: 30,
-                                  width: 60,
-                                  inactiveColor: kScaffoldColor,
-                                  activeColor: kTertiaryColor,
-                                  padding: 5,
-                                  inactiveSwitchBorder: Border.all(
-                                    color: Colors.white30,
-                                    width: 1.2,
-                                  ),
-                                  activeSwitchBorder: Border.all(
-                                    color: kTertiaryColor,
-                                  ),
-                                ),
                               ],
                             ),
                           ),

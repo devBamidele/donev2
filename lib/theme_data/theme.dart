@@ -5,6 +5,7 @@ import '../constants.dart';
 class MyTheme {
   ThemeData themeData = ThemeData.dark().copyWith(
     // canvasColor: Colors.transparent, => I could also use this
+
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: kListTileColor,
     ),

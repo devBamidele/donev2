@@ -50,6 +50,8 @@ class RenameSheet extends StatelessWidget {
                               controller: editNameController,
                               textInputAction: TextInputAction.newline,
                               maxLength:
+                                  // The rename sheet could either be to change the name of a category
+                                  // Or to change the username
                                   function == '/name' ? data.maxLength : 10,
                               style: const TextStyle(
                                 fontSize: 21,
