@@ -23,8 +23,7 @@ class RouteGenerator {
       case CategoryScreen.tag:
         return MaterialPageRoute(builder: (_) => const CategoryScreen());
       case SearchScreen.tag:
-        final args = settings.arguments as String;
-        return MaterialPageRoute(builder: (_) => SearchScreen(search: args));
+        return MaterialPageRoute(builder: (_) => const SearchScreen());
       default:
         return _errorRoute();
     }

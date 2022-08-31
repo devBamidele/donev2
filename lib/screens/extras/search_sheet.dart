@@ -74,7 +74,6 @@ class SearchSheet extends StatelessWidget {
                               Navigator.pushReplacementNamed(
                                 context,
                                 SearchScreen.tag,
-                                arguments: myQuery,
                               );
                             } else if (screen == CategoryScreen.tag) {
                               data.getGroup(

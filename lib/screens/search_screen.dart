@@ -13,11 +13,8 @@ import 'extras/search_sheet.dart';
 class SearchScreen extends StatelessWidget {
   const SearchScreen({
     Key? key,
-    required this.search,
   }) : super(key: key);
-
   static const tag = '/search';
-  final String search;
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +44,8 @@ class SearchScreen extends StatelessWidget {
                           isScrollControlled: true,
                           shape: kRoundedBorder,
                           context: context,
-                          builder: (context) => SearchSheet(
-                            searchText: 'Search ${data.selected}',
+                          builder: (context) => const SearchSheet(
+                            searchText: 'Search everywhere',
                             screen: tag,
                           ),
                         );
@@ -87,7 +84,9 @@ class SearchScreen extends StatelessWidget {
                           spacing(),
                           SizedBox(
                             height: 110,
-                            child: CategoryList(myQuery: search),
+                            child: CategoryList(
+                              myQuery: data.query,
+                            ),
                           ),
                           spacing(),
                         ],
@@ -109,12 +108,24 @@ class SearchScreen extends StatelessWidget {
                             ),
                             spacing(),
                             Expanded(
-                              child: TaskList(myQuery: search),
+                              child: TaskList(
+                                myQuery: data.query,
+                              ),
                             )
                           ],
                         ),
                       )
                     : const SizedBox.shrink(),
+                if (data.taskLength == 0 && data.categoryLength == 0)
+                  const Expanded(
+                    child: Center(
+                      child: NoneAvailable(
+                        message: 'No results found',
+                      ),
+                    ),
+                  )
+                else
+                  const SizedBox.shrink()
               ],
             ),
           ),

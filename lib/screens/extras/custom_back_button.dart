@@ -12,7 +12,7 @@ class CustomBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<TodoBloc>(
-      builder: (co, data, Widget? child) {
+      builder: (_, data, Widget? child) {
         return IconButton(
           tooltip: 'Navigate back',
           iconSize: kIconSize,
