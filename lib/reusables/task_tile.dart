@@ -11,6 +11,15 @@ import 'package:intl/intl.dart';
 
 import '../model/todo.dart';
 
+extension DateTimeExtension on DateTime {
+  int calculateDifference() {
+    DateTime now = DateTime.now();
+    return DateTime(year, month, day)
+        .difference(DateTime(now.year, now.month, now.day))
+        .inDays;
+  }
+}
+
 /// The class that controls the appearance of each task tile
 class TaskTile extends StatelessWidget {
   const TaskTile({
@@ -94,11 +103,7 @@ class TaskTile extends StatelessWidget {
                     decorationThickness: 3,
                   ),
                 ),
-                subtitle: Text(
-                  complete != null
-                      ? DateFormat('EEEE,  MMM dd, y.').format(complete!)
-                      : '',
-                ),
+                subtitle: dateWidget(),
                 leading: RoundCheckBox(
                   checkedWidget: const Icon(
                     Icons.check,
@@ -126,18 +131,36 @@ class TaskTile extends StatelessWidget {
     );
   }
 
-  Widget trailingWidget() {
-    dynamic exp = const SizedBox.shrink();
+  dateWidget() {
+    Widget value = const SizedBox.shrink();
+    String day = '';
+    if (complete != null) {
+      if (complete!.calculateDifference() == 0) {
+        day = 'Today';
+      } else if (complete!.calculateDifference() == 1) {
+        day = 'Tomorrow';
+      } else if (complete!.calculateDifference() == -1) {
+        day = 'Yesterday';
+      } else {
+        day = DateFormat('EEEE, d MMM y').format(complete!);
+      }
+      value = Text(day);
+    }
+    return value;
+  }
+
+  trailingWidget() {
+    dynamic value = const SizedBox.shrink();
 
     if (alarm != null) {
       if (DateTime.parse(alarm!).isAfter(DateTime.now())) {
-        exp = const Icon(
+        value = const Icon(
           Icons.notifications_active_outlined,
           color: kTertiaryColor,
           size: 25,
         );
       }
     }
-    return exp;
+    return value;
   }
 }

@@ -20,7 +20,7 @@ class AddScreen extends StatefulWidget {
 class _AddScreenState extends State<AddScreen> {
   final myTaskController = TextEditingController();
   final myCategoryController = TextEditingController();
-  bool switchState = false;
+  bool switchState = true;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _AddScreenState extends State<AddScreen> {
                       DateTime verify =
                           toDateTime(date: currentDate, time: newTime!);
 
-                      if (switchState) {
+                      if (!switchState) {
                         if (verify.isBefore(DateTime.now()) == true) {
                           proceed = false;
                         } else {
@@ -71,13 +71,13 @@ class _AddScreenState extends State<AddScreen> {
                             : myCategoryController.value.text,
                         completion: newDate?.toString(),
                         alarm: editedAlarm?.toString(),
-                        ring: switchState,
+                        ring: !switchState,
                       );
 
                       // Add the data to the database
                       data.addTodo(newTodo);
 
-                      if (newTodo.alarm != null && switchState) {
+                      if (newTodo.alarm != null && !switchState) {
                         // Schedule a notification if the use wants it
                         NotificationService().scheduleNotifications(
                           time: DateTime.parse(newTodo.alarm!),
@@ -173,7 +173,7 @@ class _AddScreenState extends State<AddScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 15,
                           ),
                           SizedBox(
                             width: double.infinity,
@@ -208,12 +208,12 @@ class _AddScreenState extends State<AddScreen> {
                                       switchState = !switchState;
                                     });
                                   },
-                                  toggleSize: 22,
-                                  height: 25,
+                                  toggleSize: 19,
+                                  height: 23,
                                   width: 50,
                                   inactiveColor: kScaffoldColor,
                                   activeColor: kTertiaryColor,
-                                  padding: 4,
+                                  padding: 2.5,
                                   inactiveSwitchBorder: Border.all(
                                     color: Colors.white30,
                                     width: 1.2,
@@ -225,65 +225,15 @@ class _AddScreenState extends State<AddScreen> {
                               ],
                             ),
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           SizedBox(
                             width: double.infinity,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.alarm,
-                                      size: 34,
-                                      color: switchState
-                                          ? Colors.white
-                                          : Colors.white60,
-                                    ),
-                                    const SizedBox(width: 15),
-                                    OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        minimumSize: const Size(70, 35),
-                                        elevation: 3,
-                                        backgroundColor: kScaffoldColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                      ),
-                                      onPressed: () async {
-                                        newTime = await showTimePicker(
-                                          context: context,
-                                          initialTime: currentTime,
-                                        );
-                                        if (newTime != null) {
-                                          // Update all instances of newDate
-                                          currentTime = newTime!;
-                                          data.update(value2: newTime);
-                                        }
-                                      },
-                                      child: Text(
-                                        newTime != null && switchState
-                                            ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
-                                            : 'Disabled',
-                                        style: TextStyle(
-                                          fontSize: 18.5,
-                                          color: switchState
-                                              ? Colors.white
-                                              : Colors.white60,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    minimumSize: const Size(90, 40),
-                                    backgroundColor: kScaffoldColor,
-                                    elevation: 3,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                  ),
+                                TextButton(
                                   onPressed: () async {
                                     newDate = await showDatePicker(
                                       context: context,
@@ -305,20 +255,43 @@ class _AddScreenState extends State<AddScreen> {
                                     if (newDate != null) {
                                       currentDate = newDate!;
                                     }
-                                    // Update all instances of newDate
-                                    data.update(value: newDate);
                                   },
                                   child: Text(
                                     newDate != null
-                                        ? DateFormat('MMM dd, y')
+                                        ? DateFormat('EEEE, d MMM y')
                                             .format(newDate!)
-                                        : '-- / -- / ---',
+                                        : 'No date selected',
                                     style: const TextStyle(
                                       fontSize: 18.5,
                                       color: Colors.white,
+                                      fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                )
+                                ),
+                                !switchState // Display the time only if it's not an all day event
+                                    ? TextButton(
+                                        onPressed: () async {
+                                          newTime = await showTimePicker(
+                                            context: context,
+                                            initialTime: currentTime,
+                                          );
+                                          if (newTime != null) {
+                                            // Update all instances of newDate
+                                            currentTime = newTime!;
+                                            data.update(value2: newTime);
+                                          }
+                                        },
+                                        child: Text(
+                                          newTime != null && !switchState
+                                              ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
+                                              : '00 : 00 am',
+                                          style: const TextStyle(
+                                            fontSize: 18.5,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
                               ],
                             ),
                           ),

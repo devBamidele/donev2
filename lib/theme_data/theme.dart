@@ -6,6 +6,11 @@ class MyTheme {
   ThemeData themeData = ThemeData.dark().copyWith(
     // canvasColor: Colors.transparent, => I could also use this
 
+    // outlinedButtonTheme: OutlinedButtonThemeData(
+    //   style: ButtonStyle(
+    //     textStyle:
+    //   )
+    // ),
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: kListTileColor,
     ),
