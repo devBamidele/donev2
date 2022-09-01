@@ -6,11 +6,16 @@ class MyTheme {
   ThemeData themeData = ThemeData.dark().copyWith(
     // canvasColor: Colors.transparent, => I could also use this
 
-    // outlinedButtonTheme: OutlinedButtonThemeData(
-    //   style: ButtonStyle(
-    //     textStyle:
-    //   )
-    // ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        primary: Colors.white,
+        padding: const EdgeInsets.all(0),
+        textStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+    ),
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: kListTileColor,
     ),

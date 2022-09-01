@@ -24,8 +24,6 @@ class _AddScreenState extends State<AddScreen> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime? newDate = DateTime.now();
-    DateTime currentDate = newDate;
     TimeOfDay? newTime = TimeOfDay.now();
     TimeOfDay currentTime = newTime;
 
@@ -53,7 +51,7 @@ class _AddScreenState extends State<AddScreen> {
                     if (data.formKey.currentState!.validate()) {
                       // Verify that the setDate and setTime are in the future
                       DateTime verify =
-                          toDateTime(date: currentDate, time: newTime!);
+                          toDateTime(date: data.selectedDate!, time: newTime!);
 
                       if (!switchState) {
                         if (verify.isBefore(DateTime.now()) == true) {
@@ -69,7 +67,7 @@ class _AddScreenState extends State<AddScreen> {
                         category: myCategoryController.value.text.isEmpty
                             ? null
                             : myCategoryController.value.text,
-                        completion: newDate?.toString(),
+                        completion: data.selectedDate.toString(),
                         alarm: editedAlarm?.toString(),
                         ring: !switchState,
                       );
@@ -193,8 +191,7 @@ class _AddScreenState extends State<AddScreen> {
                                         Text(
                                           "All-day",
                                           style: TextStyle(
-                                            fontSize: 19,
-                                            fontWeight: FontWeight.w400,
+                                            fontSize: 18,
                                           ),
                                         ),
                                       ],
@@ -235,9 +232,9 @@ class _AddScreenState extends State<AddScreen> {
                               children: [
                                 TextButton(
                                   onPressed: () async {
-                                    newDate = await showDatePicker(
+                                    data.selectedDate = await showDatePicker(
                                       context: context,
-                                      initialDate: currentDate,
+                                      initialDate: data.selectedDate!,
                                       firstDate: DateTime(2000),
                                       lastDate: DateTime(2100),
                                       builder: (_, child) {
@@ -252,20 +249,12 @@ class _AddScreenState extends State<AddScreen> {
                                         );
                                       },
                                     );
-                                    if (newDate != null) {
-                                      currentDate = newDate!;
-                                    }
                                   },
                                   child: Text(
-                                    newDate != null
+                                    data.selectedDate != null
                                         ? DateFormat('EEEE, d MMM y')
-                                            .format(newDate!)
+                                            .format(data.selectedDate!)
                                         : 'No date selected',
-                                    style: const TextStyle(
-                                      fontSize: 18.5,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400,
-                                    ),
                                   ),
                                 ),
                                 !switchState // Display the time only if it's not an all day event
@@ -285,10 +274,6 @@ class _AddScreenState extends State<AddScreen> {
                                           newTime != null && !switchState
                                               ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
                                               : '00 : 00 am',
-                                          style: const TextStyle(
-                                            fontSize: 18.5,
-                                            color: Colors.white,
-                                          ),
                                         ),
                                       )
                                     : const SizedBox.shrink(),

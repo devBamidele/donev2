@@ -30,18 +30,34 @@ class TodoBloc extends ChangeNotifier {
     getCategories();
   }
 
-  // This object holds the information on the 'Add Task' / 'Edit Task' Page
-  String selected = '';
+  // The lengths of the groups, categories and task
   int? _groupLength;
   int? _categoryLength;
   int? _taskLength;
-  DateTime? myTime = DateTime.now();
+
+  // The Category item that has been tapped
+  String selected = '';
+
   int? nextNumber;
+
+  // The username stored by shared preferences
   String? username = ' 👋';
+
+  // Max number of characters a user can input for a name
   int maxLength = 9;
+
+  // For the menu in the Category Screen
   int currentOption = 2;
-  bool checked = false;
   String? query;
+
+  DateTime? _selectedDate = DateTime.now();
+
+  DateTime? get selectedDate => _selectedDate;
+
+  set selectedDate(DateTime? selectedDate) {
+    _selectedDate = selectedDate ?? _selectedDate;
+    notifyListeners();
+  }
 
   // I don't know why this works
   update({DateTime? value, TimeOfDay? value2}) {
