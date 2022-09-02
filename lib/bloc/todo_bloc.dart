@@ -80,7 +80,7 @@ class TodoBloc extends ChangeNotifier {
     _selectedDate =
         DateTime.tryParse(aTask.completion.toString()) ?? _selectedDate;
     _selectedTime = TimeOfDay.fromDateTime(
-      DateTime.parse(aTask.alarm ?? _selectedTime.toString()),
+      DateTime.parse(aTask.alarm ?? _selectedDate.toString()),
     );
   }
 

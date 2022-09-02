@@ -11,8 +11,8 @@ class NotificationService {
   }
   NotificationService._internal();
 
-  static const icon = 'notify';
-  static const alarm2 = 'rick';
+  static const icon = 'icon.png';
+  static const alarm2 = 'rick.mp3';
   static const channelId = '244456';
   static const channelName = 'Notifications from done ✔';
   static const channelDes = 'Channel for Done notification';
