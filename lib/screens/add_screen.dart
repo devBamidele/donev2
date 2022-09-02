@@ -26,7 +26,7 @@ class AddScreen extends StatefulWidget {
 class _AddScreenState extends State<AddScreen> {
   final myTaskController = TextEditingController();
   final myCategoryController = TextEditingController();
-  bool switchState = true;
+  bool alarmEnabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class _AddScreenState extends State<AddScreen> {
                         time: data.selectedTime!,
                       );
 
-                      if (!switchState) {
+                      if (alarmEnabled) {
                         if (verify.isBefore(DateTime.now()) == true) {
                           proceed = false;
                         } else {
@@ -67,35 +67,37 @@ class _AddScreenState extends State<AddScreen> {
                         }
                       }
 
-                      final newTodo = Todo(
-                        task: myTaskController.value.text,
-                        category: myCategoryController.value.text.isEmpty
-                            ? null
-                            : myCategoryController.value.text,
-                        completion: data.selectedDate.toString(),
-                        alarm: editedAlarm?.toString(),
-                        ring: !switchState,
-                      );
-
-                      // Add the data to the database
-                      data.addTodo(newTodo);
-
-                      if (newTodo.alarm != null && !switchState) {
-                        // Schedule a notification if the use wants it
-                        NotificationService().scheduleNotifications(
-                          time: DateTime.parse(newTodo.alarm!),
-                          id: data.nextNumber! + 1,
-                          notify: newTodo.task,
-                          heading: newTodo.category,
-                        );
-                      }
-
                       if (proceed) {
+                        final newTodo = Todo(
+                          task: myTaskController.value.text,
+                          category: myCategoryController.value.text.isEmpty
+                              ? null
+                              : myCategoryController.value.text,
+                          completion: data.selectedDate.toString(),
+                          alarm: editedAlarm?.toString(),
+                          ring: alarmEnabled,
+                        );
+
+                        // Add the task to the data base
+                        data.addTodo(newTodo);
+
+                        if (newTodo.alarm != null && alarmEnabled) {
+                          // Schedule a notification if the use wants it
+                          NotificationService().scheduleNotifications(
+                            time: DateTime.parse(newTodo.alarm!),
+                            id: data.nextNumber! + 1,
+                            notify: newTodo.task,
+                            heading: newTodo.category,
+                          );
+                        }
+
+                        // Refresh the date and time
                         data.refreshDateAndTime();
                         Navigator.pop(context);
                       } else {
                         snackbarMessage(
-                            'You are setting a notification for a past date');
+                          'You are setting a notification for a past date',
+                        );
                       }
                     }
                   },
@@ -205,10 +207,10 @@ class _AddScreenState extends State<AddScreen> {
                                   ],
                                 ),
                                 FlutterSwitch(
-                                  value: switchState,
+                                  value: !alarmEnabled,
                                   onToggle: (value) {
                                     setState(() {
-                                      switchState = !switchState;
+                                      alarmEnabled = !alarmEnabled;
                                     });
                                   },
                                   toggleSize: 19,
@@ -263,7 +265,7 @@ class _AddScreenState extends State<AddScreen> {
                                         : 'No date selected',
                                   ),
                                 ),
-                                !switchState // Display the time only if it's not an all day event
+                                alarmEnabled // Display the time only if it's not an all day event
                                     ? TextButton(
                                         onPressed: () async {
                                           data.selectedTime =

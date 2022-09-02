@@ -74,6 +74,17 @@ class TodoBloc extends ChangeNotifier {
     _selectedTime = TimeOfDay.now();
   }
 
+  // Save properties on the selected task to
+  // [_selectedDate] and [_selectedTime]
+  onSelectedTask(Todo aTask) {
+    _selectedDate =
+        DateTime.tryParse(aTask.completion.toString()) ?? _selectedDate;
+    _selectedTime = TimeOfDay.fromDateTime(
+      DateTime.parse(aTask.alarm ?? _selectedTime.toString()),
+    );
+  }
+
+  // Getters for the lengths of the lists
   int? get groupLength => _groupLength;
   int? get categoryLength => _categoryLength;
   int? get taskLength => _taskLength;

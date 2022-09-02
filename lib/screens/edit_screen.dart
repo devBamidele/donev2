@@ -26,22 +26,12 @@ class EditScreen extends StatefulWidget {
 class _EditScreenState extends State<EditScreen> {
   final myTaskController = TextEditingController();
   final myCategoryController = TextEditingController();
-  late bool switchState = widget.id.ring;
+  late bool alarmEnabled = widget.id.ring;
 
   @override
   Widget build(BuildContext context) {
     myTaskController.text = widget.id.task;
     myCategoryController.text = widget.id.category ?? '';
-
-    // Checks to see if the task already has a completion date set
-    Provider.of<TodoBloc>(context).selectedDate =
-        DateTime.tryParse(widget.id.completion.toString()) ?? DateTime.now();
-
-    Provider.of<TodoBloc>(context).selectedTime = TimeOfDay.fromDateTime(
-      DateTime.parse(
-        widget.id.alarm ?? DateTime.now().toString(),
-      ),
-    );
 
     bool proceed = true;
     DateTime? editedAlarm; // Store the changed alarm value
@@ -71,7 +61,7 @@ class _EditScreenState extends State<EditScreen> {
                         time: data.selectedTime!,
                       );
 
-                      if (!switchState) {
+                      if (alarmEnabled) {
                         if (verify.isBefore(DateTime.now()) == true) {
                           proceed = false;
                         } else {
@@ -80,37 +70,39 @@ class _EditScreenState extends State<EditScreen> {
                         }
                       }
 
-                      // Create a new Task and populate them with predetermined values
-                      final newTodo = Todo(
-                        id: widget.id.id,
-                        task: myTaskController.value.text,
-                        category: myCategoryController.value.text.isEmpty
-                            ? null
-                            : myCategoryController.value.text,
-                        isDone: widget.id.isDone,
-                        completion: data.selectedDate.toString(),
-                        alarm: editedAlarm?.toString(),
-                        ring: !switchState,
-                      );
-
-                      // Update the data in the database
-                      data.updateTodo(newTodo);
-
-                      if (newTodo.alarm != null && !switchState) {
-                        // Schedule a notification if the use wants it
-                        NotificationService().scheduleNotifications(
-                          time: DateTime.parse(newTodo.alarm!),
-                          id: newTodo.id!,
-                          notify: newTodo.task,
-                          heading: newTodo.category,
-                        );
-                      }
                       if (proceed) {
+                        // Create a new Task and populate them with predetermined values
+                        final newTodo = Todo(
+                          id: widget.id.id,
+                          task: myTaskController.value.text,
+                          category: myCategoryController.value.text.isEmpty
+                              ? null
+                              : myCategoryController.value.text,
+                          isDone: widget.id.isDone,
+                          completion: data.selectedDate.toString(),
+                          alarm: editedAlarm?.toString(),
+                          ring: alarmEnabled,
+                        );
+
+                        // Update the data in the database
+                        data.updateTodo(newTodo);
+
+                        if (newTodo.alarm != null && alarmEnabled) {
+                          // Schedule a notification if the use wants it
+                          NotificationService().scheduleNotifications(
+                            time: DateTime.parse(newTodo.alarm!),
+                            id: newTodo.id!,
+                            notify: newTodo.task,
+                            heading: newTodo.category,
+                          );
+                        }
+
                         data.refreshDateAndTime();
                         Navigator.pop(context);
                       } else {
                         snackbarMessage(
-                            'You are setting a notification for a past date');
+                          'You are setting a notification for a past date',
+                        );
                       }
                     }
                   },
@@ -220,10 +212,10 @@ class _EditScreenState extends State<EditScreen> {
                                   ],
                                 ),
                                 FlutterSwitch(
-                                  value: switchState,
+                                  value: !alarmEnabled,
                                   onToggle: (value) {
                                     setState(() {
-                                      switchState = !switchState;
+                                      alarmEnabled = !alarmEnabled;
                                     });
                                   },
                                   toggleSize: 19,
@@ -278,7 +270,7 @@ class _EditScreenState extends State<EditScreen> {
                                         : 'No date selected',
                                   ),
                                 ),
-                                !switchState // Display the time only if it's not an all day event
+                                alarmEnabled // Display the time only if it's not an all day event
                                     ? TextButton(
                                         onPressed: () async {
                                           data.selectedTime =
