@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:donev2/notification/notification_service.dart';
+import 'package:donev2/screens/add_screen.dart' show TimeOfDayExtension;
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:intl/intl.dart';
@@ -35,16 +34,14 @@ class _EditScreenState extends State<EditScreen> {
     myCategoryController.text = widget.id.category ?? '';
 
     // Checks to see if the task already has a completion date set
-    DateTime? newDate =
+    Provider.of<TodoBloc>(context).selectedDate =
         DateTime.tryParse(widget.id.completion.toString()) ?? DateTime.now();
-    DateTime currentDate = newDate; // => Why can't I use newDate directly
 
-    TimeOfDay? newTime = TimeOfDay.fromDateTime(
+    Provider.of<TodoBloc>(context).selectedTime = TimeOfDay.fromDateTime(
       DateTime.parse(
         widget.id.alarm ?? DateTime.now().toString(),
       ),
     );
-    TimeOfDay currentTime = newTime; // => Why can't I use newTime directly
 
     bool proceed = true;
     DateTime? editedAlarm; // Store the changed alarm value
@@ -69,10 +66,12 @@ class _EditScreenState extends State<EditScreen> {
                   onPressed: () {
                     if (data.formKey.currentState!.validate()) {
                       // Verify that the setDate and setTime are in the future
-                      DateTime verify =
-                          toDateTime(date: currentDate, time: newTime!);
+                      DateTime verify = toDateTime(
+                        date: data.selectedDate!,
+                        time: data.selectedTime!,
+                      );
 
-                      if (switchState) {
+                      if (!switchState) {
                         if (verify.isBefore(DateTime.now()) == true) {
                           proceed = false;
                         } else {
@@ -89,15 +88,15 @@ class _EditScreenState extends State<EditScreen> {
                             ? null
                             : myCategoryController.value.text,
                         isDone: widget.id.isDone,
-                        completion: newDate.toString(),
+                        completion: data.selectedDate.toString(),
                         alarm: editedAlarm?.toString(),
-                        ring: switchState,
+                        ring: !switchState,
                       );
 
                       // Update the data in the database
                       data.updateTodo(newTodo);
 
-                      if (newTodo.alarm != null && switchState) {
+                      if (newTodo.alarm != null && !switchState) {
                         // Schedule a notification if the use wants it
                         NotificationService().scheduleNotifications(
                           time: DateTime.parse(newTodo.alarm!),
@@ -107,6 +106,7 @@ class _EditScreenState extends State<EditScreen> {
                         );
                       }
                       if (proceed) {
+                        data.refreshDateAndTime();
                         Navigator.pop(context);
                       } else {
                         snackbarMessage(
@@ -159,13 +159,14 @@ class _EditScreenState extends State<EditScreen> {
                                 TextFormField(
                                   maxLength: 30,
                                   style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: 24.5,
                                   ),
                                   controller: myTaskController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter a task';
+                                    } else if (value.startsWith(' ')) {
+                                      return 'Cannot start with a space';
                                     } else if (value.length < 3) {
                                       return 'Too short';
                                     } else {
@@ -173,61 +174,88 @@ class _EditScreenState extends State<EditScreen> {
                                     }
                                   },
                                   decoration: const InputDecoration(
-                                    labelText: 'Enter your task *',
-                                    labelStyle: TextStyle(
-                                      fontSize: 17,
-                                      color: kTertiaryColor,
-                                    ),
+                                    hintText: 'New Task',
                                   ),
                                 ),
                                 TextFormField(
                                   maxLength: 12,
                                   style: const TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 18.5,
                                     fontWeight: FontWeight.w400,
                                   ),
                                   controller: myCategoryController,
                                   decoration: const InputDecoration(
-                                    labelText: 'Enter category',
-                                    labelStyle: TextStyle(
-                                      fontSize: 17,
-                                      color: kTertiaryColor,
-                                    ),
+                                    hintText: 'Group by Category',
                                   ),
                                 ),
                               ],
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 15,
                           ),
                           SizedBox(
                             width: double.infinity,
-                            height: 55,
+                            height: 35,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-                                  children: const [
-                                    Text(
-                                      "Completion Date",
-                                      style: TextStyle(fontSize: 18.5),
+                                  children: [
+                                    Icon(
+                                      Icons.access_time_rounded,
+                                      size: kIconSize,
+                                    ),
+                                    const SizedBox(width: 25),
+                                    Row(
+                                      children: const [
+                                        Text(
+                                          "All-day",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                                OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    minimumSize: const Size(90, 40),
-                                    elevation: 3,
-                                    backgroundColor: kScaffoldColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
+                                FlutterSwitch(
+                                  value: switchState,
+                                  onToggle: (value) {
+                                    setState(() {
+                                      switchState = !switchState;
+                                    });
+                                  },
+                                  toggleSize: 19,
+                                  height: 23,
+                                  width: 50,
+                                  inactiveColor: kScaffoldColor,
+                                  activeColor: kTertiaryColor,
+                                  padding: 2.5,
+                                  inactiveSwitchBorder: Border.all(
+                                    color: Colors.white30,
+                                    width: 1.2,
                                   ),
+                                  activeSwitchBorder: Border.all(
+                                    color: kTertiaryColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
                                   onPressed: () async {
-                                    newDate = await showDatePicker(
+                                    data.selectedDate = await showDatePicker(
                                       context: context,
-                                      initialDate: currentDate,
+                                      initialDate: data.selectedDate!,
                                       firstDate: DateTime(2000),
                                       lastDate: DateTime(2100),
                                       builder: (_, child) {
@@ -242,102 +270,28 @@ class _EditScreenState extends State<EditScreen> {
                                         );
                                       },
                                     );
-                                    if (newDate != null) {
-                                      currentDate = newDate!;
-                                    }
-                                    // Update all instances of newDate
-                                    data.update(value: newDate);
                                   },
                                   child: Text(
-                                    newDate != null
-                                        ? DateFormat('MMM dd, y')
-                                            .format(newDate!)
-                                        : '-- / -- / ---',
-                                    style: const TextStyle(
-                                      fontSize: 18.5,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          const Divider(
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.alarm,
-                                      size: 34,
-                                      color: switchState
-                                          ? Colors.white
-                                          : Colors.white60,
-                                    ),
-                                    const SizedBox(width: 15),
-                                    OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        minimumSize: const Size(90, 40),
-                                        elevation: 3,
-                                        backgroundColor: kScaffoldColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                      ),
-                                      onPressed: () async {
-                                        newTime = await showTimePicker(
-                                          context: context,
-                                          initialTime: currentTime,
-                                        );
-                                        if (newTime != null) {
-                                          // Update all instances of newDate
-                                          currentTime = newTime!;
-                                          log(editedAlarm.toString());
-                                          data.update(value2: newTime);
-                                        }
-                                      },
-                                      child: Text(
-                                        newTime != null && switchState
-                                            ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
-                                            : 'Disabled',
-                                        style: TextStyle(
-                                          fontSize: 18.5,
-                                          color: switchState
-                                              ? Colors.white
-                                              : Colors.white60,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                FlutterSwitch(
-                                  value: switchState,
-                                  onToggle: (value) {
-                                    setState(() {
-                                      switchState = !switchState;
-                                    });
-                                  },
-                                  toggleSize: 22,
-                                  height: 30,
-                                  width: 60,
-                                  inactiveColor: kScaffoldColor,
-                                  activeColor: kTertiaryColor,
-                                  padding: 5,
-                                  inactiveSwitchBorder: Border.all(
-                                    color: Colors.white30,
-                                    width: 1.2,
-                                  ),
-                                  activeSwitchBorder: Border.all(
-                                    color: kTertiaryColor,
+                                    data.selectedDate != null
+                                        ? DateFormat('EEEE, d MMM y')
+                                            .format(data.selectedDate!)
+                                        : 'No date selected',
                                   ),
                                 ),
+                                !switchState // Display the time only if it's not an all day event
+                                    ? TextButton(
+                                        onPressed: () async {
+                                          data.selectedTime =
+                                              await showTimePicker(
+                                            context: context,
+                                            initialTime: data.selectedTime!,
+                                          );
+                                        },
+                                        child: Text(
+                                          data.selectedTime!.timeFormat(),
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
                               ],
                             ),
                           ),

@@ -50,18 +50,28 @@ class TodoBloc extends ChangeNotifier {
   int currentOption = 2;
   String? query;
 
+  // This holds the date that is selected by the user
   DateTime? _selectedDate = DateTime.now();
 
+  // This holds the time that is selected by the user
+  TimeOfDay? _selectedTime = TimeOfDay.now();
+
   DateTime? get selectedDate => _selectedDate;
+  TimeOfDay? get selectedTime => _selectedTime;
 
   set selectedDate(DateTime? selectedDate) {
     _selectedDate = selectedDate ?? _selectedDate;
     notifyListeners();
   }
 
-  // I don't know why this works
-  update({DateTime? value, TimeOfDay? value2}) {
+  set selectedTime(TimeOfDay? selectedTime) {
+    _selectedTime = selectedTime ?? _selectedTime;
     notifyListeners();
+  }
+
+  refreshDateAndTime() {
+    _selectedDate = DateTime.now();
+    _selectedTime = TimeOfDay.now();
   }
 
   int? get groupLength => _groupLength;

@@ -8,6 +8,12 @@ import '../model/todo.dart';
 import 'extras/custom_back_button.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
+extension TimeOfDayExtension on TimeOfDay {
+  String timeFormat() {
+    return '$hour : $minute ${period.name}';
+  }
+}
+
 class AddScreen extends StatefulWidget {
   const AddScreen({Key? key}) : super(key: key);
 
@@ -24,9 +30,6 @@ class _AddScreenState extends State<AddScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TimeOfDay? newTime = TimeOfDay.now();
-    TimeOfDay currentTime = newTime;
-
     bool proceed = true;
     DateTime? editedAlarm; // Store the changed alarm value
 
@@ -50,8 +53,10 @@ class _AddScreenState extends State<AddScreen> {
                   onPressed: () {
                     if (data.formKey.currentState!.validate()) {
                       // Verify that the setDate and setTime are in the future
-                      DateTime verify =
-                          toDateTime(date: data.selectedDate!, time: newTime!);
+                      DateTime verify = toDateTime(
+                        date: data.selectedDate!,
+                        time: data.selectedTime!,
+                      );
 
                       if (!switchState) {
                         if (verify.isBefore(DateTime.now()) == true) {
@@ -86,6 +91,7 @@ class _AddScreenState extends State<AddScreen> {
                       }
 
                       if (proceed) {
+                        data.refreshDateAndTime();
                         Navigator.pop(context);
                       } else {
                         snackbarMessage(
@@ -260,20 +266,14 @@ class _AddScreenState extends State<AddScreen> {
                                 !switchState // Display the time only if it's not an all day event
                                     ? TextButton(
                                         onPressed: () async {
-                                          newTime = await showTimePicker(
+                                          data.selectedTime =
+                                              await showTimePicker(
                                             context: context,
-                                            initialTime: currentTime,
+                                            initialTime: data.selectedTime!,
                                           );
-                                          if (newTime != null) {
-                                            // Update all instances of newDate
-                                            currentTime = newTime!;
-                                            data.update(value2: newTime);
-                                          }
                                         },
                                         child: Text(
-                                          newTime != null && !switchState
-                                              ? '${newTime!.hour} : ${newTime!.minute} ${newTime!.period.name}'
-                                              : '00 : 00 am',
+                                          data.selectedTime!.timeFormat(),
                                         ),
                                       )
                                     : const SizedBox.shrink(),
