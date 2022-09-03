@@ -139,19 +139,15 @@ class CategoryScreen extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              const SizedBox(
-                                height: 3,
-                              ),
+                              spacing(height: 3),
                               Text(
-                                'Tasks (${data.groupLength})',
+                                'TASKS (${data.groupLength})',
                                 style: kText1,
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 15,
-                        ),
+                        spacing(),
                         const Expanded(
                           child: ModifiedCategoryList(),
                         ),
@@ -164,6 +160,12 @@ class CategoryScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  spacing({double height = 15}) {
+    return SizedBox(
+      height: height,
     );
   }
 }

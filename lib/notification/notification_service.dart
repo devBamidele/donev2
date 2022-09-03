@@ -11,8 +11,8 @@ class NotificationService {
   }
   NotificationService._internal();
 
-  static const icon = 'icon.png';
-  static const alarm2 = 'rick.mp3';
+  static const icon = 'icon';
+  static const alarm2 = 'rick';
   static const channelId = '244456';
   static const channelName = 'Notifications from done ✔';
   static const channelDes = 'Channel for Done notification';
@@ -51,6 +51,7 @@ class NotificationService {
       channelName,
       channelDescription: channelDes,
       icon: icon,
+      playSound: true,
       sound: RawResourceAndroidNotificationSound(
         alarm2,
       ),

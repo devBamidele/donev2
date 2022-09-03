@@ -1,0 +1,13 @@
+Thoughts
+1. 'Sort by' functionality for tasks
+2. Better search functionality
+
+Things I've noticed on other devices
+1. Backwards navigation from the Home Screen results in faulty navigation
+2. The spacing between widgets on the home screen should be reduced
+3. 'What's up /name/ gets too big for smaller screens even with the max
+length being 8. Try autotext size 🤧
+
+
+Feedback
+1. Uncategorized tasks should have their own category

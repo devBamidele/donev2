@@ -102,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  spacing(height: 7),
+                  spacing(height: 3),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: Row(
@@ -152,12 +152,33 @@ class HomeScreen extends StatelessWidget {
                     child: CategoryList(),
                   ),
                   spacing(),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      'YOUR TASKS',
-                      style: kText1,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          'YOUR TASKS',
+                          style: kText1,
+                        ),
+                      ),
+                      PopupMenuButton(
+                        initialValue: 'Sort by',
+                        color: kPopUpColor,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry>[],
+                        icon: Icon(
+                          Icons.sort_rounded,
+                          size: kIconSize,
+                          color: kTertiaryColor,
+                        ),
+                      ),
+                    ],
                   ),
                   spacing(),
                   const Expanded(
@@ -172,7 +193,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  spacing({double height = 20}) {
+  spacing({double height = 15}) {
     return SizedBox(
       height: height,
     );
