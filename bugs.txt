@@ -8,6 +8,8 @@ Things I've noticed on other devices
 3. 'What's up /name/ gets too big for smaller screens even with the max
 length being 8. Try autotext size 🤧
 
-
 Feedback
 1. Uncategorized tasks should have their own category
+2. There should be a preset category
+3. The edit-name icon should be more visible
+4. Have a mini user guide

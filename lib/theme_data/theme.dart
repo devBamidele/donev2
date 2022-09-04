@@ -5,7 +5,14 @@ import '../constants.dart';
 class MyTheme {
   ThemeData themeData = ThemeData.dark().copyWith(
     // canvasColor: Colors.transparent, => I could also use this
-
+    popupMenuTheme: const PopupMenuThemeData(
+      color: kPopUpColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(12),
+        ),
+      ),
+    ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         primary: Colors.white,

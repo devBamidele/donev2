@@ -77,16 +77,14 @@ class SearchScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
-                              categoryAmount(data.categoryLength),
+                              'Categories (${data.categoryLength})',
                               style: kText1,
                             ),
                           ),
                           spacing(),
-                          SizedBox(
+                          const SizedBox(
                             height: 110,
-                            child: CategoryList(
-                              myQuery: data.query,
-                            ),
+                            child: CategoryList(),
                           ),
                           spacing(),
                         ],
@@ -107,10 +105,8 @@ class SearchScreen extends StatelessWidget {
                               ),
                             ),
                             spacing(),
-                            Expanded(
-                              child: TaskList(
-                                myQuery: data.query,
-                              ),
+                            const Expanded(
+                              child: TaskList(),
                             )
                           ],
                         ),
@@ -138,16 +134,6 @@ class SearchScreen extends StatelessWidget {
     String text = '';
     if (length! >= 1) {
       text = 'Tasks ($length)';
-    } else {
-      text = '';
-    }
-    return text;
-  }
-
-  categoryAmount(int? length) {
-    String text = '';
-    if (length! >= 1) {
-      text = 'Categories ($length)';
     } else {
       text = '';
     }

@@ -10,10 +10,8 @@ import 'extras/none_available.dart';
 class TaskList extends StatelessWidget {
   const TaskList({
     Key? key,
-    this.myQuery,
   }) : super(key: key);
 
-  final String? myQuery;
   @override
   Widget build(BuildContext context) {
     return Consumer<TodoBloc>(
@@ -25,8 +23,6 @@ class TaskList extends StatelessWidget {
             AsyncSnapshot<List<Todo>?> snapshot,
           ) {
             if (!snapshot.hasData) {
-              // At the initial stage when there is no stream
-              data.getTodos(query: myQuery);
               return const LoadingData();
             } else {
               return snapshot

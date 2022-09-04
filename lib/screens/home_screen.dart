@@ -7,7 +7,7 @@ import '../bloc/todo_bloc.dart';
 import '../lists/category_list.dart';
 import '../lists/task_list.dart';
 import 'extras/rename_sheet.dart';
-import 'extras/search_sheet.dart';
+import 'extras/search.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -85,14 +85,9 @@ class HomeScreen extends StatelessWidget {
                         tooltip: 'Search',
                         iconSize: kIconSize,
                         onPressed: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            shape: kRoundedBorder,
+                          showSearch(
                             context: context,
-                            builder: (context) => const SearchSheet(
-                              searchText: 'Search everywhere',
-                              screen: tag,
-                            ),
+                            delegate: MySearchDelegate(),
                           );
                         },
                         icon: const Icon(
@@ -151,7 +146,7 @@ class HomeScreen extends StatelessWidget {
                     height: 110,
                     child: CategoryList(),
                   ),
-                  spacing(),
+                  spacing(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -163,24 +158,17 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       PopupMenuButton(
-                        initialValue: 'Sort by',
-                        color: kPopUpColor,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                        ),
-                        itemBuilder: (BuildContext context) =>
-                            <PopupMenuEntry>[],
                         icon: Icon(
                           Icons.sort_rounded,
                           size: kIconSize,
                           color: kTertiaryColor,
                         ),
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry>[],
                       ),
                     ],
                   ),
-                  spacing(),
+                  spacing(height: 5),
                   const Expanded(
                     child: TaskList(),
                   )

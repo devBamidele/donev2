@@ -61,6 +61,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 padding: const EdgeInsets.only(bottom: 80),
                 child: AnimatedTextKit(
                   onFinished: () {
+                    // Get the categories and the tasks before the HomeScreen shows up
+                    data.getCategories();
+                    data.getTodos();
                     data.verifyKey();
                     data.setMaxChar(context);
                   },
@@ -78,7 +81,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                       textAlign: TextAlign.center,
-                      speed: const Duration(milliseconds: 330),
+                      speed: const Duration(milliseconds: 320),
                     ),
                   ],
                 ),

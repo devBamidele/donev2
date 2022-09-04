@@ -55,12 +55,6 @@ class CategoryScreen extends StatelessWidget {
                             ),
                           ),
                           PopupMenuButton(
-                            color: kPopUpColor,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(12),
-                              ),
-                            ),
                             icon: Icon(
                               Icons.more_vert_rounded,
                               size: kIconSize,
