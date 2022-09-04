@@ -30,6 +30,9 @@ class TodoBloc extends ChangeNotifier {
     getCategories();
   }
 
+  // The item the user is currently searching for
+  String? search;
+
   // The lengths of the groups, categories and task
   int? _groupLength;
   int? _categoryLength;
@@ -91,6 +94,13 @@ class TodoBloc extends ChangeNotifier {
 
   // If a value is not present in storage we get a null value
   //int intValue = await prefs.getInt('intValue') ?? 0;
+
+  // When the user navigates off the search screen
+  exitSearch() {
+    search = null;
+    getCategories();
+    getTodos();
+  }
 
   // Set the max length of the name text
   setMaxChar(BuildContext context) {

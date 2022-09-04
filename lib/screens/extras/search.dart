@@ -9,51 +9,48 @@ import '../../lists/task_list.dart';
 
 class MySearchDelegate extends SearchDelegate {
   @override
-  List<Widget>? buildActions(BuildContext context) => [
-        // When the cancel icon is pressed
-        Consumer<TodoBloc>(
-            builder: (BuildContext context, data, Widget? child) {
-          return IconButton(
-            onPressed: () {
-              if (query.isEmpty) {
-                close(context, null); // close search bar
-                data.getCategories();
-                data.getTodos();
-              } else {
-                query = '';
-              }
-            },
-            icon: Icon(
-              Icons.clear_rounded,
-              size: kIconSize,
-              color: kTertiaryColor,
-            ),
-          );
-        })
-      ];
-
-  @override
   Widget? buildLeading(BuildContext context) {
     // When the back button is pressed
     return Consumer<TodoBloc>(
         builder: (BuildContext context, data, Widget? child) {
       return IconButton(
-        onPressed: () {
-          close(context, null);
-          data.getCategories();
-          data.getTodos();
-        },
+        onPressed: () => close(context, null),
         icon: Icon(
           Icons.arrow_back_rounded,
           color: kTertiaryColor,
-          size: kIconSize,
+          size: kIconSize - 5,
         ),
       );
     });
   }
 
   @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      // When the cancel icon is pressed
+      Consumer<TodoBloc>(builder: (BuildContext context, data, Widget? child) {
+        return IconButton(
+          onPressed: () {
+            if (query.isEmpty) {
+              close(context, null); // close search bar
+            } else {
+              query = '';
+            }
+          },
+          icon: Icon(
+            Icons.clear_rounded,
+            size: kIconSize - 5,
+            color: kTertiaryColor,
+          ),
+        );
+      })
+    ];
+  }
+
+  @override
   Widget buildResults(BuildContext context) {
+    // The search results that are displayed
+    Provider.of<TodoBloc>(context, listen: false).search = query;
     return Consumer<TodoBloc>(
         builder: (BuildContext context, data, Widget? child) {
       return Padding(
@@ -122,6 +119,12 @@ class MySearchDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     return Container();
+  }
+
+  @override
+  close(BuildContext context, dynamic result) {
+    super.close(context, result);
+    Provider.of<TodoBloc>(context, listen: false).exitSearch();
   }
 
   spacing({double height = 15}) => SizedBox(height: height);

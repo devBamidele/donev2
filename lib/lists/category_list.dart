@@ -20,6 +20,7 @@ class CategoryList extends StatelessWidget {
             AsyncSnapshot<List<Map<String, dynamic>>> snapshot,
           ) {
             if (!snapshot.hasData) {
+              data.getCategories(query: data.search);
               return const LoadingData();
             } else {
               return snapshot

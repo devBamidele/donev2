@@ -23,6 +23,7 @@ class TaskList extends StatelessWidget {
             AsyncSnapshot<List<Todo>?> snapshot,
           ) {
             if (!snapshot.hasData) {
+              data.getTodos(query: data.search);
               return const LoadingData();
             } else {
               return snapshot
