@@ -31,7 +31,14 @@ class TodoBloc extends ChangeNotifier {
   }
 
   // The item the user is currently searching for
-  String? search;
+  String? _search;
+
+  String? get search => _search;
+
+  set search(String? search) {
+    _search = search;
+    notifyListeners();
+  }
 
   // The lengths of the groups, categories and task
   int? _groupLength;

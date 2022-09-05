@@ -51,6 +51,20 @@ class MySearchDelegate extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     // The search results that are displayed
     Provider.of<TodoBloc>(context, listen: false).search = query;
+
+    if (query.isEmpty) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Center(
+            child: NoneAvailable(
+              message: "Search term cannot be empty",
+            ),
+          )
+        ],
+      );
+    }
+
     return Consumer<TodoBloc>(
         builder: (BuildContext context, data, Widget? child) {
       return Padding(
