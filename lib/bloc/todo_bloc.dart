@@ -16,6 +16,7 @@ class TodoBloc extends ChangeNotifier {
   final _categoryController =
       StreamController<List<Map<String, dynamic>>>.broadcast();
   final _groupController = StreamController<List<Todo>?>.broadcast();
+  final _suggestionsController = StreamController<List<Todo>?>.broadcast();
 
   final formKey =
       GlobalKey<FormState>(); // The key for my forms on the add_screen page
@@ -24,6 +25,7 @@ class TodoBloc extends ChangeNotifier {
   get todos => _todoController.stream;
   get categories => _categoryController.stream;
   get group => _groupController.stream;
+  get suggestions => _suggestionsController.stream;
 
   TodoBloc() {
     getTodos();
@@ -153,6 +155,13 @@ class TodoBloc extends ChangeNotifier {
     List<Todo>? result = await _todoDao.getTodos(query: query, columns: []);
     _taskLength = result?.length;
     _todoController.sink.add(result);
+    notifyListeners();
+  }
+
+  getSuggestions({String? query}) async {
+    List<Todo>? result =
+        await _todoDao.getSuggestions(query: query, columns: []);
+    _suggestionsController.sink.add(result);
     notifyListeners();
   }
 

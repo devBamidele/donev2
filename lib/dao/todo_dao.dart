@@ -59,6 +59,30 @@ class TodoDao {
     return todos;
   }
 
+  //Get the search suggestions
+  Future<List<Todo>?> getSuggestions({
+    required List<String> columns,
+    String? query,
+  }) async {
+    final db = await dbProvider.database;
+
+    List<Map<String, dynamic>>? result;
+    if (query != null && query.isNotEmpty) {
+      result = await db?.query(
+        todoTABLE,
+        columns: columns,
+        where: '$columnTask LIKE ?',
+        whereArgs: ["%$query%"],
+        orderBy: '$columnId desc',
+      );
+    }
+
+    List<Todo>? todos = result?.isNotEmpty == true
+        ? result?.map((item) => Todo.fromDatabaseJson(item)).toList()
+        : [];
+    return todos;
+  }
+
   /// The function that provides data that will be displayed on the category screen
   Future<List<Todo>?> fetchGroup({
     required String category,
