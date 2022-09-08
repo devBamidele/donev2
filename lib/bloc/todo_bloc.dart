@@ -48,6 +48,7 @@ class TodoBloc extends ChangeNotifier {
   int? _groupLength;
   int? _categoryLength;
   int? _taskLength;
+  int? _suggestionLength;
 
   // The Category item that has been tapped
   String selected = '';
@@ -102,6 +103,7 @@ class TodoBloc extends ChangeNotifier {
   int? get groupLength => _groupLength;
   int? get categoryLength => _categoryLength;
   int? get taskLength => _taskLength;
+  int? get suggestionLength => _suggestionLength;
 
   // If a value is not present in storage we get a null value
   //int intValue = await prefs.getInt('intValue') ?? 0;
@@ -164,6 +166,7 @@ class TodoBloc extends ChangeNotifier {
   getSuggestions({String? query}) async {
     List<Todo>? result =
         await _todoDao.getSuggestions(query: query, columns: []);
+    _suggestionLength = result?.length;
     _suggestionsController.sink.add(result);
     notifyListeners();
   }

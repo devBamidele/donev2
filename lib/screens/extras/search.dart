@@ -156,13 +156,47 @@ class MySearchDelegate extends SearchDelegate {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 13,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          'Tasks',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white60,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${data.suggestionLength.toString()} found',
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white60,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   Expanded(
-                                    child: ListView.builder(
+                                    child: ListView.separated(
                                       itemCount: snapshot.data!.length,
                                       itemBuilder: (context, index) {
                                         final item = snapshot.data![index];
-                                        return SearchItem(item: item);
+                                        return SearchItem(
+                                          item: item,
+                                          show: false,
+                                        );
                                       },
+                                      separatorBuilder:
+                                          (BuildContext context, int index) =>
+                                              const SizedBox(height: 10),
                                     ),
                                   ),
                                 ],
@@ -199,26 +233,46 @@ class MySearchDelegate extends SearchDelegate {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
                                       horizontal: 8,
-                                      vertical: 12,
                                     ),
-                                    child: Text(
-                                      'Recent Searches',
-                                      style: TextStyle(
-                                        fontSize: 18.3,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          'Recent',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white60,
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {},
+                                          child: const Text(
+                                            'Clear history',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white60,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   Expanded(
-                                    child: ListView.builder(
+                                    child: ListView.separated(
                                       itemCount: snapshot.data!.length,
                                       itemBuilder: (context, index) {
                                         final item = snapshot.data![index];
                                         return SearchItem(item: item);
                                       },
+                                      separatorBuilder:
+                                          (BuildContext context, int index) =>
+                                              const SizedBox(height: 10),
                                     ),
                                   ),
                                 ],
