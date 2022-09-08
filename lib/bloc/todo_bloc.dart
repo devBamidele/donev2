@@ -17,6 +17,7 @@ class TodoBloc extends ChangeNotifier {
       StreamController<List<Map<String, dynamic>>>.broadcast();
   final _groupController = StreamController<List<Todo>?>.broadcast();
   final _suggestionsController = StreamController<List<Todo>?>.broadcast();
+  final _recentController = StreamController<List<Todo>?>.broadcast();
 
   final formKey =
       GlobalKey<FormState>(); // The key for my forms on the add_screen page
@@ -26,6 +27,7 @@ class TodoBloc extends ChangeNotifier {
   get categories => _categoryController.stream;
   get group => _groupController.stream;
   get suggestions => _suggestionsController.stream;
+  get recent => _recentController.stream;
 
   TodoBloc() {
     getTodos();
@@ -88,11 +90,11 @@ class TodoBloc extends ChangeNotifier {
 
   // Save properties on the selected task to
   // [_selectedDate] and [_selectedTime]
-  onSelectedTask(Todo aTask) {
+  onSelectedTask(Todo selected) {
     _selectedDate =
-        DateTime.tryParse(aTask.completion.toString()) ?? _selectedDate;
+        DateTime.tryParse(selected.completion.toString()) ?? _selectedDate;
     _selectedTime = TimeOfDay.fromDateTime(
-      DateTime.parse(aTask.alarm ?? _selectedDate.toString()),
+      DateTime.parse(selected.alarm ?? _selectedDate.toString()),
     );
   }
 
@@ -131,6 +133,7 @@ class TodoBloc extends ChangeNotifier {
   }
 
   verifyKey() async {
+    // Obtain shared preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('Name')) {
       getName();
@@ -162,6 +165,12 @@ class TodoBloc extends ChangeNotifier {
     List<Todo>? result =
         await _todoDao.getSuggestions(query: query, columns: []);
     _suggestionsController.sink.add(result);
+    notifyListeners();
+  }
+
+  getRecent() async {
+    List<Todo>? result = await _todoDao.getRecent();
+    _recentController.sink.add(result);
     notifyListeners();
   }
 

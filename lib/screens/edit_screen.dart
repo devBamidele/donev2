@@ -82,6 +82,7 @@ class _EditScreenState extends State<EditScreen> {
                           completion: data.selectedDate.toString(),
                           alarm: editedAlarm?.toString(),
                           ring: alarmEnabled,
+                          recent: widget.id.recent,
                         );
 
                         // Update the data in the database

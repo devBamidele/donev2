@@ -1,5 +1,6 @@
 import 'package:donev2/constants.dart';
 import 'package:donev2/lists/extras/loading_data.dart';
+import 'package:donev2/screens/extras/search_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,20 +28,18 @@ class MySearchDelegate extends SearchDelegate {
   List<Widget>? buildActions(BuildContext context) {
     return [
       // When the cancel icon is pressed
-      IconButton(
-        onPressed: () {
-          if (query.isEmpty) {
-            close(context, null); // close search bar
-          } else {
-            query = '';
-          }
-        },
-        icon: Icon(
-          Icons.clear_rounded,
-          size: kIconSize - 5,
-          color: kTertiaryColor,
-        ),
-      )
+      query.isNotEmpty
+          ? IconButton(
+              onPressed: () {
+                query = '';
+              },
+              icon: Icon(
+                Icons.clear_rounded,
+                size: kIconSize - 5,
+                color: kTertiaryColor,
+              ),
+            )
+          : const SizedBox.shrink(),
     ];
   }
 
@@ -132,6 +131,7 @@ class MySearchDelegate extends SearchDelegate {
     return Consumer<TodoBloc>(
       builder: (_, data, Widget? child) {
         data.getSuggestions(query: query);
+        data.getRecent();
         return query.isNotEmpty
             ? StreamBuilder(
                 stream: data.suggestions,
@@ -148,18 +148,25 @@ class MySearchDelegate extends SearchDelegate {
                             behavior: ScrollConfiguration.of(context).copyWith(
                               scrollbars: false,
                             ),
-                            child: ListView.builder(
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                final item = snapshot.data![index];
-                                return ListTile(
-                                  title: Text(item.task),
-                                  trailing: Text(item.category ?? ''),
-                                  onTap: () {
-                                    query = item.task;
-                                  },
-                                );
-                              },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 8.0,
+                                horizontal: 10,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: ListView.builder(
+                                      itemCount: snapshot.data!.length,
+                                      itemBuilder: (context, index) {
+                                        final item = snapshot.data![index];
+                                        return SearchItem(item: item);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           )
                         : const NoneAvailable(
@@ -168,7 +175,62 @@ class MySearchDelegate extends SearchDelegate {
                   }
                 },
               )
-            : const NoneAvailable(message: 'Search for a task');
+            : StreamBuilder(
+                // If the Query is empty
+                stream: data.recent,
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot<List<Todo>?> snapshot,
+                ) {
+                  if (!snapshot.hasData) {
+                    return const LoadingData();
+                  } else {
+                    return snapshot
+                            .data!.isNotEmpty // When the snapshots are received
+                        ? ScrollConfiguration(
+                            behavior: ScrollConfiguration.of(context).copyWith(
+                              scrollbars: false,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 6.0,
+                                horizontal: 10,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 12,
+                                    ),
+                                    child: Text(
+                                      'Recent Searches',
+                                      style: TextStyle(
+                                        fontSize: 18.3,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: ListView.builder(
+                                      itemCount: snapshot.data!.length,
+                                      itemBuilder: (context, index) {
+                                        final item = snapshot.data![index];
+                                        return SearchItem(item: item);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : const NoneAvailable(
+                            message: 'No recent searches',
+                          ); // If the snapshots are empty
+                  }
+                },
+              );
       },
     );
   }

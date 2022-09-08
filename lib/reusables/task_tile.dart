@@ -122,7 +122,7 @@ class TaskTile extends StatelessWidget {
                   size: 25,
                 ),
                 trailing: Transform.rotate(
-                  angle: math.pi / 12,
+                  angle: math.pi / 15,
                   child: trailingWidget(),
                 ),
               ),

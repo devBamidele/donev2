@@ -13,6 +13,8 @@ class Todo {
 
   bool ring; // This shows if the alarm is toggled on or off
 
+  bool recent; // This shows if the task has been recently searched for
+
   Todo({
     this.id,
     required this.task,
@@ -21,6 +23,7 @@ class Todo {
     this.completion,
     this.alarm,
     this.ring = false,
+    this.recent = false,
   });
 
   /// Convert Json objects to [Todo] objects
@@ -34,6 +37,7 @@ class Todo {
         completion: data['completion'],
         alarm: data['alarm'],
         ring: data['ring'] == 0 ? false : true,
+        recent: data['recent'] == 0 ? false : true,
       );
   Map<String, dynamic> toDatabaseJson() => {
         // Convert T0do objects to Json objects to be stored in the database
@@ -44,5 +48,6 @@ class Todo {
         "completion": completion,
         "alarm": alarm,
         "ring": ring == false ? 0 : 1,
+        "recent": recent == false ? 0 : 1,
       };
 }

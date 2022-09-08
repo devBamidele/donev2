@@ -13,6 +13,7 @@ const columnCategory = 'category';
 const columnCompletion = 'completion';
 const columnAlarm = 'alarm';
 const columnRing = 'ring';
+const columnRecent = 'recent';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -46,7 +47,8 @@ class DatabaseProvider {
       "$columnCategory TEXT,"
       "$columnCompletion TEXT,"
       "$columnAlarm TEXT,"
-      "$columnRing INTEGER"
+      "$columnRing INTEGER,"
+      "$columnRecent INTEGER"
       ")",
     );
   }

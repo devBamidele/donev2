@@ -83,6 +83,25 @@ class TodoDao {
     return todos;
   }
 
+  //Get the recent Searches
+  Future<List<Todo>?> getRecent() async {
+    final db = await dbProvider.database;
+
+    List<Map<String, dynamic>>? result;
+    result = await db?.query(
+      todoTABLE,
+      where: '$columnRecent = ?',
+      whereArgs: [1],
+      orderBy: '$columnId desc',
+      limit: 6,
+    );
+
+    List<Todo>? todos = result?.isNotEmpty == true
+        ? result?.map((item) => Todo.fromDatabaseJson(item)).toList()
+        : [];
+    return todos;
+  }
+
   /// The function that provides data that will be displayed on the category screen
   Future<List<Todo>?> fetchGroup({
     required String category,
