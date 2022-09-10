@@ -44,8 +44,9 @@ class SearchItem extends StatelessWidget {
                 )
               : const SizedBox.shrink(),
           onTap: () {
-            // When the user clicks on the task
+            // Tag the task as recent and update the last search date
             item.recent = true;
+            item.lastSearched = DateTime.now().millisecondsSinceEpoch;
             data.updateTodo(item);
             data.onSelectedTask(item);
             Navigator.pushNamed(

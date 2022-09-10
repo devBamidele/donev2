@@ -92,7 +92,7 @@ class TodoDao {
       todoTABLE,
       where: '$columnRecent = ?',
       whereArgs: [1],
-      orderBy: '$columnId desc',
+      orderBy: '$columnLastSearched desc',
       limit: 6,
     );
 

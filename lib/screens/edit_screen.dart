@@ -83,6 +83,7 @@ class _EditScreenState extends State<EditScreen> {
                           alarm: editedAlarm?.toString(),
                           ring: alarmEnabled,
                           recent: widget.id.recent,
+                          lastSearched: widget.id.lastSearched,
                         );
 
                         // Update the data in the database

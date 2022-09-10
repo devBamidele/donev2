@@ -14,6 +14,7 @@ const columnCompletion = 'completion';
 const columnAlarm = 'alarm';
 const columnRing = 'ring';
 const columnRecent = 'recent';
+const columnLastSearched = 'lastSearched';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -48,7 +49,8 @@ class DatabaseProvider {
       "$columnCompletion TEXT,"
       "$columnAlarm TEXT,"
       "$columnRing INTEGER,"
-      "$columnRecent INTEGER"
+      "$columnRecent INTEGER,"
+      "$columnLastSearched INTEGER"
       ")",
     );
   }

@@ -250,7 +250,9 @@ class MySearchDelegate extends SearchDelegate {
                                           ),
                                         ),
                                         TextButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            //data.re
+                                          },
                                           child: const Text(
                                             'Clear history',
                                             style: TextStyle(
