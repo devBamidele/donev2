@@ -1,7 +1,7 @@
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/constants.dart';
 import 'package:donev2/lists/mod_category_list.dart';
-import 'package:donev2/screens/extras/search_sheet.dart';
+import 'package:donev2/screens/extras/group_search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'extras/custom_back_button.dart';
@@ -39,14 +39,10 @@ class CategoryScreen extends StatelessWidget {
                             tooltip: 'Search',
                             iconSize: kIconSize,
                             onPressed: () {
-                              showModalBottomSheet(
-                                isScrollControlled: true,
-                                shape: kRoundedBorder,
+                              showSearch(
                                 context: context,
-                                builder: (context) => SearchSheet(
-                                  searchText: 'Search ${data.selected}',
-                                  screen: tag,
-                                ),
+                                delegate: GroupSearch(
+                                    hintText: 'Search in ${data.selected}'),
                               );
                             },
                             icon: const Icon(

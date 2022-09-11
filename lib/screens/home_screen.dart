@@ -7,7 +7,7 @@ import '../bloc/todo_bloc.dart';
 import '../lists/category_list.dart';
 import '../lists/task_list.dart';
 import 'extras/rename_sheet.dart';
-import 'extras/search.dart';
+import 'extras/task_search.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget {
                         onPressed: () {
                           showSearch(
                             context: context,
-                            delegate: MySearchDelegate(),
+                            delegate: TaskSearch(hintText: 'Search for tasks'),
                           );
                         },
                         icon: const Icon(

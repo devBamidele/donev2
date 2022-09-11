@@ -109,10 +109,15 @@ class TodoBloc extends ChangeNotifier {
   //int intValue = await prefs.getInt('intValue') ?? 0;
 
   // When the user navigates off the search screen
-  exitSearch() {
+  exitSearchFromHome() {
     search = null;
     getCategories();
     getTodos();
+  }
+
+  exitSearchFromCategory() {
+    search = null;
+    getGroup(category: selected);
   }
 
   // Set the max length of the name text

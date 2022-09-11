@@ -10,7 +10,11 @@ import '../../lists/extras/none_available.dart';
 import '../../lists/task_list.dart';
 import '../../model/todo.dart';
 
-class MySearchDelegate extends SearchDelegate {
+class TaskSearch extends SearchDelegate {
+  TaskSearch({
+    required String hintText,
+  }) : super(searchFieldLabel: hintText);
+
   @override
   Widget? buildLeading(BuildContext context) {
     // When the back button is pressed
@@ -294,7 +298,7 @@ class MySearchDelegate extends SearchDelegate {
   @override
   close(BuildContext context, dynamic result) {
     super.close(context, result);
-    Provider.of<TodoBloc>(context, listen: false).exitSearch();
+    Provider.of<TodoBloc>(context, listen: false).exitSearchFromHome();
   }
 
   spacing({double height = 15}) => SizedBox(height: height);
