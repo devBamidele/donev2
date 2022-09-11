@@ -96,7 +96,7 @@ class _AddScreenState extends State<AddScreen> {
                         Navigator.pop(context);
                       } else {
                         snackbarMessage(
-                          'You are setting a notification for a past date',
+                          'You set a past-due alert',
                         );
                       }
                     }

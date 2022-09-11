@@ -83,7 +83,7 @@ class TodoDao {
     return todos;
   }
 
-  //Get the recent Searches
+  //Get the recent searches
   Future<List<Todo>?> getRecent() async {
     final db = await dbProvider.database;
 
@@ -100,6 +100,15 @@ class TodoDao {
         ? result?.map((item) => Todo.fromDatabaseJson(item)).toList()
         : [];
     return todos;
+  }
+
+  //Clears search history
+  Future<int?> clearHistory() async {
+    final db = await dbProvider.database;
+
+    return await db?.rawUpdate(
+      'update $todoTABLE set $columnRecent = 0 where $columnRecent = 1',
+    );
   }
 
   /// The function that provides data that will be displayed on the category screen

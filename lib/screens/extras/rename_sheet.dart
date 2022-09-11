@@ -15,6 +15,8 @@ class RenameSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final editNameController = TextEditingController();
+    editNameController.text =
+        Provider.of<TodoBloc>(context, listen: false).username!;
     return Consumer<TodoBloc>(
         builder: (BuildContext context, data, Widget? child) {
       return SingleChildScrollView(

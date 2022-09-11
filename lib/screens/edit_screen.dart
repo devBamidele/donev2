@@ -103,7 +103,7 @@ class _EditScreenState extends State<EditScreen> {
                         Navigator.pop(context);
                       } else {
                         snackbarMessage(
-                          'You are setting a notification for a past date',
+                          'You set a past-due alert',
                         );
                       }
                     }

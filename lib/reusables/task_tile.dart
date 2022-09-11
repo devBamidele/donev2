@@ -135,14 +135,18 @@ class TaskTile extends StatelessWidget {
 
   dateWidget() {
     Widget value = const SizedBox.shrink();
-    String day = '';
+    String day, time = '';
     if (complete != null) {
+      if (id.ring) {
+        time =
+            (', ${DateFormat.jm().format(DateTime.parse(id.alarm!)).toLowerCase()}');
+      }
       if (complete!.calculateDifference() == 0) {
-        day = 'Today';
+        day = 'Today$time';
       } else if (complete!.calculateDifference() == 1) {
-        day = 'Tomorrow';
+        day = 'Tomorrow$time';
       } else if (complete!.calculateDifference() == -1) {
-        day = 'Yesterday';
+        day = 'Yesterday$time';
       } else {
         day = DateFormat('EEEE, d MMM y').format(complete!);
       }

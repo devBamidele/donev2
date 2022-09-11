@@ -222,6 +222,11 @@ class TodoBloc extends ChangeNotifier {
     notifyListeners();
   }
 
+  clearSearch() async {
+    await _todoDao.clearHistory();
+    getRecent();
+  }
+
   deleteTodoById(int id) async {
     _todoDao.deleteTodo(id);
     getTodos();
