@@ -59,22 +59,34 @@ class TodoDao {
     return todos;
   }
 
-  //Get the search suggestions
+  // Get the search suggestions
+  // Depending on the state of showAllTasks,
+  // it can be used to get suggestions for
+  // all tasks or for just tasks within a group
   Future<List<Todo>?> getSuggestions({
     required List<String> columns,
     String? query,
+    required bool showAllTasks,
+    String category = '',
   }) async {
     final db = await dbProvider.database;
 
     List<Map<String, dynamic>>? result;
+
     if (query != null && query.isNotEmpty) {
-      result = await db?.query(
-        todoTABLE,
-        columns: columns,
-        where: '$columnTask LIKE ?',
-        whereArgs: ["%$query%"],
-        orderBy: '$columnId desc',
-      );
+      if (showAllTasks) {
+        result = await db?.query(
+          todoTABLE,
+          columns: columns,
+          where: '$columnTask LIKE ?',
+          whereArgs: ["%$query%"],
+          orderBy: '$columnId desc',
+        );
+      } else {
+        result = await db?.rawQuery(
+          'select * from $todoTABLE where $columnCategory is \'$category\' AND $columnTask like \'%$query%\'',
+        );
+      }
     }
 
     List<Todo>? todos = result?.isNotEmpty == true

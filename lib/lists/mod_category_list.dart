@@ -23,7 +23,7 @@ class ModifiedCategoryList extends StatelessWidget {
           ) {
             if (!snapshot.hasData) {
               // At the initial stage when there is no stream
-              data.getGroup(category: data.selected, query: data.search);
+              data.getGroup(category: data.selected);
               return const LoadingData();
             } else {
               return snapshot

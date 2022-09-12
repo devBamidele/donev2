@@ -105,13 +105,10 @@ class TodoBloc extends ChangeNotifier {
     search = null;
     getCategories();
     getTodos();
-    notifyListeners();
   }
 
   exitSearchFromCategory() {
-    search = null;
     getGroup(category: selected);
-    notifyListeners();
   }
 
   // Set the max length of the name text
@@ -162,9 +159,13 @@ class TodoBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  getSuggestions({String? query}) async {
-    List<Todo>? result =
-        await _todoDao.getSuggestions(query: query, columns: []);
+  getSuggestions({String? query, bool showAllTasks = true}) async {
+    List<Todo>? result = await _todoDao.getSuggestions(
+      query: query,
+      columns: [],
+      showAllTasks: showAllTasks,
+      category: selected,
+    );
     _suggestionLength = result?.length;
     _suggestionsController.sink.add(result);
     notifyListeners();

@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
       builder: (BuildContext context, data, Widget? child) {
         return Scaffold(
           floatingActionButton: Padding(
-            padding: const EdgeInsets.only(bottom: 20, right: 5),
+            padding: const EdgeInsets.only(bottom: 10, right: 5),
             child: Card(
               color: kScaffoldColor,
               shape: RoundedRectangleBorder(
@@ -47,8 +47,8 @@ class HomeScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(
                 top: 5,
-                left: 12,
-                right: 12,
+                left: 9,
+                right: 9,
                 bottom: 10,
               ),
               child: Column(
@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget {
                         onPressed: () {
                           showSearch(
                             context: context,
-                            delegate: TaskSearch(hintText: 'Search for tasks'),
+                            delegate: TaskSearch(hintText: 'Search'),
                           );
                         },
                         icon: const Icon(
@@ -146,29 +146,20 @@ class HomeScreen extends StatelessWidget {
                     height: 110,
                     child: CategoryList(),
                   ),
-                  spacing(height: 5),
+                  spacing(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Padding(
+                    children: const [
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
                           'YOUR TASKS',
                           style: kText1,
                         ),
                       ),
-                      PopupMenuButton(
-                        icon: Icon(
-                          Icons.sort_rounded,
-                          size: kIconSize,
-                          color: kTertiaryColor,
-                        ),
-                        itemBuilder: (BuildContext context) =>
-                            <PopupMenuEntry>[],
-                      ),
                     ],
                   ),
-                  spacing(height: 5),
+                  spacing(),
                   const Expanded(
                     child: TaskList(),
                   )

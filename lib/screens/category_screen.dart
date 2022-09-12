@@ -5,6 +5,7 @@ import 'package:donev2/screens/extras/group_search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'extras/custom_back_button.dart';
+import 'extras/popup_menu.dart';
 import 'extras/rename_sheet.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -21,8 +22,8 @@ class CategoryScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(
                 top: 5,
-                right: 12,
-                left: 12,
+                right: 9,
+                left: 9,
                 bottom: 10,
               ),
               child: Column(
@@ -50,38 +51,7 @@ class CategoryScreen extends StatelessWidget {
                               color: kTertiaryColor,
                             ),
                           ),
-                          PopupMenuButton(
-                            icon: Icon(
-                              Icons.more_vert_rounded,
-                              size: kIconSize,
-                              color: kTertiaryColor,
-                            ),
-                            itemBuilder: (BuildContext context) =>
-                                <PopupMenuEntry>[
-                              PopupMenuItem(
-                                onTap: () {
-                                  data.getGroup(category: data.selected);
-                                },
-                                child: const Text('Show all'),
-                              ),
-                              PopupMenuItem(
-                                onTap: () {
-                                  data.getGroup(
-                                      category: data.selected, selected: 1);
-                                  data.currentOption = 1;
-                                },
-                                child: const Text('Completed'),
-                              ),
-                              PopupMenuItem(
-                                onTap: () {
-                                  data.getGroup(
-                                      category: data.selected, selected: 0);
-                                  data.currentOption = 0;
-                                },
-                                child: const Text('Uncompleted'),
-                              ),
-                            ],
-                          )
+                          const PopUpMenu(),
                         ],
                       )
                     ],

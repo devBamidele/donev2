@@ -1,10 +1,12 @@
+import 'package:donev2/screens/extras/search_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../bloc/todo_bloc.dart';
 import '../../constants.dart';
+import '../../lists/extras/loading_data.dart';
 import '../../lists/extras/none_available.dart';
-import '../../lists/mod_category_list.dart';
+import '../../model/todo.dart';
 
 class GroupSearch extends SearchDelegate {
   GroupSearch({
@@ -45,9 +47,6 @@ class GroupSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // The search results that are displayed
-    Provider.of<TodoBloc>(context, listen: false).search = query;
-
     if (query.isEmpty) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -61,98 +60,94 @@ class GroupSearch extends SearchDelegate {
       );
     }
 
-    return Consumer<TodoBloc>(
-        builder: (BuildContext context, data, Widget? child) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            data.groupLength! > 0
-                ? Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Text(
-                            'Tasks (${data.groupLength})',
-                            style: kText1,
-                          ),
-                        ),
-                        spacing(),
-                        const Expanded(
-                          child: ModifiedCategoryList(),
-                        )
-                      ],
-                    ),
-                  )
-                : const Expanded(
-                    child: Center(
-                      child: NoneAvailable(
-                        message: 'No results found',
-                      ),
-                    ),
-                  )
-          ],
-        ),
-      );
-    });
+    return resultAndSuggestions(context);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    Provider.of<TodoBloc>(context, listen: false).search = query;
+    return resultAndSuggestions(context);
+  }
+
+  Widget resultAndSuggestions(BuildContext context) {
     return Consumer<TodoBloc>(
       builder: (_, data, Widget? child) {
-        //data.search = query;
-        data.getGroup(category: data.selected, query: query);
+        data.getSuggestions(query: query, showAllTasks: false);
         return query.isNotEmpty
-            ? Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  left: 10,
-                  right: 10,
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 5,
-                      ),
-                      child: data.groupLength! > 0
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Tasks',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white60,
+            ? StreamBuilder(
+                stream: data.suggestions,
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot<List<Todo>?> snapshot,
+                ) {
+                  if (!snapshot.hasData) {
+                    return const LoadingData();
+                  } else {
+                    return snapshot
+                            .data!.isNotEmpty // When the snapshots are received
+                        ? ScrollConfiguration(
+                            behavior: ScrollConfiguration.of(context).copyWith(
+                              scrollbars: false,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 8.0,
+                                horizontal: 10,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 13,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          'Tasks',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white60,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${data.suggestionLength.toString()} found',
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white60,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  '${data.groupLength.toString()} found',
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white60,
+                                  Expanded(
+                                    child: ListView.separated(
+                                      itemCount: snapshot.data!.length,
+                                      itemBuilder: (context, index) {
+                                        final item = snapshot.data![index];
+                                        return SearchItem(
+                                          item: item,
+                                          show: false,
+                                        );
+                                      },
+                                      separatorBuilder:
+                                          (BuildContext context, int index) =>
+                                              const SizedBox(height: 10),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            )
-                          : const SizedBox.shrink(),
-                    ),
-                    const Expanded(
-                      child: ModifiedCategoryList(
-                        customMessage: 'No search results',
-                      ),
-                    ),
-                  ],
-                ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : const NoneAvailable(
+                            message: 'No results found',
+                          ); // If the snapshots are empty
+                  }
+                },
               )
             : const SizedBox.shrink();
       },
