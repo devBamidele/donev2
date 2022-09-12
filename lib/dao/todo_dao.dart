@@ -93,7 +93,6 @@ class TodoDao {
       where: '$columnRecent = ?',
       whereArgs: [1],
       orderBy: '$columnLastSearched desc',
-      limit: 6,
     );
 
     List<Todo>? todos = result?.isNotEmpty == true

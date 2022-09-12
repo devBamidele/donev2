@@ -42,7 +42,7 @@ class CategoryScreen extends StatelessWidget {
                               showSearch(
                                 context: context,
                                 delegate: GroupSearch(
-                                    hintText: 'Search in ${data.selected}'),
+                                    hintText: 'Search \'${data.selected}\''),
                               );
                             },
                             icon: const Icon(

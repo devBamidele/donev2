@@ -35,14 +35,7 @@ class TodoBloc extends ChangeNotifier {
   }
 
   // The item the user is currently searching for
-  String? _search;
-
-  String? get search => _search;
-
-  set search(String? search) {
-    _search = search;
-    notifyListeners();
-  }
+  String? search;
 
   // The lengths of the groups, categories and task
   int? _groupLength;
@@ -63,7 +56,6 @@ class TodoBloc extends ChangeNotifier {
 
   // For the menu in the Category Screen
   int currentOption = 2;
-  String? query;
 
   // This holds the date that is selected by the user
   DateTime? _selectedDate = DateTime.now();
@@ -113,11 +105,13 @@ class TodoBloc extends ChangeNotifier {
     search = null;
     getCategories();
     getTodos();
+    notifyListeners();
   }
 
   exitSearchFromCategory() {
     search = null;
     getGroup(category: selected);
+    notifyListeners();
   }
 
   // Set the max length of the name text

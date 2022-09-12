@@ -8,8 +8,9 @@ import 'extras/loading_data.dart';
 import 'extras/none_available.dart';
 
 class ModifiedCategoryList extends StatelessWidget {
-  const ModifiedCategoryList({Key? key}) : super(key: key);
+  const ModifiedCategoryList({this.customMessage, Key? key}) : super(key: key);
 
+  final String? customMessage;
   @override
   Widget build(BuildContext context) {
     return Consumer<TodoBloc>(
@@ -22,7 +23,7 @@ class ModifiedCategoryList extends StatelessWidget {
           ) {
             if (!snapshot.hasData) {
               // At the initial stage when there is no stream
-              data.getGroup(category: data.selected);
+              data.getGroup(category: data.selected, query: data.search);
               return const LoadingData();
             } else {
               return snapshot
@@ -47,8 +48,8 @@ class ModifiedCategoryList extends StatelessWidget {
                         },
                       ),
                     )
-                  : const NoneAvailable(
-                      message: 'No current tasks',
+                  : NoneAvailable(
+                      message: customMessage ?? 'No current tasks',
                     ); // If the snapshots are empty
             }
           },
