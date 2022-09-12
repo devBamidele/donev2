@@ -136,7 +136,7 @@ class GroupSearch extends SearchDelegate {
                                       },
                                       separatorBuilder:
                                           (BuildContext context, int index) =>
-                                              const SizedBox(height: 10),
+                                              SizedBox(height: kDividerHeight),
                                     ),
                                   ),
                                 ],
