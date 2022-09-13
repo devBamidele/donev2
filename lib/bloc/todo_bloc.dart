@@ -5,30 +5,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class TodoBloc extends ChangeNotifier {
-  //Get instance of the Repository
+  // Get instance of the Repository
   final _todoDao = TodoDao();
 
-  //Stream controller is the 'Admin' that manages
-  //the state of our stream of data like adding
-  //new data, change the state of the stream
-  //and broadcast it to observers/subscribers
-  final _todoController = StreamController<List<Todo>?>.broadcast();
-  final _categoryController =
-      StreamController<List<Map<String, dynamic>>>.broadcast();
-  final _groupController = StreamController<List<Todo>?>.broadcast();
-  final _suggestionsController = StreamController<List<Todo>?>.broadcast();
-  final _recentController = StreamController<List<Todo>?>.broadcast();
-
-  final formKey =
-      GlobalKey<FormState>(); // The key for my forms on the add_screen page
-
-  /// Getters for the stream
-  get todos => _todoController.stream;
-  get categories => _categoryController.stream;
-  get group => _groupController.stream;
-  get suggestions => _suggestionsController.stream;
-  get recent => _recentController.stream;
-
+  // Everytime the class is instantiated, call the following
   TodoBloc() {
     getTodos();
     getCategories();
@@ -37,7 +17,7 @@ class TodoBloc extends ChangeNotifier {
   // The item the user is currently searching for
   String? search;
 
-  // The lengths of the groups, categories and task
+  // The lengths of the groups, categories, tasks and suggestions
   int? _groupLength;
   int? _categoryLength;
   int? _taskLength;
@@ -46,16 +26,35 @@ class TodoBloc extends ChangeNotifier {
   // The Category item that has been tapped
   String selected = '';
 
+  // Stores the next number on the Table
   int? nextNumber;
 
   // The username stored by shared preferences
   String? username = ' 👋';
 
   // Max number of characters a user can input for a name
-  int maxLength = 9;
+  int maxLength = 7;
 
   // For the menu in the Category Screen
   int currentOption = 2;
+
+  // Configure the stream controllers
+  final _todoController = StreamController<List<Todo>?>.broadcast();
+  final _categoryController =
+      StreamController<List<Map<String, dynamic>>>.broadcast();
+  final _groupController = StreamController<List<Todo>?>.broadcast();
+  final _suggestionsController = StreamController<List<Todo>?>.broadcast();
+  final _recentController = StreamController<List<Todo>?>.broadcast();
+
+  // The Global key for the forms
+  final formKey = GlobalKey<FormState>();
+
+  // Getters for the stream
+  get todos => _todoController.stream;
+  get categories => _categoryController.stream;
+  get group => _groupController.stream;
+  get suggestions => _suggestionsController.stream;
+  get recent => _recentController.stream;
 
   // This holds the date that is selected by the user
   DateTime? _selectedDate = DateTime.now();
@@ -63,9 +62,11 @@ class TodoBloc extends ChangeNotifier {
   // This holds the time that is selected by the user
   TimeOfDay? _selectedTime = TimeOfDay.now();
 
+  // Getters
   DateTime? get selectedDate => _selectedDate;
   TimeOfDay? get selectedTime => _selectedTime;
 
+  // Setters
   set selectedDate(DateTime? selectedDate) {
     _selectedDate = selectedDate ?? _selectedDate;
     notifyListeners();
@@ -97,25 +98,25 @@ class TodoBloc extends ChangeNotifier {
   int? get taskLength => _taskLength;
   int? get suggestionLength => _suggestionLength;
 
-  // If a value is not present in storage we get a null value
-  //int intValue = await prefs.getInt('intValue') ?? 0;
-
-  // When the user navigates off the search screen
+  // When the user exits search from Home
   exitSearchFromHome() {
     search = null;
     getCategories();
     getTodos();
   }
 
+  // When the user exits search from Category
   exitSearchFromCategory() {
     getGroup(category: selected);
   }
 
-  // Set the max length of the name text
+  // Set the max length of the name text depending on the width of the screen
   setMaxChar(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     int length = 9;
-    if (width <= 400) {
+    if (width <= 350) {
+      length = 7;
+    } else if (width > 350 && width <= 400) {
       length = 8;
     } else if (width > 400 && width <= 450) {
       length = 10;
@@ -130,8 +131,8 @@ class TodoBloc extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Check if the a value was already pre-saved
   verifyKey() async {
-    // Obtain shared preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('Name')) {
       getName();
@@ -140,6 +141,7 @@ class TodoBloc extends ChangeNotifier {
     }
   }
 
+  // Change the saved name
   editName({String name = '👋'}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('Name', name);
@@ -151,7 +153,7 @@ class TodoBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  // (Sink) is a way of adding data reactively to the stream
+  // Fetch the tasks from the database
   getTodos({String? query}) async {
     List<Todo>? result = await _todoDao.getTodos(query: query, columns: []);
     _taskLength = result?.length;
@@ -159,6 +161,7 @@ class TodoBloc extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Fetch search suggestions
   getSuggestions({String? query, bool showAllTasks = true}) async {
     List<Todo>? result = await _todoDao.getSuggestions(
       query: query,
@@ -171,12 +174,14 @@ class TodoBloc extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Get the recent searches
   getRecent() async {
     List<Todo>? result = await _todoDao.getRecent();
     _recentController.sink.add(result);
     notifyListeners();
   }
 
+  // Get the categories
   getCategories({String? query}) async {
     List<Map<String, dynamic>> result =
         await _todoDao.getCategories(query: query);
@@ -185,6 +190,7 @@ class TodoBloc extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Get the tasks under a category
   getGroup({required String category, String? query, int selected = 2}) async {
     List<Todo>? result = await _todoDao.fetchGroup(
       category: category,
@@ -196,6 +202,7 @@ class TodoBloc extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Get the next id on the table
   getNext() async {
     nextNumber = await _todoDao.getNext();
     notifyListeners();
@@ -240,6 +247,7 @@ class TodoBloc extends ChangeNotifier {
     getCategories();
   }
 
+  // Dispose the controllers
   @override
   dispose() {
     super.dispose();
