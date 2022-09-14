@@ -12,6 +12,17 @@ Remake of [Done](https://github.com/Bamidele1234/done) to support streams.
 ### Get the app [Here](https://drive.google.com/file/d/1E0XJ8VWfbyY5kr8CnAnrUDHJ3yxzVXvQ/view?usp=drivesdk)
 
 ## Screenshots
-**Splash Screen**
--- 
+### Splash Screen
 <img src = "screenshots/splash.jpg" width = "400">
+
+### Home Screen
+<img src = "screenshots/home.jpg" width = "400">
+
+### Add Screen
+<img src = "screenshots/add.jpg" width = "400">
+
+### Edit Screen
+<img src = "screenshots/edit.jpg" width = "400">
+
+### Group Screen
+<img src = "screenshots/group.jpg" width = "400">
