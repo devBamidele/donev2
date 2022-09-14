@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../bloc/todo_bloc.dart';
-import '../../constants.dart';
+import '../bloc/todo_bloc.dart';
+import '../constants.dart';
 
 class PopUpMenu extends StatelessWidget {
   const PopUpMenu({

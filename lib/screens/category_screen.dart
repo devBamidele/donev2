@@ -4,9 +4,9 @@ import 'package:donev2/lists/mod_category_list.dart';
 import 'package:donev2/screens/extras/group_search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'extras/custom_back_button.dart';
-import 'extras/popup_menu.dart';
-import 'extras/rename_sheet.dart';
+import '../reusables/custom_back_button.dart';
+import '../reusables/popup_menu.dart';
+import '../reusables/rename_sheet.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({Key? key}) : super(key: key);

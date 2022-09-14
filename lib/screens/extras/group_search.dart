@@ -1,4 +1,4 @@
-import 'package:donev2/screens/extras/search_item.dart';
+import 'package:donev2/reusables/search_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

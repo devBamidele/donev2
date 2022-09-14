@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../bloc/todo_bloc.dart';
 import '../lists/category_list.dart';
 import '../lists/task_list.dart';
-import 'extras/rename_sheet.dart';
+import '../reusables/rename_sheet.dart';
 import 'extras/task_search.dart';
 
 class HomeScreen extends StatelessWidget {

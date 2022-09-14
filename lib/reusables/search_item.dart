@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../bloc/todo_bloc.dart';
-import '../../constants.dart';
-import '../../model/todo.dart';
-import '../edit_screen.dart';
+import '../bloc/todo_bloc.dart';
+import '../constants.dart';
+import '../model/todo.dart';
+import '../screens/edit_screen.dart';
 
 class SearchItem extends StatelessWidget {
   const SearchItem({

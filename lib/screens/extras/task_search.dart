@@ -1,6 +1,6 @@
 import 'package:donev2/constants.dart';
 import 'package:donev2/lists/extras/loading_data.dart';
-import 'package:donev2/screens/extras/search_item.dart';
+import 'package:donev2/reusables/search_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
