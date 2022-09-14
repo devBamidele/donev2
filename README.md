@@ -1,5 +1,5 @@
 [![Flutter Responsive](https://img.shields.io/badge/flutter-responsive-brightgreen.svg?style=flat-square)](https://github.com/Codelessly/ResponsiveFramework)
-# Done v2 <img src = "screenshots/icon.jpg" width = "50" height = "50">
+# Done v2 <img src = "screenshots/icon.jpg" width = "30" height = "30">
 Your on the go To-Do App made with the [Flutter](https://flutter.dev/) framework. Remake of [Done v1](https://github.com/Bamidele1234/done) to support streams.
 
 ## Getting Started
