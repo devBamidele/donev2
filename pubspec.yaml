@@ -1,5 +1,5 @@
 name: donev2
-description: Second remake of done to support streams
+description: To-Do App for minimalists
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
