@@ -28,27 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Timer(duration, myRoute);
   }
 
-  myRoute() => Navigator.of(context).pushReplacement(_createRoute());
-
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const HomeScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(1.0, 0.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
+  myRoute() => Navigator.of(context).pushReplacementNamed(HomeScreen.tag);
 
   @override
   Widget build(BuildContext context) {
