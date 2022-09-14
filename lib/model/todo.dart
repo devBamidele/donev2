@@ -29,7 +29,7 @@ class Todo {
     this.lastSearched,
   });
 
-  /// Convert Json objects to [Todo] objects
+  /// Convert Json objects to [Tod0] objects
   factory Todo.fromDatabaseJson(Map<String, dynamic> data) => Todo(
         id: data['id'],
         task: data['task'],
