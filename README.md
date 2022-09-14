@@ -2,7 +2,7 @@
 # Done v2 <img src = "screenshots/icon.jpg" width = "35" height = "35">
 Your on the go To-Do App made with the [Flutter](https://flutter.dev/) framework. Remake of [Done v1](https://github.com/Bamidele1234/done) to support streams.
 
-## Getting Started
+## Getting Started 
 - Sound State management with [Provider](https://pub.dev/packages/provider)
 - Notification management with [Flutter Local Notifications](https://pub.dev/packages/flutter_local_notifications)
 - Responsive UI for different screen sizes through [Responsive Framework](https://pub.dev/packages/responsive_framework)
@@ -34,8 +34,13 @@ https://user-images.githubusercontent.com/67847070/190135079-e9a733fe-475f-4a91-
 ### Group Screen
 <img src = "screenshots/group.jpg" width = "400">
 
-### Other dependencies used
+**Other dependencies used**
+--
 [Animated Text Kit](https://pub.dev/packages/animated_text_kit), [Path Provider](https://pub.dev/packages/path_provider), [Rounded Check Box](https://pub.dev/packages/roundcheckbox), [Time Zone](https://pub.dev/packages/timezone), etc
+
+**Extras 💫**
+--
+Feel free to contribute and report bugs
 
 
 
