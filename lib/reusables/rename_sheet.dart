@@ -89,9 +89,11 @@ class RenameSheet extends StatelessWidget {
                                 data.getName();
                               } else if (function == '/category') {
                                 data.renameCategory(
+                                  // Change the category name
                                   from: data.selected,
                                   to: text,
                                 );
+                                data.getGroup(category: text); // Update values
                               }
                               //dismisses the bottomsheet
                               Navigator.pop(context);
