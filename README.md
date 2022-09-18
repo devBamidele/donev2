@@ -34,12 +34,10 @@ https://user-images.githubusercontent.com/67847070/190135079-e9a733fe-475f-4a91-
 ### Group Screen
 <img src = "screenshots/group.jpg" width = "400">
 
-**Other dependencies used**
---
+## Other dependencies used
 [Animated Text Kit](https://pub.dev/packages/animated_text_kit), [Path Provider](https://pub.dev/packages/path_provider), [Rounded Check Box](https://pub.dev/packages/roundcheckbox), [Time Zone](https://pub.dev/packages/timezone), etc
 
-**Extras 💫**
---
+## Extras 💫
 Feel free to contribute and report bugs
 
 
