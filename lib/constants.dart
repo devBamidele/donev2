@@ -8,6 +8,7 @@ const kTertiaryColor = Color(0xff8A95D0);
 const kShadowColor = Color(0xffEE2F69);
 const kPopUpColor = Color(0xff12172B);
 double kIconSize = 30;
+double kEditIconSize = 16;
 double kDividerHeight = 4;
 
 // The shape of the bottomModalSheet

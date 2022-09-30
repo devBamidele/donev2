@@ -6,7 +6,7 @@ import '../bloc/todo_bloc.dart';
 import 'extras/loading.dart';
 import 'extras/none_available.dart';
 
-/// Displays the categories as a list
+/// Displays the tasks within categories as a list
 class CategoryList extends StatelessWidget {
   const CategoryList({Key? key}) : super(key: key);
 
@@ -22,6 +22,7 @@ class CategoryList extends StatelessWidget {
           ) {
             if (!snapshot.hasData) {
               data.getCategories(query: data.search);
+              // At the initial stage when there is no stream
               return const Loading();
             } else {
               return snapshot

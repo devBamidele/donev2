@@ -8,6 +8,7 @@ import '../reusables/custom_back_button.dart';
 import '../reusables/popup_menu.dart';
 import '../reusables/rename_sheet.dart';
 
+// Here, you can make changes to each individual task
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({Key? key}) : super(key: key);
 
@@ -81,7 +82,7 @@ class CategoryScreen extends StatelessWidget {
                                     ),
                                     alignment: Alignment.bottomLeft,
                                     tooltip: 'Rename',
-                                    iconSize: 16,
+                                    iconSize: kEditIconSize,
                                     onPressed: () {
                                       showModalBottomSheet(
                                         isScrollControlled: true,

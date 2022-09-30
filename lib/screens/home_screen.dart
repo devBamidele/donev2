@@ -114,7 +114,7 @@ class HomeScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 13, left: 5),
                           alignment: Alignment.bottomLeft,
                           tooltip: 'Rename',
-                          iconSize: 16,
+                          iconSize: kEditIconSize,
                           onPressed: () {
                             showModalBottomSheet(
                               isScrollControlled: true,

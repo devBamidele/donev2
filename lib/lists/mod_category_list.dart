@@ -7,6 +7,7 @@ import '../reusables/task_tile.dart';
 import 'extras/loading.dart';
 import 'extras/none_available.dart';
 
+/// The list of tasks that appear within a category on the [CategoryScreen]
 class ModifiedCategoryList extends StatelessWidget {
   const ModifiedCategoryList({this.customMessage, Key? key}) : super(key: key);
 
@@ -16,7 +17,7 @@ class ModifiedCategoryList extends StatelessWidget {
     return Consumer<TodoBloc>(
       builder: (_, data, Widget? child) {
         return StreamBuilder(
-          stream: data.group,
+          stream: data.group, // Supply a stream
           builder: (
             BuildContext context,
             AsyncSnapshot<List<Todo>?> snapshot,
@@ -30,13 +31,13 @@ class ModifiedCategoryList extends StatelessWidget {
                       .data!.isNotEmpty // When the snapshots are received
                   ? ScrollConfiguration(
                       behavior: ScrollConfiguration.of(context).copyWith(
-                        scrollbars: false,
-                        physics: const BouncingScrollPhysics(),
+                        scrollbars: false, // Remove the scrollbar by the side
+                        physics:
+                            const BouncingScrollPhysics(), // Create a bouncy scroll effect
                       ),
                       child: ListView.builder(
                         itemCount: snapshot.data?.length,
                         itemBuilder: (context, index) {
-                          //data.length = snapshot.data?.length; => This gives me errors
                           Todo task = snapshot.data![index];
                           return TaskTile(
                             id: task,

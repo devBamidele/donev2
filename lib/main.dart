@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
           minWidth: 350,
           defaultScale: true,
           breakpoints: [
+            // The responsive breakpoints for various screen sizes
             const ResponsiveBreakpoint.resize(350, name: MOBILE),
             const ResponsiveBreakpoint.autoScale(600, name: TABLET),
             const ResponsiveBreakpoint.resize(800, name: DESKTOP),
