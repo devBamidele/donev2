@@ -11,6 +11,8 @@ import 'package:intl/intl.dart';
 
 import '../model/todo.dart';
 
+/// Calculate the difference between the current date
+/// and the date from the task
 extension DateTimeExtension on DateTime {
   int calculateDifference() {
     DateTime now = DateTime.now();
@@ -122,7 +124,7 @@ class TaskTile extends StatelessWidget {
                   size: 25,
                 ),
                 trailing: Transform.rotate(
-                  angle: math.pi / 15,
+                  angle: math.pi / 17,
                   child: trailingWidget(),
                 ),
               ),
@@ -133,6 +135,7 @@ class TaskTile extends StatelessWidget {
     );
   }
 
+  /// Displays the Date and Time in a specific format
   dateWidget() {
     Widget value = const SizedBox.shrink();
     String day, time = '';
@@ -155,6 +158,7 @@ class TaskTile extends StatelessWidget {
     return value;
   }
 
+  /// Displays the bell icon if there is an alarm set in the future
   trailingWidget() {
     dynamic value = const SizedBox.shrink();
 

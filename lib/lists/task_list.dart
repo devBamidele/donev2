@@ -7,6 +7,7 @@ import '../reusables/task_tile.dart';
 import 'extras/loading.dart';
 import 'extras/none_available.dart';
 
+/// Display the tasks as a list
 class TaskList extends StatelessWidget {
   const TaskList({
     Key? key,
@@ -17,21 +18,23 @@ class TaskList extends StatelessWidget {
     return Consumer<TodoBloc>(
       builder: (_, data, Widget? child) {
         return StreamBuilder(
-          stream: data.todos,
+          stream: data.todos, // Supply the stream
           builder: (
             BuildContext context,
             AsyncSnapshot<List<Todo>?> snapshot,
           ) {
             if (!snapshot.hasData) {
               data.getTodos(query: data.search);
+              // At the initial stage when there is no stream
               return const Loading();
             } else {
               return snapshot
                       .data!.isNotEmpty // When the snapshots are received
                   ? ScrollConfiguration(
                       behavior: ScrollConfiguration.of(context).copyWith(
-                        scrollbars: false,
-                        physics: const BouncingScrollPhysics(),
+                        scrollbars: false, // Remove the scroll bar by the side
+                        physics:
+                            const BouncingScrollPhysics(), // Create a bouncy scroll effect
                       ),
                       child: ListView.builder(
                         itemCount: snapshot.data?.length,
