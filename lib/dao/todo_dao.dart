@@ -5,7 +5,7 @@ import 'package:donev2/model/todo.dart';
 class TodoDao {
   final dbProvider = DatabaseProvider.dbProvider;
 
-  //Adds new T0do records
+  /// Adds new T0do records
   Future<int> createTodo(Todo todo) async {
     final db = await dbProvider.database;
     return db!.insert(
@@ -14,7 +14,7 @@ class TodoDao {
     );
   }
 
-  // Get the next row on the database
+  /// Get the next row on the database
   Future<int> getNext() async {
     final db = await dbProvider.database;
     List<Map<String, dynamic>>? result =
@@ -29,7 +29,7 @@ class TodoDao {
     return returnValue;
   }
 
-  //Get All T0do items and search if query string was passed
+  /// Get All T0do items and search if query string was passed
   Future<List<Todo>?> getTodos({
     required List<String> columns,
     String? query,
@@ -60,9 +60,10 @@ class TodoDao {
   }
 
   // Get the search suggestions
-  // Depending on the state of showAllTasks,
-  // it can be used to get suggestions for
-  // all tasks or for just tasks within a group
+  // .
+  // .
+  // Depending on the state of showAllTasks, it can be used to get suggestions
+  // for all tasks or for just tasks within a group
   Future<List<Todo>?> getSuggestions({
     required List<String> columns,
     String? query,
@@ -95,7 +96,7 @@ class TodoDao {
     return todos;
   }
 
-  //Get the recent searches
+  /// Get the recent searches
   Future<List<Todo>?> getRecent() async {
     final db = await dbProvider.database;
 
@@ -113,7 +114,7 @@ class TodoDao {
     return todos;
   }
 
-  //Clears search history
+  /// Clears search history
   Future<int?> clearHistory() async {
     final db = await dbProvider.database;
 
@@ -166,7 +167,7 @@ class TodoDao {
     return result;
   }
 
-  //Update T0do record
+  /// Update T0do record
   Future<int?> updateTodo(Todo todo) async {
     final db = await dbProvider.database;
 
@@ -180,6 +181,7 @@ class TodoDao {
     return result;
   }
 
+  /// Change the name of the category
   renameCategory({required String from, required String to}) async {
     final db = await dbProvider.database;
 
@@ -190,7 +192,7 @@ class TodoDao {
     return result;
   }
 
-  //Delete T0do records
+  /// Delete T0do records
   Future<int?> deleteTodo(int id) async {
     final db = await dbProvider.database;
     var result = await db?.delete(
@@ -202,7 +204,7 @@ class TodoDao {
     return result;
   }
 
-  // Delete a category
+  ///  Delete a category
   Future<int?> deleteCategory(String category) async {
     final db = await dbProvider.database;
     var result = await db?.delete(

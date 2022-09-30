@@ -8,7 +8,6 @@ class TodoBloc extends ChangeNotifier {
   // Get instance of the Repository
   final _todoDao = TodoDao();
 
-  // Everytime the class is instantiated, call the following
   TodoBloc() {
     getTodos();
     getCategories();
