@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../bloc/todo_bloc.dart';
 import '../model/todo.dart';
 import '../reusables/task_tile.dart';
-import 'extras/loading_data.dart';
+import 'extras/loading.dart';
 import 'extras/none_available.dart';
 
 class TaskList extends StatelessWidget {
@@ -24,7 +24,7 @@ class TaskList extends StatelessWidget {
           ) {
             if (!snapshot.hasData) {
               data.getTodos(query: data.search);
-              return const LoadingData();
+              return const Loading();
             } else {
               return snapshot
                       .data!.isNotEmpty // When the snapshots are received

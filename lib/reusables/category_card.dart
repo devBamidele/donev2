@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../bloc/todo_bloc.dart';
 
+/// The Card that hold information about the category
 class CategoryCard extends StatelessWidget {
   const CategoryCard({
     required this.category,
@@ -22,6 +23,7 @@ class CategoryCard extends StatelessWidget {
     return Consumer<TodoBloc>(
       builder: (_, data, Widget? child) {
         return GestureDetector(
+          // Manage gestures
           onTap: () {
             data.selected = category;
             data.getGroup(category: data.selected);
@@ -53,8 +55,11 @@ class CategoryCard extends StatelessWidget {
                           letterSpacing: 1.2,
                         ),
                       ),
+                      const SizedBox(
+                        height: 4,
+                      ),
                       FittedBox(
-                        // Make the text scale down to fit
+                        // Make the text scale down to fit its bounds
                         alignment: Alignment.centerLeft,
                         fit: BoxFit.scaleDown,
                         child: Text(

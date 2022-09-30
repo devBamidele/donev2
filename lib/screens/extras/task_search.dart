@@ -1,5 +1,5 @@
 import 'package:donev2/constants.dart';
-import 'package:donev2/lists/extras/loading_data.dart';
+import 'package:donev2/lists/extras/loading.dart';
 import 'package:donev2/reusables/search_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -144,7 +144,7 @@ class TaskSearch extends SearchDelegate {
                   AsyncSnapshot<List<Todo>?> snapshot,
                 ) {
                   if (!snapshot.hasData) {
-                    return const LoadingData();
+                    return const Loading();
                   } else {
                     return snapshot
                             .data!.isNotEmpty // When the snapshots are received
@@ -221,7 +221,7 @@ class TaskSearch extends SearchDelegate {
                   AsyncSnapshot<List<Todo>?> snapshot,
                 ) {
                   if (!snapshot.hasData) {
-                    return const LoadingData();
+                    return const Loading();
                   } else {
                     return snapshot
                             .data!.isNotEmpty // When the snapshots are received

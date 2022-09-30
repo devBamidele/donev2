@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../bloc/todo_bloc.dart';
-import 'extras/loading_data.dart';
+import 'extras/loading.dart';
 import 'extras/none_available.dart';
 
+/// Displays the categories as a list
 class CategoryList extends StatelessWidget {
   const CategoryList({Key? key}) : super(key: key);
 
@@ -14,21 +15,22 @@ class CategoryList extends StatelessWidget {
     return Consumer<TodoBloc>(
       builder: (_, data, Widget? child) {
         return StreamBuilder(
-          stream: data.categories,
+          stream: data.categories, // Supply a stream
           builder: (
             BuildContext context,
             AsyncSnapshot<List<Map<String, dynamic>>> snapshot,
           ) {
             if (!snapshot.hasData) {
               data.getCategories(query: data.search);
-              return const LoadingData();
+              return const Loading();
             } else {
               return snapshot
                       .data!.isNotEmpty // When the snapshots are received
                   ? ScrollConfiguration(
                       behavior: ScrollConfiguration.of(context).copyWith(
-                        scrollbars: false,
-                        physics: const BouncingScrollPhysics(),
+                        scrollbars: false, // Remove the scrollbar by the side
+                        physics:
+                            const BouncingScrollPhysics(), // Create a bouncy scroll effect
                       ),
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,

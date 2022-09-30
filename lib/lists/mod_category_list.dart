@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../model/todo.dart';
 import '../reusables/task_tile.dart';
-import 'extras/loading_data.dart';
+import 'extras/loading.dart';
 import 'extras/none_available.dart';
 
 class ModifiedCategoryList extends StatelessWidget {
@@ -24,7 +24,7 @@ class ModifiedCategoryList extends StatelessWidget {
             if (!snapshot.hasData) {
               // At the initial stage when there is no stream
               data.getGroup(category: data.selected);
-              return const LoadingData();
+              return const Loading();
             } else {
               return snapshot
                       .data!.isNotEmpty // When the snapshots are received

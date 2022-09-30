@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../bloc/todo_bloc.dart';
 import '../../constants.dart';
-import '../../lists/extras/loading_data.dart';
+import '../../lists/extras/loading.dart';
 import '../../lists/extras/none_available.dart';
 import '../../model/todo.dart';
 
@@ -80,7 +80,7 @@ class GroupSearch extends SearchDelegate {
                   AsyncSnapshot<List<Todo>?> snapshot,
                 ) {
                   if (!snapshot.hasData) {
-                    return const LoadingData();
+                    return const Loading();
                   } else {
                     return snapshot
                             .data!.isNotEmpty // When the snapshots are received

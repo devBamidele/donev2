@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Display a message when there are no tasks or categories
 class NoneAvailable extends StatelessWidget {
   const NoneAvailable({
     required this.message,

@@ -1,8 +1,9 @@
 import 'package:donev2/constants.dart';
 import 'package:flutter/material.dart';
 
-class LoadingData extends StatelessWidget {
-  const LoadingData({
+/// Display a [CircularProgressIndicator] during load
+class Loading extends StatelessWidget {
+  const Loading({
     Key? key,
   }) : super(key: key);
 
