@@ -16,6 +16,7 @@ class RenameSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final editNameController = TextEditingController();
 
+    // Ensure the text field displays the corresponding value
     editNameController.text = function == '/name'
         ? Provider.of<TodoBloc>(context, listen: false).username!
         : Provider.of<TodoBloc>(context, listen: false).selected;
