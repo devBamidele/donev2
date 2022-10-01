@@ -171,57 +171,48 @@ class TodoDao {
   Future<int?> updateTodo(Todo todo) async {
     final db = await dbProvider.database;
 
-    var result = await db?.update(
+    return await db?.update(
       todoTABLE,
       todo.toDatabaseJson(),
       where: "id = ?",
       whereArgs: [todo.id],
     );
-
-    return result;
   }
 
   /// Change the name of the category
   renameCategory({required String from, required String to}) async {
     final db = await dbProvider.database;
 
-    var result = db!.rawQuery(
+    return db!.rawQuery(
       'Update $todoTABLE set $columnCategory = \'$to\' where $columnCategory = \'$from\'',
     );
-
-    return result;
   }
 
   /// Delete T0do records
   Future<int?> deleteTodo(int id) async {
     final db = await dbProvider.database;
-    var result = await db?.delete(
+    return await db?.delete(
       todoTABLE,
       where: 'id = ?',
       whereArgs: [id],
     );
-
-    return result;
   }
 
   ///  Delete a category
   Future<int?> deleteCategory(String category) async {
     final db = await dbProvider.database;
-    var result = await db?.delete(
+    return await db?.delete(
       todoTABLE,
       where: '$columnCategory = ?',
       whereArgs: [category],
     );
-    return result;
   }
 
   //This will be useful when I want to delete all the rows in the database
   Future deleteAllTodos() async {
     final db = await dbProvider.database;
-    var result = await db?.delete(
+    return await db?.delete(
       todoTABLE,
     );
-
-    return result;
   }
 }

@@ -1,3 +1,4 @@
+/// The structure of a [Category]
 class Category {
   String group; // The group to which a T0DO belongs to
 

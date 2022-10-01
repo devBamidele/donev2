@@ -1,3 +1,4 @@
+/// The structure of T0do Object
 class Todo {
   int? id; //This is the primary key
 
@@ -17,6 +18,7 @@ class Todo {
 
   int? lastSearched; // This shows the last time the item was searched for
 
+  /// The structure for an entry on the database
   Todo({
     this.id,
     required this.task,
@@ -43,8 +45,9 @@ class Todo {
         recent: data['recent'] == 0 ? false : true,
         lastSearched: data['lastSearched'],
       );
+
+  /// Convert T0do objects to Json objects to be stored in the database
   Map<String, dynamic> toDatabaseJson() => {
-        // Convert T0do objects to Json objects to be stored in the database
         "id": id,
         "task": task,
         "is_done": isDone == false ? 0 : 1,
