@@ -165,7 +165,7 @@ class _AddScreenState extends State<AddScreen> {
                                   ),
                                 ),
                                 TextFormField(
-                                  maxLength: 12,
+                                  maxLength: maxCategoryLength,
                                   style: const TextStyle(
                                     fontSize: 18.5,
                                     fontWeight: FontWeight.w400,

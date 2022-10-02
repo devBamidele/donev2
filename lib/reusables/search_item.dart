@@ -6,6 +6,7 @@ import '../constants.dart';
 import '../model/todo.dart';
 import '../screens/edit_screen.dart';
 
+/// The model for a search item during search
 class SearchItem extends StatelessWidget {
   const SearchItem({
     Key? key,

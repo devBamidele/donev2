@@ -1,9 +1,15 @@
+import 'package:donev2/screens/category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../bloc/todo_bloc.dart';
 import '../constants.dart';
 
+/// The popup menu that shows up on the [CategoryScreen]
+/// - Show all
+/// - Completed
+/// - Uncompleted
+/// - Delete
 class PopUpMenu extends StatelessWidget {
   const PopUpMenu({
     Key? key,
@@ -14,6 +20,7 @@ class PopUpMenu extends StatelessWidget {
     return Consumer<TodoBloc>(
       builder: (_, data, Widget? child) {
         return PopupMenuButton(
+          enableFeedback: true,
           icon: Icon(
             Icons.more_vert_rounded,
             size: kIconSize,
@@ -45,6 +52,7 @@ class PopUpMenu extends StatelessWidget {
                 Future.delayed(
                   const Duration(seconds: 0),
                   () => showDialog(
+                    // Display the confirmation to delete Category
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
                       title: Text(
@@ -67,7 +75,9 @@ class PopUpMenu extends StatelessWidget {
                           onPressed: () {
                             data.deleteCategory(data.selected);
                             int count = 0;
+                            // Pop up the stack twice
                             Navigator.of(context).popUntil((_) => count++ >= 2);
+                            // Show the snackbar message
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 duration: const Duration(milliseconds: 1200),

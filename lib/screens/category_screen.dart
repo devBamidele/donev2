@@ -84,6 +84,7 @@ class CategoryScreen extends StatelessWidget {
                                     tooltip: 'Rename',
                                     iconSize: kEditIconSize,
                                     onPressed: () {
+                                      // Calls up the buttom sheet
                                       showModalBottomSheet(
                                         isScrollControlled: true,
                                         shape: kRoundedBorder,

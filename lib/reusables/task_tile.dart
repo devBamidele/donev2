@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 import '../model/todo.dart';
 
 /// Calculate the difference between the current date
-/// and the date from the task
+/// and the task-date
 extension DateTimeExtension on DateTime {
   int calculateDifference() {
     DateTime now = DateTime.now();

@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../bloc/todo_bloc.dart';
 import '../constants.dart';
 
+/// Contains all the widgets needed to rename
+/// a Category or the username
 class RenameSheet extends StatelessWidget {
   const RenameSheet({
     required this.function,
@@ -57,7 +59,9 @@ class RenameSheet extends StatelessWidget {
                               maxLength:
                                   // The rename sheet could either be to change the name of a category
                                   // Or to change the username
-                                  function == '/name' ? data.maxLength : 10,
+                                  function == '/name'
+                                      ? data.maxLength
+                                      : maxCategoryLength,
                               style: const TextStyle(
                                 fontSize: 21,
                                 fontWeight: FontWeight.w400,
@@ -89,8 +93,8 @@ class RenameSheet extends StatelessWidget {
                                 data.editName(name: text);
                                 data.getName();
                               } else if (function == '/category') {
+                                // Change the category name
                                 data.renameCategory(
-                                  // Change the category name
                                   from: data.selected,
                                   to: text,
                                 );

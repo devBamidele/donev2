@@ -172,7 +172,7 @@ class _EditScreenState extends State<EditScreen> {
                                   ),
                                 ),
                                 TextFormField(
-                                  maxLength: 12,
+                                  maxLength: maxCategoryLength,
                                   style: const TextStyle(
                                     fontSize: 18.5,
                                     fontWeight: FontWeight.w400,

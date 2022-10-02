@@ -9,14 +9,11 @@ class CategoryCard extends StatelessWidget {
   const CategoryCard({
     required this.category,
     required this.taskNo,
-    required this.id,
     Key? key,
   }) : super(key: key);
 
-  final Object id;
   final String category;
   final int taskNo;
-  final double cardWidth = 195;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,7 @@ class CategoryCard extends StatelessWidget {
             child: Card(
               elevation: 12,
               child: Container(
-                width: cardWidth,
+                width: 195,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(17),
                   color: kListTileColor,

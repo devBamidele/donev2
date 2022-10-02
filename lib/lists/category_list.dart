@@ -42,7 +42,6 @@ class CategoryList extends StatelessWidget {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 3.0),
                             child: CategoryCard(
-                              id: item,
                               category: item['category'],
                               taskNo: item['COUNT(*)'],
                             ),
