@@ -11,6 +11,7 @@ class NotificationService {
   }
   NotificationService._internal();
 
+  // Define useful constants
   static const icon = 'icon';
   static const alarm2 = 'rick';
   static const channelId = '244456';
@@ -40,6 +41,7 @@ class NotificationService {
     );
   }
 
+  // This function is called when a notification is to be set
   Future<void> scheduleNotifications({
     required DateTime time,
     required int id,
@@ -73,10 +75,12 @@ class NotificationService {
     );
   }
 
+  // Cancels the notification based on the id
   Future<void> cancelNotifications(int id) async {
     await flutterLocalNotificationsPlugin.cancel(id);
   }
 
+  // This function was never used
   Future<void> cancelAllNotifications() async {
     await flutterLocalNotificationsPlugin.cancelAll();
   }
