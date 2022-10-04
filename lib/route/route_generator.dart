@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import '../model/todo.dart';
 import '../screens/splash_screen.dart';
 
+/// Manages navigation through routes
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {

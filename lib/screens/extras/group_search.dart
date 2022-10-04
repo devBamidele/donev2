@@ -8,12 +8,14 @@ import '../../lists/extras/loading.dart';
 import '../../lists/extras/none_available.dart';
 import '../../model/todo.dart';
 
+/// Enables search functionality for within the group
 class GroupSearch extends SearchDelegate {
   GroupSearch({
     required String hintText,
   }) : super(searchFieldLabel: hintText);
 
   @override
+  // Positions widgets at the right had of the screen
   List<Widget>? buildActions(BuildContext context) {
     return [
       // When the cancel icon is pressed
@@ -33,6 +35,7 @@ class GroupSearch extends SearchDelegate {
   }
 
   @override
+  // The widget that shows up on the left hand side of the screen
   Widget? buildLeading(BuildContext context) {
     // When the back button is pressed
     return IconButton(
@@ -46,6 +49,7 @@ class GroupSearch extends SearchDelegate {
   }
 
   @override
+  // Show the search results when the user has submitted a request
   Widget buildResults(BuildContext context) {
     if (query.isEmpty) {
       return Column(
@@ -64,6 +68,7 @@ class GroupSearch extends SearchDelegate {
   }
 
   @override
+  // Display the search suggestions as the user is typing
   Widget buildSuggestions(BuildContext context) {
     return resultAndSuggestions(context);
   }
@@ -74,13 +79,13 @@ class GroupSearch extends SearchDelegate {
         data.getSuggestions(query: query, showAllTasks: false);
         return query.isNotEmpty
             ? StreamBuilder(
-                stream: data.suggestions,
+                stream: data.suggestions, // Supply the stream
                 builder: (
                   BuildContext context,
                   AsyncSnapshot<List<Todo>?> snapshot,
                 ) {
                   if (!snapshot.hasData) {
-                    return const Loading();
+                    return const Loading(); // Display the progress indicator
                   } else {
                     return snapshot
                             .data!.isNotEmpty // When the snapshots are received
@@ -157,6 +162,7 @@ class GroupSearch extends SearchDelegate {
   @override
   close(BuildContext context, dynamic result) {
     super.close(context, result);
+    // Trigger some actions when the user exits the Search Screen
     Provider.of<TodoBloc>(context, listen: false).exitSearchFromCategory();
   }
 

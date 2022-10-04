@@ -91,8 +91,8 @@ class TaskTile extends StatelessWidget {
             child: Card(
               elevation: 8,
               child: ListTile(
+                // When the user clicks on the task
                 onTap: () {
-                  // When the user clicks on the task
                   data.onSelectedTask(id);
                   Navigator.pushNamed(context, EditScreen.tag, arguments: id);
                 },
@@ -136,8 +136,8 @@ class TaskTile extends StatelessWidget {
   }
 
   /// Displays the Date and Time in a specific format
-  dateWidget() {
-    Widget value = const SizedBox.shrink();
+  Widget dateWidget() {
+    dynamic value = const SizedBox.shrink();
     String day, time = '';
     if (complete != null) {
       if (id.ring) {
@@ -159,7 +159,7 @@ class TaskTile extends StatelessWidget {
   }
 
   /// Displays the bell icon if there is an alarm set in the future
-  trailingWidget() {
+  Widget trailingWidget() {
     dynamic value = const SizedBox.shrink();
 
     if (alarm != null) {

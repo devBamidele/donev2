@@ -104,7 +104,7 @@ class TodoBloc extends ChangeNotifier {
     getTodos();
   }
 
-  // When the user exits search from Category
+  // When the user exits search from Category Screen
   exitSearchFromCategory() {
     getGroup(category: selected);
   }

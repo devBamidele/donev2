@@ -10,12 +10,14 @@ import '../../lists/extras/none_available.dart';
 import '../../lists/task_list.dart';
 import '../../model/todo.dart';
 
+/// Searches for both tasks and categories
 class TaskSearch extends SearchDelegate {
   TaskSearch({
     required String hintText,
   }) : super(searchFieldLabel: hintText);
 
   @override
+  // The widget that shows up on the left hand side of the screen
   Widget? buildLeading(BuildContext context) {
     // When the back button is pressed
     return IconButton(
@@ -29,6 +31,7 @@ class TaskSearch extends SearchDelegate {
   }
 
   @override
+  // Positions widgets at the right had of the screen
   List<Widget>? buildActions(BuildContext context) {
     return [
       // When the cancel icon is pressed
@@ -48,8 +51,10 @@ class TaskSearch extends SearchDelegate {
   }
 
   @override
+  // Show the search results when the user has submitted a request
   Widget buildResults(BuildContext context) {
-    // The search results that are displayed
+    // Pass the query to the TodoBloc
+    // The CategoryList and TodoList use this to fetch data
     Provider.of<TodoBloc>(context, listen: false).search = query;
 
     if (query.isEmpty) {
@@ -131,6 +136,7 @@ class TaskSearch extends SearchDelegate {
   }
 
   @override
+  // Displays the search suggestions as the user is typing
   Widget buildSuggestions(BuildContext context) {
     return Consumer<TodoBloc>(
       builder: (_, data, Widget? child) {
@@ -298,6 +304,7 @@ class TaskSearch extends SearchDelegate {
   @override
   close(BuildContext context, dynamic result) {
     super.close(context, result);
+    // Trigger some actions when the user exits the Search Screen
     Provider.of<TodoBloc>(context, listen: false).exitSearchFromHome();
   }
 

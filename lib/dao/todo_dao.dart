@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:donev2/database/database.dart';
 import 'package:donev2/model/todo.dart';
 
+/// Contains the set of methods that interact with the database
 class TodoDao {
   final dbProvider = DatabaseProvider.dbProvider;
 
