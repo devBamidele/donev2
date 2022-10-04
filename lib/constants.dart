@@ -20,6 +20,13 @@ const kRoundedBorder = RoundedRectangleBorder(
   ),
 );
 
+const kEdgePadding = EdgeInsets.only(
+  top: 5,
+  right: 9,
+  left: 9,
+  bottom: 10,
+);
+
 // The shape of the alert dialog and the showTime picker
 const kAlertShape = RoundedRectangleBorder(
   borderRadius: BorderRadius.all(

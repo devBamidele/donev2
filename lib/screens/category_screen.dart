@@ -1,14 +1,14 @@
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/constants.dart';
 import 'package:donev2/lists/mod_category_list.dart';
-import 'package:donev2/screens/extras/group_search.dart';
+import 'package:donev2/screens/search/group_search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../reusables/custom_back_button.dart';
 import '../reusables/popup_menu.dart';
 import '../reusables/rename_sheet.dart';
 
-/// Here, you can make changes to each individual task
+/// Here, you can make changes to each individual task within a Category
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({Key? key}) : super(key: key);
 
@@ -21,12 +21,7 @@ class CategoryScreen extends StatelessWidget {
         return Scaffold(
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(
-                top: 5,
-                right: 9,
-                left: 9,
-                bottom: 10,
-              ),
+              padding: kEdgePadding,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -44,7 +39,7 @@ class CategoryScreen extends StatelessWidget {
                               showSearch(
                                 context: context,
                                 delegate: GroupSearch(
-                                    hintText: 'Search \'${data.selected}\''),
+                                    hintText: 'Search ${data.selected}'),
                               );
                             },
                             icon: const Icon(

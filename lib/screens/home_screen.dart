@@ -7,7 +7,7 @@ import '../bloc/todo_bloc.dart';
 import '../lists/category_list.dart';
 import '../lists/task_list.dart';
 import '../reusables/rename_sheet.dart';
-import 'extras/task_search.dart';
+import 'search/task_search.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -45,12 +45,7 @@ class HomeScreen extends StatelessWidget {
           ),
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(
-                top: 5,
-                left: 9,
-                right: 9,
-                bottom: 10,
-              ),
+              padding: kEdgePadding,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
