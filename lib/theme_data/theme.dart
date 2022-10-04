@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
-// The theme for DONE
+/// Vital theme data
 class MyTheme {
   ThemeData themeData = ThemeData.dark().copyWith(
     // canvasColor: Colors.transparent, => I could also use this

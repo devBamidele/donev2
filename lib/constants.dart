@@ -7,6 +7,8 @@ const kSecondaryColor = Color(0xFFEB1555);
 const kTertiaryColor = Color(0xff8A95D0);
 const kShadowColor = Color(0xffEE2F69);
 const kPopUpColor = Color(0xff12172B);
+
+// Essential sizes
 double kIconSize = 30;
 double kEditIconSize = 16;
 int maxCategoryLength = 12;
@@ -20,6 +22,7 @@ const kRoundedBorder = RoundedRectangleBorder(
   ),
 );
 
+// The padding surrounding the Category Screen and Home Screen
 const kEdgePadding = EdgeInsets.only(
   top: 5,
   right: 9,

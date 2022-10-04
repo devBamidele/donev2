@@ -9,6 +9,8 @@ import '../lists/task_list.dart';
 import '../reusables/rename_sheet.dart';
 import 'search/task_search.dart';
 
+/// The main screen which shows [CategoryList], [TaskList] and name
+/// at the same time
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 

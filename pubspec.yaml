@@ -61,11 +61,7 @@ flutter:
         - asset: fonts/Asap-Bold.ttf
         - asset: fonts/Asap-BoldItalic.ttf
         - asset: fonts/Asap-Italic.ttf
-        - asset: fonts/Asap-Medium.ttf
-        - asset: fonts/Asap-MediumItalic.ttf
-        - asset: fonts/Asap-Regular.ttf
-        - asset: fonts/Asap-SemiBold.ttf
-        - asset: fonts/Asap-SemiBoldItalic.ttf
+          style: italic
 
   uses-material-design: true
 
