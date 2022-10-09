@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:donev2/constants.dart';
 import 'package:donev2/screens/add_screen.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   // Navigate to Add Task Screen
                   data.getNext();
-                  Navigator.pushNamed(context, AddScreen.tag);
+                  context.router.pushNamed(AddScreen.tag);
                 },
                 tooltip: 'Add a task',
                 child: const Icon(

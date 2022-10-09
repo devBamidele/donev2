@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:donev2/constants.dart';
 import 'package:donev2/screens/category_screen.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class CategoryCard extends StatelessWidget {
           onTap: () {
             data.selected = category;
             data.getGroup(category: data.selected);
-            Navigator.pushNamed(context, CategoryScreen.tag);
+            context.router.pushNamed(CategoryScreen.tag);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),

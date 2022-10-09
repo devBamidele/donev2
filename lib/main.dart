@@ -1,26 +1,28 @@
 import 'package:donev2/bloc/todo_bloc.dart';
-import 'package:donev2/route/route_generator.dart';
-import 'package:donev2/screens/splash_screen.dart';
 import 'package:donev2/theme_data/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'app_router/router.gr.dart';
 import 'notification/notification_service.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService().init();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  // Get an instance of the App Router
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TodoBloc>(
       create: (_) => TodoBloc(),
-      child: MaterialApp(
+      child: MaterialApp.router(
         // Make it responsive to different screen sizes
         builder: (context, child) => ResponsiveWrapper.builder(
           child,
@@ -37,8 +39,8 @@ class MyApp extends StatelessWidget {
         ),
         theme: MyTheme().themeData,
         debugShowCheckedModeBanner: false,
-        initialRoute: SplashScreen.tag,
-        onGenerateRoute: RouteGenerator.generateRoute,
+        routerDelegate: _appRouter.delegate(),
+        routeInformationParser: _appRouter.defaultRouteParser(),
       ),
     );
   }

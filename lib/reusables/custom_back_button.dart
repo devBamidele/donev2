@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class CustomBackButton extends StatelessWidget {
           onPressed: () {
             data.getTodos();
             data.getCategories();
-            Navigator.pop(context);
+            context.router.pop();
           },
           icon: const Icon(
             Icons.arrow_back_rounded,

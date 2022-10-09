@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/constants.dart';
 import 'package:donev2/screens/home_screen.dart';
@@ -21,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   initState() {
     super.initState();
     startTime();
-    // Todo: Call verifyKey() here
+    Provider.of<TodoBloc>(context, listen: false).verifyKey();
   }
 
   // Navigate to the HomeScreen 2 secs after this screen has been initialized
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Timer(const Duration(milliseconds: 2000), myRoute);
   }
 
-  myRoute() => Navigator.of(context).pushReplacementNamed(HomeScreen.tag);
+  myRoute() => context.router.replaceNamed(HomeScreen.tag);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 padding: const EdgeInsets.only(bottom: 80),
                 child: AnimatedTextKit(
                   onFinished: () {
-                    data.verifyKey();
                     data.setMaxChar(context);
                   },
                   totalRepeatCount: 1,

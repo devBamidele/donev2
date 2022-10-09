@@ -1,9 +1,10 @@
 import 'dart:math' as math;
 
+import 'package:auto_route/auto_route.dart';
+import 'package:donev2/app_router/router.gr.dart';
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/constants.dart';
 import 'package:donev2/notification/notification_service.dart';
-import 'package:donev2/screens/edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
@@ -94,7 +95,7 @@ class TaskTile extends StatelessWidget {
                 // When the user clicks on the task
                 onTap: () {
                   data.onSelectedTask(id);
-                  Navigator.pushNamed(context, EditScreen.tag, arguments: id);
+                  context.router.push(EditScreenRoute(id: id));
                 },
                 title: Text(
                   id.task,

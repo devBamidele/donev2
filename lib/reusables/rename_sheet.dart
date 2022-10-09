@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -101,7 +102,7 @@ class RenameSheet extends StatelessWidget {
                                 data.getGroup(category: text); // Update values
                               }
                               //dismisses the bottomsheet
-                              Navigator.pop(context);
+                              context.router.pop();
                             }
                           },
                         )

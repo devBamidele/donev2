@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:donev2/notification/notification_service.dart';
 import 'package:donev2/screens/add_screen.dart' show TimeOfDayExtension;
 import 'package:flutter/material.dart';
@@ -100,7 +101,7 @@ class _EditScreenState extends State<EditScreen> {
                         }
 
                         data.refreshDateAndTime();
-                        Navigator.pop(context);
+                        context.router.pop();
                       } else {
                         snackbarMessage(
                           'You set a past-due alert',
