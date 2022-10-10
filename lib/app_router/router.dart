@@ -6,13 +6,14 @@ import '../screens/add_screen.dart';
 import '../screens/edit_screen.dart';
 import '../screens/home_screen.dart';
 
-@MaterialAutoRouter(
-  routes: <AutoRoute>[
+@AdaptiveAutoRouter(
+  routes: [
     AutoRoute(page: SplashScreen, initial: true),
     CustomRoute(
       path: HomeScreen.tag,
       page: HomeScreen,
-      //customRouteBuilder:,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
+      durationInMilliseconds: 500,
     ),
     AutoRoute(path: AddScreen.tag, page: AddScreen),
     AutoRoute(path: EditScreen.tag, page: EditScreen),
