@@ -9,6 +9,7 @@ Your on the go To-Do App made with the [Flutter](https://flutter.dev/) framework
 - Database management through [Sqflite](https://pub.dev/packages/sqflite)
 - The name text is stored using [Shared Preferences](https://pub.dev/packages/shared_preferences)
 - Date formatting and parsing using [intl](https://pub.dev/packages/intl)
+- Easy routing with [AutoRoute](https://pub.dev/packages/auto_route)
 - Made reactive via Streams, which provide an asynchronous flow of data.
 
 ## Download 🔻
