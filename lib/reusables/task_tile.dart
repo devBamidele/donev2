@@ -119,13 +119,41 @@ class TaskTile extends StatelessWidget {
                   checkedColor: kTertiaryColor,
                   onTap: (bool? value) {
                     id.isDone = !id.isDone;
+                    if (id.isDone && id.ring) {
+                      // If the task has been checked 'Completed' disable the notification
+                      NotificationService().cancelNotifications(id.id!);
+                    }
+                    if (!id.isDone && id.ring) {
+                      final currentAlarm = DateTime.parse(id.alarm!);
+                      // Ensure that the alarm is set for a time in the future
+                      if (currentAlarm.isAfter(DateTime.now())) {
+                        // Schedule the notification
+                        NotificationService().scheduleNotifications(
+                          time: currentAlarm,
+                          id: id.id!,
+                          notify: id.task,
+                          heading: id.category,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            duration: Duration(milliseconds: 1550),
+                            content: Text(
+                              'To enable the alarm, update the notification settings.',
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      }
+                    }
                     data.updateTodo(id);
+                    data.getTodos();
                   },
                   isChecked: id.isDone,
                   size: 25,
                 ),
                 trailing: Transform.rotate(
-                  angle: math.pi / 17,
+                  angle: math.pi / 16,
                   child: trailingWidget(),
                 ),
               ),
@@ -163,7 +191,7 @@ class TaskTile extends StatelessWidget {
   Widget trailingWidget() {
     dynamic value = const SizedBox.shrink();
 
-    if (alarm != null) {
+    if (alarm != null && id.isDone == false) {
       if (DateTime.parse(alarm!).isAfter(DateTime.now())) {
         value = const Icon(
           Icons.notifications_active_outlined,
