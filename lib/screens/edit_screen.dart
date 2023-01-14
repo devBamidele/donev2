@@ -10,6 +10,7 @@ import '../bloc/todo_bloc.dart';
 import '../constants.dart';
 import '../model/todo.dart';
 import '../reusables/custom_back_button.dart';
+import '../utils.dart';
 
 class EditScreen extends StatefulWidget {
   const EditScreen({
@@ -103,9 +104,7 @@ class _EditScreenState extends State<EditScreen> {
                         data.refreshDateAndTime();
                         context.router.pop();
                       } else {
-                        snackbarMessage(
-                          'You set a past-due alert',
-                        );
+                        Utils.showSnackbar('You set a past-due reminder');
                       }
                     }
                   },
@@ -205,7 +204,7 @@ class _EditScreenState extends State<EditScreen> {
                                     Row(
                                       children: const [
                                         Text(
-                                          "All-day",
+                                          "Set Reminder",
                                           style: TextStyle(
                                             fontSize: 18,
                                           ),
@@ -215,7 +214,7 @@ class _EditScreenState extends State<EditScreen> {
                                   ],
                                 ),
                                 FlutterSwitch(
-                                  value: !alarmEnabled,
+                                  value: alarmEnabled,
                                   onToggle: (value) {
                                     setState(() {
                                       alarmEnabled = !alarmEnabled;
@@ -308,18 +307,6 @@ class _EditScreenState extends State<EditScreen> {
     myTaskController.dispose();
     myCategoryController.dispose();
     super.dispose();
-  }
-
-  snackbarMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(milliseconds: 1500),
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
   }
 
   toDateTime({

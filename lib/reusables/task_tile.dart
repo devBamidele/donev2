@@ -11,6 +11,7 @@ import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:intl/intl.dart';
 
 import '../model/todo.dart';
+import '../utils.dart';
 
 /// Calculate the difference between the current date
 /// and the task-date
@@ -77,85 +78,77 @@ class TaskTile extends StatelessWidget {
               data.deleteTodoById(id.id!);
               NotificationService().cancelNotifications(id.id!);
               // Display a short pop up message
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  duration: const Duration(milliseconds: 1200),
-                  content: Text(
-                    'Successfully deleted \'${id.task}\'',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+              Utils.showSnackbar(
+                'Successfully deleted \'${id.task}\'',
+                delay: 1200,
               );
             },
             direction: DismissDirection.startToEnd,
             key: ObjectKey(id.id!),
             child: Card(
               elevation: 8,
-              child: ListTile(
-                // When the user clicks on the task
-                onTap: () {
-                  data.onSelectedTask(id);
-                  context.router.push(EditScreenRoute(id: id));
-                },
-                title: Text(
-                  id.task,
-                  style: TextStyle(
-                    fontSize: 18.5,
-                    decoration: id.isDone
-                        ? TextDecoration.lineThrough
-                        : TextDecoration.none,
-                    decorationColor: Colors.black.withOpacity(0.8),
-                    decorationThickness: 3,
+              child: Stack(
+                children: [
+                  ListTile(
+                    // When the user clicks on the task
+                    onTap: () {
+                      data.onSelectedTask(id);
+                      context.router.push(EditScreenRoute(id: id));
+                    },
+                    title: Text(
+                      id.task,
+                      style: TextStyle(
+                        fontSize: 18.5,
+                        decoration: id.isDone
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
+                        decorationColor: Colors.black.withOpacity(0.8),
+                        decorationThickness: 3,
+                      ),
+                    ),
+                    subtitle: dateWidget(),
+                    leading: RoundCheckBox(
+                      checkedWidget: const Icon(
+                        Icons.check,
+                        color: Colors.black,
+                        size: 21,
+                      ),
+                      uncheckedColor: kScaffoldColor,
+                      checkedColor: kTertiaryColor,
+                      onTap: (bool? value) {
+                        id.isDone = !id.isDone;
+                        if (id.isDone && id.ring) {
+                          // If the task has been checked 'Completed' disable the notification
+                          NotificationService().cancelNotifications(id.id!);
+                        }
+                        if (!id.isDone && id.ring) {
+                          final currentAlarm = DateTime.parse(id.alarm!);
+                          // Ensure that the alarm is set for a time in the future
+                          if (currentAlarm.isAfter(DateTime.now())) {
+                            // Schedule the notification
+                            NotificationService().scheduleNotifications(
+                              time: currentAlarm,
+                              id: id.id!,
+                              notify: id.task,
+                              heading: id.category,
+                            );
+                          } else {
+                            Utils.showSnackbar(
+                                'To enable the reminder, update the pre-set time');
+                          }
+                        }
+                        data.updateTodo(id);
+                        data.getTodos();
+                      },
+                      isChecked: id.isDone,
+                      size: 25,
+                    ),
+                    trailing: Transform.rotate(
+                      angle: math.pi / 16,
+                      child: trailingWidget(),
+                    ),
                   ),
-                ),
-                subtitle: dateWidget(),
-                leading: RoundCheckBox(
-                  checkedWidget: const Icon(
-                    Icons.check,
-                    color: Colors.black,
-                    size: 21,
-                  ),
-                  uncheckedColor: kScaffoldColor,
-                  checkedColor: kTertiaryColor,
-                  onTap: (bool? value) {
-                    id.isDone = !id.isDone;
-                    if (id.isDone && id.ring) {
-                      // If the task has been checked 'Completed' disable the notification
-                      NotificationService().cancelNotifications(id.id!);
-                    }
-                    if (!id.isDone && id.ring) {
-                      final currentAlarm = DateTime.parse(id.alarm!);
-                      // Ensure that the alarm is set for a time in the future
-                      if (currentAlarm.isAfter(DateTime.now())) {
-                        // Schedule the notification
-                        NotificationService().scheduleNotifications(
-                          time: currentAlarm,
-                          id: id.id!,
-                          notify: id.task,
-                          heading: id.category,
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            duration: Duration(milliseconds: 1550),
-                            content: Text(
-                              'To enable the alarm, update the notification settings.',
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        );
-                      }
-                    }
-                    data.updateTodo(id);
-                    data.getTodos();
-                  },
-                  isChecked: id.isDone,
-                  size: 25,
-                ),
-                trailing: Transform.rotate(
-                  angle: math.pi / 16,
-                  child: trailingWidget(),
-                ),
+                ],
               ),
             ),
           ),

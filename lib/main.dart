@@ -1,5 +1,6 @@
 import 'package:donev2/bloc/todo_bloc.dart';
 import 'package:donev2/theme_data/theme.dart';
+import 'package:donev2/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'app_router/router.gr.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<TodoBloc>(
       create: (_) => TodoBloc(),
       child: MaterialApp.router(
+        scaffoldMessengerKey: Utils.messengerKey,
         // Make it responsive to different screen sizes
         builder: (context, child) => ResponsiveWrapper.builder(
           child,

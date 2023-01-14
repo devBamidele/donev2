@@ -1,10 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../app_router/router.gr.dart';
 import '../bloc/todo_bloc.dart';
 import '../constants.dart';
 import '../model/todo.dart';
-import '../screens/edit_screen.dart';
 
 /// The model for a search item during search
 class SearchItem extends StatelessWidget {
@@ -52,10 +53,8 @@ class SearchItem extends StatelessWidget {
               item.lastSearched = DateTime.now().millisecondsSinceEpoch;
               data.updateTodo(item);
               data.onSelectedTask(item);
-              Navigator.pushNamed(
-                context,
-                EditScreen.tag,
-                arguments: item,
+              context.router.push(
+                EditScreenRoute(id: item),
               );
             },
           ),

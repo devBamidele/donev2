@@ -8,6 +8,8 @@ import '../model/todo.dart';
 import '../reusables/custom_back_button.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
+import '../utils.dart';
+
 extension TimeOfDayExtension on TimeOfDay {
   String timeFormat() {
     return '$hour : $minute ${period.name}';
@@ -95,9 +97,7 @@ class _AddScreenState extends State<AddScreen> {
                         data.refreshDateAndTime();
                         Navigator.pop(context);
                       } else {
-                        snackbarMessage(
-                          'You set a past-due alert',
-                        );
+                        Utils.showSnackbar('You set a past-due reminder');
                       }
                     }
                   },
@@ -197,7 +197,7 @@ class _AddScreenState extends State<AddScreen> {
                                     Row(
                                       children: const [
                                         Text(
-                                          "All-day",
+                                          'Set Reminder',
                                           style: TextStyle(
                                             fontSize: 18,
                                           ),
@@ -207,7 +207,7 @@ class _AddScreenState extends State<AddScreen> {
                                   ],
                                 ),
                                 FlutterSwitch(
-                                  value: !alarmEnabled,
+                                  value: alarmEnabled,
                                   onToggle: (value) {
                                     setState(() {
                                       alarmEnabled = !alarmEnabled;
@@ -300,18 +300,6 @@ class _AddScreenState extends State<AddScreen> {
     myTaskController.dispose();
     myCategoryController.dispose();
     super.dispose();
-  }
-
-  snackbarMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(milliseconds: 1500),
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
   }
 
   toDateTime({
