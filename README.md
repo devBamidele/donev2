@@ -13,7 +13,7 @@ Your on the go To-Do App made with the [Flutter](https://flutter.dev/) framework
 - Made reactive via Streams, which provide an asynchronous flow of data.
 
 ## Download 🔻
-#### For Android Devices only. Get the app [Here](https://drive.google.com/file/d/1E0XJ8VWfbyY5kr8CnAnrUDHJ3yxzVXvQ/view?usp=drivesdk). 
+#### For Android Devices only. Get the app [Here](https://drive.google.com/file/d/1C38j1illRYgyiiDv737y3crZ71O57z1k/view?usp=sharing). 
 #### This app needs to have notifications enabled as a permission
 
 ## Preview
