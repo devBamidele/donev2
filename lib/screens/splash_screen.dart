@@ -26,9 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   // Navigate to the HomeScreen 2 secs after this screen has been initialized
-  startTime() async {
-    return Timer(const Duration(milliseconds: 2000), myRoute);
-  }
+  startTime() async => Timer(const Duration(milliseconds: 2000), myRoute);
 
   myRoute() => context.router.replaceNamed(HomeScreen.tag);
 

@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.donev2">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.bamidele.ajewole.donev2">
    <application
         android:label="Done"
         android:name="${applicationName}"
@@ -13,7 +14,8 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
             android:showWhenLocked="true"
-            android:turnScreenOn="true">
+            android:turnScreenOn="true"
+            tools:targetApi="o_mr1">
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues

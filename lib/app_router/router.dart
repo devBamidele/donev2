@@ -13,7 +13,7 @@ import '../screens/home_screen.dart';
       path: HomeScreen.tag,
       page: HomeScreen,
       transitionsBuilder: TransitionsBuilders.slideLeft,
-      durationInMilliseconds: 300,
+      durationInMilliseconds: 200,
     ),
     AutoRoute(path: AddScreen.tag, page: AddScreen),
     AutoRoute(path: EditScreen.tag, page: EditScreen),

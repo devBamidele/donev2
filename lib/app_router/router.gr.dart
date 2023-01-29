@@ -37,7 +37,7 @@ class AppRouter extends _i6.RootStackRouter {
         routeData: routeData,
         child: const _i2.HomeScreen(),
         transitionsBuilder: _i6.TransitionsBuilders.slideLeft,
-        durationInMilliseconds: 300,
+        durationInMilliseconds: 200,
         opaque: true,
         barrierDismissible: false,
       );

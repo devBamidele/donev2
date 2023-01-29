@@ -157,6 +157,7 @@ class TaskSearch extends SearchDelegate {
                         ? ScrollConfiguration(
                             behavior: ScrollConfiguration.of(context).copyWith(
                               scrollbars: false,
+                              physics: const BouncingScrollPhysics(),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(

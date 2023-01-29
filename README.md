@@ -16,24 +16,27 @@ Your on the go To-Do App made with the [Flutter](https://flutter.dev/) framework
 #### For Android Devices only. Get the app [Here](https://drive.google.com/file/d/1C38j1illRYgyiiDv737y3crZ71O57z1k/view?usp=sharing). 
 #### This app needs to have notifications enabled as a permission
 
-## Preview
+## Preview Video
 https://user-images.githubusercontent.com/67847070/190135079-e9a733fe-475f-4a91-8887-8d402cab508b.mp4
 
 ## Screenshots
 ### Splash Screen
-<img src = "screenshots/splash.jpg" width = "400">
+<img src = "screenshots/splash.png" width = "400">
 
 ### Home Screen
-<img src = "screenshots/home.jpg" width = "400">
+<img src = "screenshots/home.png" width = "400">
 
 ### Add Screen
-<img src = "screenshots/add.jpg" width = "400">
+<img src = "screenshots/add.png" width = "400">
 
 ### Edit Screen
-<img src = "screenshots/edit.jpg" width = "400">
+<img src = "screenshots/edit.png" width = "400">
 
 ### Group Screen
-<img src = "screenshots/group.jpg" width = "400">
+<img src = "screenshots/group.png" width = "400">
+
+### Search Screen
+<img src = "screenshots/search.png" width = "400">
 
 ## Other dependencies used
 [Animated Text Kit](https://pub.dev/packages/animated_text_kit), [Path Provider](https://pub.dev/packages/path_provider), [Rounded Check Box](https://pub.dev/packages/roundcheckbox), [Time Zone](https://pub.dev/packages/timezone), etc
