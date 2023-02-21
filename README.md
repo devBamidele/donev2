@@ -19,31 +19,28 @@ Your on the go To-Do App made with the [Flutter](https://flutter.dev/) framework
 ## Preview Video
 https://user-images.githubusercontent.com/67847070/190135079-e9a733fe-475f-4a91-8887-8d402cab508b.mp4
 
+
 ## Screenshots
 ### Splash Screen
-<img src = "screenshots/splash.png" width = "400">
+<img src = "screenshots/splash.png" width = "300">
 
 ### Home Screen
-<img src = "screenshots/home.png" width = "400">
+<img src = "screenshots/home.png" width = "300">
 
 ### Add Screen
-<img src = "screenshots/add.png" width = "400">
+<img src = "screenshots/add.png" width = "300">
 
 ### Edit Screen
-<img src = "screenshots/edit.png" width = "400">
+<img src = "screenshots/edit.png" width = "300">
 
 ### Group Screen
-<img src = "screenshots/group.png" width = "400">
+<img src = "screenshots/group.png" width = "300">
 
 ### Search Screen
-<img src = "screenshots/search.png" width = "400">
+<img src = "screenshots/search.png" width = "300">
 
 ## Other dependencies used
 [Animated Text Kit](https://pub.dev/packages/animated_text_kit), [Path Provider](https://pub.dev/packages/path_provider), [Rounded Check Box](https://pub.dev/packages/roundcheckbox), [Time Zone](https://pub.dev/packages/timezone), etc
 
 ## Extras 💫
 Feel free to contribute and report bugs
-
-
-
-
