@@ -1,4 +1,3 @@
-[![Flutter Responsive](https://img.shields.io/badge/flutter-responsive-brightgreen.svg?style=flat-square)](https://github.com/Codelessly/ResponsiveFramework)
 # Done v2 <img src = "screenshots/icon.jpg" width = "35" height = "35">
 Your on the go To-Do App made with the [Flutter](https://flutter.dev/) framework. Remake of [Done v1](https://github.com/Bamidele1234/done) to support streams.
 
@@ -44,3 +43,8 @@ https://user-images.githubusercontent.com/67847070/190135079-e9a733fe-475f-4a91-
 
 ## Extras 💫
 Feel free to contribute and report bugs
+
+<a href="https://github.com/Codelessly/ResponsiveFramework">
+  <img alt="Built Responsive"
+       src="https://raw.githubusercontent.com/Codelessly/ResponsiveFramework/master/packages/Built%20Responsive%20Badge.png"/>
+</a>
