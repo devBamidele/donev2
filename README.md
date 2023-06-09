@@ -1,5 +1,5 @@
 # Done v2 <img src = "screenshots/icon.jpg" width = "35" height = "35">
-Your on the go To-Do App made with the [Flutter](https://flutter.dev/) framework. Remake of [Done v1](https://github.com/Bamidele1234/done) to support streams.
+Your on the go To-Do App made with the [Flutter](https://flutter.dev/) framework.
 
 ## Getting Started 
 - Sound State management with [Provider](https://pub.dev/packages/provider)
