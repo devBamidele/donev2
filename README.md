@@ -1,19 +1,21 @@
-# Done v2 <img src = "screenshots/icon.jpg" width = "35" height = "35">
-Your on the go To-Do App made with the [Flutter](https://flutter.dev/) framework.
+# Done <img src = "screenshots/icon.jpg" width = "35" height = "35">
+Done is an on-the-go To-Do App built using the Flutter framework. It offers a convenient way to manage your tasks and stay organized throughout your day. With a range of features and a responsive user interface, Done v2 ensures a seamless and efficient task management experience.
 
-## Getting Started 
-- Sound State management with [Provider](https://pub.dev/packages/provider)
-- Notification management with [Flutter Local Notifications](https://pub.dev/packages/flutter_local_notifications)
-- Responsive UI for different screen sizes through [Responsive Framework](https://pub.dev/packages/responsive_framework)
-- Database management through [Sqflite](https://pub.dev/packages/sqflite)
-- The name text is stored using [Shared Preferences](https://pub.dev/packages/shared_preferences)
-- Date formatting and parsing using [intl](https://pub.dev/packages/intl)
-- Easy routing with [AutoRoute](https://pub.dev/packages/auto_route)
-- Made reactive via Streams, which provide an asynchronous flow of data.
+## Key Features
+- **Sound State Management** : Utilizes the Provider package to manage state in a reactive manner, ensuring smooth and efficient task updates.
+- **Notification Management** : Integrates Flutter Local Notifications to provide timely reminders and keep you informed about upcoming tasks.
+- **Responsive UI** : Implements the Responsive Framework to create a visually appealing and user-friendly interface that adapts to different screen sizes.
+- **Database Management** : Utilizes Sqflite for efficient and reliable storage and management of task data.
+- **Persistent Name Storage** : Stores the user's name using Shared Preferences, allowing for personalized interactions within the app.
+- **Date Formatting and Parsing** : Implements the intl package to handle date formatting and parsing, ensuring accurate representation and manipulation of task dates.
+- **Easy Routing** : Utilizes AutoRoute for simplified and streamlined navigation within the app.
+- **Reactive Approach** : Implements Streams to enable real-time updates and provide an asynchronous flow of data.
 
-## Download 🔻
-#### For Android Devices only. Get the app [Here](https://drive.google.com/file/d/1C38j1illRYgyiiDv737y3crZ71O57z1k/view?usp=sharing). 
-#### This app needs to have notifications enabled as a permission
+## Getting Started
+To get started with Done v2, follow these steps:
+
+1. Download the app for Android devices only: [Download Done](https://drive.google.com/file/d/1C38j1illRYgyiiDv737y3crZ71O57z1k/view?usp=sharing)
+2. Enable notifications as a permission for the app to receive timely reminders.
 
 ## Preview Video
 https://user-images.githubusercontent.com/67847070/190135079-e9a733fe-475f-4a91-8887-8d402cab508b.mp4
