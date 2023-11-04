@@ -27,6 +27,24 @@ Done is an on-the-go To-Do App built using the Flutter framework. It offers a co
 8. **Reactive Approach**:
    - Implements Streams to enable real-time updates and provide an asynchronous flow of data.
 
+### Skills
+- **Front-end Development**:
+  - Flutter
+  - Dart
+  - Provider Package
+  - AutoRoute
+  - Responsive Framework
+
+- **Back-end Development**:
+  - Sqflite
+  - Shared Preferences
+  - Streams
+
+- **Notification Management**:
+  - Flutter Local Notifications
+
+- **Date Formatting and Parsing**:
+  - intl Package
   
 ### Getting Started
 To get started with Done v2, follow these steps:
@@ -37,46 +55,28 @@ To get started with Done v2, follow these steps:
 https://user-images.githubusercontent.com/67847070/190135079-e9a733fe-475f-4a91-8887-8d402cab508b.mp4
 
 ### Screenshots
-#### Splash Screen
-<img src="screenshots/splash.png" width="300">
 
-#### Home Screen
-<img src="screenshots/home.png" width="300">
+<table>
+  <tr>
+    <td align="center"><strong>Splash Screen</strong></td>
+    <td align="center"><strong>Home Screen</strong></td>
+    <td align="center"><strong>Add Screen</strong></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/splash.png" width="300"></td>
+    <td><img src="screenshots/home.png" width="300"></td>
+    <td><img src="screenshots/add.png" width="300"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Edit Screen</strong></td>
+    <td align="center"><strong>Group Screen</strong></td>
+    <td align="center"><strong>Search Screen</strong></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/edit.png" width="300"></td>
+    <td><img src="screenshots/group.png" width="300"></td>
+    <td><img src="screenshots/search.png" width="300"></td>
+  </tr>
+</table>
 
-#### Add Screen
-<img src="screenshots/add.png" width="300">
-
-#### Edit Screen
-<img src="screenshots/edit.png" width="300">
-
-#### Group Screen
-<img src="screenshots/group.png" width="300">
-
-#### Search Screen
-<img src="screenshots/search.png" width="300">
-
-### Other Dependencies Used
-- [Animated Text Kit](https://pub.dev/packages/animated_text_kit)
-- [Path Provider](https://pub.dev/packages/path_provider)
-- [Rounded Check Box](https://pub.dev/packages/roundcheckbox)
-- [Time Zone](https://pub.dev/packages/timezone)
-  
-### Extras 💫
-Feel free to contribute and report bugs.
-
-<a href="https://github.com/Codelessly/ResponsiveFramework">
-  <img alt="Built Responsive"
-       src="https://raw.githubusercontent.com/Codelessly/ResponsiveFramework/master/packages/Built%20Responsive%20Badge.png"/>
-</a>
-
-### Skills
-- Flutter
-- Dart
-- Provider Package
-- AutoRoute
-- Sqflite
-- Shared Preferences
-- intl Package
-- Flutter Local Notifications
-- Responsive Framework
-- Streams
+[![Built Responsive](https://raw.githubusercontent.com/Codelessly/ResponsiveFramework/master/packages/Built%20Responsive%20Badge.png)](https://github.com/Codelessly/ResponsiveFramework)
